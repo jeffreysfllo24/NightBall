@@ -88,12 +88,12 @@ import GameplayKit
                 let location = touch.location(in: self)
                 //Rotate Left
                 if(location.x < self.frame.size.width/2){
-                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 1))
+                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 0.25))
                     centerNode.run(rotateAction)
                 }
                     //Rotate Right
                 else if(location.x > self.frame.size.width/2){
-                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 1))
+                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 0.25))
                     centerNode.run(rotateAction)
                     
                 }
