@@ -9,26 +9,68 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
     
-    // Add ball image
-    let ball = SKSpriteNode(imageNamed: "Nightball - Circle")
-
-    override func didMove(to view: SKView) {
+    class GameScene: SKScene {
+    
+        // Adding the center node which the nightball will rotate around (essentially acts as an anchor point)
+        let centerNode: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball - Circle")
+        // Adding the parts of the nightball
+        let TR: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball TR")
+        
+        
+        let TL: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball TL")
+      
+        
+        let BR: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball BR")
+       
+        
+        let BL: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball BL")
+        
+        let moon: SKSpriteNode = SKSpriteNode(imageNamed: "Moon")
+        
+        override func didMove(to view: SKView) {
         
         // Set background colour to black
         backgroundColor = SKColor.black
         
-        // MAIN BALL
+           
+            
+            // Adding the position of the centernode which will act as the parent in the heirchay
+            centerNode.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+            centerNode.scale(to: CGSize(width: 50, height: 50))
+            self.addChild(centerNode)
+            // Placing each nightball part in position and adding it to the "parent" - centernode
+            TR.position = CGPoint(x: size.width * 0.35, y: size.height * 0.2)
+            TR.scale(to: CGSize(width: 400, height: 400))
+            TR.zPosition = 1
+            centerNode.addChild(TR)
+                
+            TL.position = CGPoint(x: size.width * -0.35, y: size.height * 0.2)
+            TL.scale(to: CGSize(width: 400, height: 400))
+            TL.zPosition = 1
+            centerNode.addChild(TL)
+            
+            BR.position = CGPoint(x: size.width * 0.35, y: size.height * -0.2)
+            BR.scale(to: CGSize(width: 400, height: 400))
+            BR.zPosition = 1
+            centerNode.addChild(BR)
+            
+            BL.position = CGPoint(x: size.width * -0.35, y: size.height * -0.2)
+            BL.scale(to: CGSize(width: 400, height: 400))
+            BL.zPosition = 1
+            centerNode.addChild(BL)
+            
+            moon.position = CGPoint(x: size.width * 0.2, y: size.height * 0.9)
+            moon.scale(to: CGSize(width: 75, height: 75))
+            addChild(moon)
+            
+          
+           
+            
         
-        // Ball position
-        ball.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        // Resize ball
-        ball.scale(to: CGSize(width: 200, height: 200))
-        // Adding actual ball
-        addChild(ball)
+    
+      
         
-        // Generate projectiles
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.run(addProjectile),
@@ -36,8 +78,32 @@ class GameScene: SKScene {
                 ])
         ))
     }
-    
-    //CREATE PROJECTILES
+        
+     
+        
+        // Sense the location of the touch of the user and rotate nightball in that direction
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            for touch: AnyObject in touches {
+                //Find Location
+                let location = touch.location(in: self)
+                //Rotate Left
+                if(location.x < self.frame.size.width/2){
+                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 1))
+                    centerNode.run(rotateAction)
+                }
+                    //Rotate Right
+                else if(location.x > self.frame.size.width/2){
+                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 1))
+                    centerNode.run(rotateAction)
+                    
+                }
+                
+            }
+            
+            
+        }
+
+            //CREATE PROJECTILES
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
