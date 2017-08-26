@@ -102,39 +102,72 @@ import GameplayKit
             
             
         }
-
-            //CREATE PROJECTILES
-    
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    func random(min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
-    }
-    
-    func addProjectile() {
+        //CREATE PROJECTILES
         
-        // Create sprite
-        let projectile = SKSpriteNode(imageNamed: "projectile")
         
-        // Determine where to spawn the monster along the Y axis
-        let actualY = random(min: projectile.size.height/2, max: size.height - projectile.size.height/2)
-        
-        // Position the monster slightly off-screen along the right edge,
-        // and along a random position along the Y axis as calculated above
-        projectile.position = CGPoint(x: size.width + projectile.size.width/2, y: actualY)
-        
-        // Add the monster to the scene
-        addChild(projectile)
-        
-        // Determine speed of the monster
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        
-        // Create the actions
-        let actionMove = SKAction.move(to: CGPoint(x: -projectile.size.width/2, y: actualY), duration: TimeInterval(actualDuration))
-        let actionMoveDone = SKAction.removeFromParent()
-        projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
-        
-    }
+        // Randomizing functions
+        func random() -> CGFloat {
+            return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+        }
+        func random(min: CGFloat, max: CGFloat) -> CGFloat {
+            return random() * (max - min) + min
+        }
+        // Projectile creating function
+        func addProjectile() {
+            
+            // Create sprite
+            let projectile = SKSpriteNode(imageNamed: "projectile")
+            
+            // Resize projectile
+            projectile.scale(to: CGSize(width:80, height: 80))
+            
+            // Set animation speed (time)
+            let duration = CGFloat(2.0)
+            
+            // Generate a number to determine which cannon the projectile is fired from
+            let cannon = random(min: 0, max: 4)
+            
+            // Top left
+            if (cannon < 1) {
+                projectile.position = CGPoint(x:0, y: size.height)
+            }
+                // Top right
+            else if (cannon < 2) {
+                projectile.position = CGPoint(x:size.width, y: size.height)
+            }
+                // Bottom left
+            else if (cannon < 3) {
+                projectile.position = CGPoint(x:0, y: 0)
+            }
+                // Bottom right
+            else {
+                projectile.position = CGPoint(x:size.width, y: 0)
+            }
+            
+            // Add projectile to scene
+            addChild(projectile)
+            
+            //Animate projectile to move toward centre of screen and remove itself when it reaches the centre
+            let actionMove = SKAction.move(to: CGPoint(x: size.width/2, y: size.height/2), duration: TimeInterval(duration))
+            let actionMoveDone = SKAction.removeFromParent()
+            projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
+            
+            
+            // ROTATE THE PROJECTILE
+            
+            // Randomize rotation direction
+            let direction = random(min: 0, max: 2)
+            var rotationAngle = CGFloat()
+            if (direction < 1) {
+                rotationAngle = CGFloat.pi * 2
+            }
+            else {
+                rotationAngle = -(CGFloat.pi * 2)
+            }
+            
+            // Rotate the projectile continuously
+            let oneRevolution:SKAction = SKAction.rotate(byAngle: rotationAngle, duration: 3)
+            let repeatRotation:SKAction = SKAction.repeatForever(oneRevolution)
+            projectile.run(repeatRotation)
+        }
 }
