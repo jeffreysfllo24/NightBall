@@ -9,8 +9,13 @@
 import SpriteKit
 import GameplayKit
 
-    
-    class GameScene: SKScene {
+struct PhysicsCategory {
+    static let None      : UInt32 = 0
+    static let All       : UInt32 = UInt32.max
+    static let TR: UInt32 = 0b1       // 1
+    static let projectile: UInt32 = 0b10      // 2
+}
+    class GameScene: SKScene,SKPhysicsContactDelegate {
     
         // Adding the center node which the nightball will rotate around (essentially acts as an anchor point)
         let centerNode: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball - Circle")
@@ -65,7 +70,9 @@ import GameplayKit
             addChild(moon)
             
           
-           
+            physicsWorld.gravity = CGVector.zero
+            physicsWorld.contactDelegate = self
+
             
         
     
