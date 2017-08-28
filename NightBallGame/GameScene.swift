@@ -49,7 +49,13 @@ struct PhysicsCategory {
             TR.scale(to: CGSize(width: 400, height: 400))
             TR.zPosition = 1
             centerNode.addChild(TR)
-                
+            TR.physicsBody = SKPhysicsBody(circleOfRadius: TR.size.width/100) // 1
+            TR.physicsBody?.isDynamic = true // 2
+            TR.physicsBody?.categoryBitMask = PhysicsCategory.TR // 3
+            TR.physicsBody?.contactTestBitMask = PhysicsCategory.projectile // 4
+            TR.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
+            
+            
             TL.position = CGPoint(x: size.width * -0.35, y: size.height * 0.2)
             TL.scale(to: CGSize(width: 400, height: 400))
             TL.zPosition = 1
@@ -153,7 +159,13 @@ struct PhysicsCategory {
             
             // Add projectile to scene
             addChild(projectile)
-            
+            //Physics
+            projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
+            projectile.physicsBody?.isDynamic = true
+            projectile.physicsBody?.categoryBitMask = PhysicsCategory.projectile
+            projectile.physicsBody?.contactTestBitMask = PhysicsCategory.TR
+            projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
+            projectile.physicsBody?.usesPreciseCollisionDetection = true
             //Animate projectile to move toward centre of screen and remove itself when it reaches the centre
             let actionMove = SKAction.move(to: CGPoint(x: size.width/2, y: size.height/2), duration: TimeInterval(duration))
             let actionMoveDone = SKAction.removeFromParent()
@@ -176,5 +188,33 @@ struct PhysicsCategory {
             let oneRevolution:SKAction = SKAction.rotate(byAngle: rotationAngle, duration: 3)
             let repeatRotation:SKAction = SKAction.repeatForever(oneRevolution)
             projectile.run(repeatRotation)
+        }
+        
+        func projectileDidCollideWithMonster(projectile: SKSpriteNode, TR: SKSpriteNode) {
+            print("Hit")
+            projectile.removeFromParent()
+        }
+        func didBegin(_ contact: SKPhysicsContact) {
+            
+            // 1
+            var firstBody: SKPhysicsBody
+            var secondBody: SKPhysicsBody
+            if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+                firstBody = contact.bodyA
+                secondBody = contact.bodyB
+            } else {
+                firstBody = contact.bodyB
+                secondBody = contact.bodyA
+            }
+            
+            // 2
+            if ((firstBody.categoryBitMask & PhysicsCategory.TR != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.projectile != 0)) {
+                if let TR = firstBody.node as? SKSpriteNode, let
+                    projectile = secondBody.node as? SKSpriteNode {
+                    projectileDidCollideWithMonster(projectile: projectile, TR: TR)
+                }
+            }
+            
         }
 }
