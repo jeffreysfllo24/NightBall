@@ -14,6 +14,10 @@ struct PhysicsCategory {
     static let All       : UInt32 = UInt32.max
     static let TR: UInt32 = 0b1       // 1
     static let projectile: UInt32 = 0b10      // 2
+    static let TL: UInt32 = 0b101 //3 
+    static let BR: UInt32 = 0b1010 // 4 
+    static let BL: UInt32 = 0b10101 // 5 
+    
 }
     class GameScene: SKScene,SKPhysicsContactDelegate {
     
@@ -49,6 +53,8 @@ struct PhysicsCategory {
             TR.scale(to: CGSize(width: 400, height: 400))
             TR.zPosition = 1
             centerNode.addChild(TR)
+            
+            //Physics
             TR.physicsBody = SKPhysicsBody(circleOfRadius: TR.size.width/100) // 1
             TR.physicsBody?.isDynamic = true // 2
             TR.physicsBody?.categoryBitMask = PhysicsCategory.TR // 3
@@ -60,6 +66,14 @@ struct PhysicsCategory {
             TL.scale(to: CGSize(width: 400, height: 400))
             TL.zPosition = 1
             centerNode.addChild(TL)
+            
+            //Physics
+            TL.physicsBody = SKPhysicsBody(circleOfRadius: TL.size.width/100) // 1
+            TL.physicsBody?.isDynamic = true // 2
+            TL.physicsBody?.categoryBitMask = PhysicsCategory.TR // 3
+            TL.physicsBody?.contactTestBitMask = PhysicsCategory.projectile // 4
+            TL.physicsBody?.collisionBitMask = PhysicsCategory.None // 5
+            
             
             BR.position = CGPoint(x: size.width * 0.35, y: size.height * -0.2)
             BR.scale(to: CGSize(width: 400, height: 400))
@@ -164,8 +178,12 @@ struct PhysicsCategory {
             projectile.physicsBody?.isDynamic = true
             projectile.physicsBody?.categoryBitMask = PhysicsCategory.projectile
             projectile.physicsBody?.contactTestBitMask = PhysicsCategory.TR
+            projectile.physicsBody?.contactTestBitMask = PhysicsCategory.TL
             projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
             projectile.physicsBody?.usesPreciseCollisionDetection = true
+            
+            
+            
             //Animate projectile to move toward centre of screen and remove itself when it reaches the centre
             let actionMove = SKAction.move(to: CGPoint(x: size.width/2, y: size.height/2), duration: TimeInterval(duration))
             let actionMoveDone = SKAction.removeFromParent()
@@ -188,12 +206,21 @@ struct PhysicsCategory {
             let oneRevolution:SKAction = SKAction.rotate(byAngle: rotationAngle, duration: 3)
             let repeatRotation:SKAction = SKAction.repeatForever(oneRevolution)
             projectile.run(repeatRotation)
+            
+            // Game Over Scene
+            let loseAction = SKAction.run() {
+                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                let gameOverScene = GameOverScene(size: self.size, won: false)
+                self.view?.presentScene(gameOverScene, transition: reveal)
+            }
+            projectile.run(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
         }
-        
+        // Remove sprites when projectiles and nightcircle collide
         func projectileDidCollideWithMonster(projectile: SKSpriteNode, TR: SKSpriteNode) {
             print("Hit")
             projectile.removeFromParent()
         }
+        
         func didBegin(_ contact: SKPhysicsContact) {
             
             // 1
@@ -214,6 +241,7 @@ struct PhysicsCategory {
                     projectile = secondBody.node as? SKSpriteNode {
                     projectileDidCollideWithMonster(projectile: projectile, TR: TR)
                 }
+            
             }
             
         }
