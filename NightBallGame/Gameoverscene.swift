@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
-    init(size: CGSize, won:Bool) {
+    init(size: CGSize, won:Bool, score: Int) {
         
         super.init(size: size)
         
@@ -28,6 +28,13 @@ class GameOverScene: SKScene {
         label.position = CGPoint(x: size.width/2, y: size.height/2)
         addChild(label)
         
+        // Display Score
+        let label2 = SKLabelNode(fontNamed: "Chalkduster")
+             label2.text = "Points = " + String(score)
+             label2.fontSize = 20
+             label2.fontColor = SKColor.black
+             label2.position = CGPoint(x: size.width/2, y: size.height/3)
+             addChild(label2)
         // 4
         run(SKAction.sequence([
             SKAction.wait(forDuration: 3.0),
