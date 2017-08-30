@@ -6,6 +6,7 @@
 //  Copyright © 2017 Keener Studio. All rights reserved.
 //
 
+
 import SpriteKit
 import GameplayKit
 
@@ -32,7 +33,6 @@ struct PhysicsCategory {
         
         let moon = SKSpriteNode(imageNamed: "Moon")
         
-        
         // SPAWN STARS =================================================================================================
         
         var starTimer = TimeInterval(2)
@@ -54,10 +54,19 @@ struct PhysicsCategory {
                 starInterval -= 0.05 // Decrease time between consecutive stars
             }
         }
+
+        // Background
+        let background: SKSpriteNode = SKSpriteNode(imageNamed: "Star-Sky")
+        
+        // Score Counter
+        var points = 0
+        var myLabel = SKLabelNode(fontNamed: "Arial")
         
         override func didMove(to view: SKView) {
             
-            backgroundColor = SKColor.black // Set background colour to black
+            background.position = CGPoint(x: size.width / 2, y: size.height / 2)
+            //background.scale(to: CGSize(width: 400, height: 400))
+            addChild(background)
             
             physicsWorld.gravity = CGVector.zero // No gravity
             physicsWorld.contactDelegate = self // Recognize collisions
@@ -123,19 +132,15 @@ struct PhysicsCategory {
                 quadrantYellow.physicsBody?.contactTestBitMask = PhysicsCategory.star
                 quadrantYellow.physicsBody?.collisionBitMask = PhysicsCategory.None
             
-            // Add moon
-            moon.position = CGPoint(x: size.width * 0.2, y: size.height * 0.9)
-            moon.scale(to: CGSize(width: 75, height: 75))
-            addChild(moon)
-        
-            /*:// Continiously spawn projectiles
-            run(SKAction.repeatForever(
-                SKAction.sequence([
-                    SKAction.run(addStar),
-                    SKAction.wait(forDuration: 1.0)
-                    ])
-            )) */
+            // Add Score Label
+            myLabel.text = "Points = 0"
+            myLabel.fontSize = 20
+            myLabel.fontColor = SKColor.white
+            myLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+            myLabel.zPosition = 1
+            addChild(myLabel)
     }
+        // Label for Points Counter
         
         // TOUCH INPUT ====================================================================================================
         
@@ -248,6 +253,9 @@ struct PhysicsCategory {
         func starGoodCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("Hit")
             star.removeFromParent()
+            // Increase Score when succesful collision
+            points += 1
+            myLabel.text = "Points = " + String(points)
         }
         
         // End game when star collides with wrong quadrant
@@ -256,7 +264,7 @@ struct PhysicsCategory {
             
             let loseAction = SKAction.run() {
                 let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-                let gameOverScene = GameOverScene(size: self.size, won: false)
+                let gameOverScene = GameOverScene(size: self.size, won: false, score: self.points)
                 self.view?.presentScene(gameOverScene, transition: reveal)
             }
             star.run(loseAction)
