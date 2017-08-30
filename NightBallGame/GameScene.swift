@@ -17,7 +17,7 @@ struct PhysicsCategory {
     static let quadrantGreen: UInt32 = 0b10
     static let quadrantBlue: UInt32 = 0b11
     static let quadrantYellow: UInt32 = 0b100
-    static let starYellow: UInt32 = 0b101
+    static let star: UInt32 = 0b101
     
 }
     class GameScene: SKScene,SKPhysicsContactDelegate {
@@ -39,7 +39,6 @@ struct PhysicsCategory {
             physicsWorld.gravity = CGVector.zero // No gravity
             physicsWorld.contactDelegate = self // Recognize collisions
            
-            
             // CREATE AND POSITION NIGHTBALL ===========================================================================
             
             // Add center node
@@ -59,7 +58,7 @@ struct PhysicsCategory {
                 quadrantRed.physicsBody = SKPhysicsBody(circleOfRadius: quadrantRed.size.width/100)
                 quadrantRed.physicsBody?.isDynamic = true
                 quadrantRed.physicsBody?.categoryBitMask = PhysicsCategory.quadrantRed
-                quadrantRed.physicsBody?.contactTestBitMask = PhysicsCategory.starYellow
+                quadrantRed.physicsBody?.contactTestBitMask = PhysicsCategory.star
                 quadrantRed.physicsBody?.collisionBitMask = PhysicsCategory.None
             
             // Add green quadrant to top left
@@ -72,7 +71,7 @@ struct PhysicsCategory {
                 quadrantGreen.physicsBody = SKPhysicsBody(circleOfRadius: quadrantGreen.size.width/100)
                 quadrantGreen.physicsBody?.isDynamic = true
                 quadrantGreen.physicsBody?.categoryBitMask = PhysicsCategory.quadrantGreen
-                quadrantGreen.physicsBody?.contactTestBitMask = PhysicsCategory.starYellow
+                quadrantGreen.physicsBody?.contactTestBitMask = PhysicsCategory.star
                 quadrantGreen.physicsBody?.collisionBitMask = PhysicsCategory.None
             
             // Add blue quadrant to bottom right
@@ -85,9 +84,8 @@ struct PhysicsCategory {
                 quadrantBlue.physicsBody = SKPhysicsBody(circleOfRadius: quadrantBlue.size.width/100)
                 quadrantBlue.physicsBody?.isDynamic = true
                 quadrantBlue.physicsBody?.categoryBitMask = PhysicsCategory.quadrantBlue
-                quadrantBlue.physicsBody?.contactTestBitMask = PhysicsCategory.starYellow
+                quadrantBlue.physicsBody?.contactTestBitMask = PhysicsCategory.star
                 quadrantBlue.physicsBody?.collisionBitMask = PhysicsCategory.None
-            
             
             // Add yellow quadrant to bottom left
             quadrantYellow.position = CGPoint(x: size.width * -0.35, y: size.height * -0.2)
@@ -99,7 +97,7 @@ struct PhysicsCategory {
                 quadrantYellow.physicsBody = SKPhysicsBody(circleOfRadius: quadrantYellow.size.width/100)
                 quadrantYellow.physicsBody?.isDynamic = true
                 quadrantYellow.physicsBody?.categoryBitMask = PhysicsCategory.quadrantYellow
-                quadrantYellow.physicsBody?.contactTestBitMask = PhysicsCategory.starYellow
+                quadrantYellow.physicsBody?.contactTestBitMask = PhysicsCategory.star
                 quadrantYellow.physicsBody?.collisionBitMask = PhysicsCategory.None
             
             // Add moon
@@ -110,7 +108,7 @@ struct PhysicsCategory {
             // Continiously spawn projectiles
             run(SKAction.repeatForever(
                 SKAction.sequence([
-                    SKAction.run(addStarYellow),
+                    SKAction.run(addstar),
                     SKAction.wait(forDuration: 1.0)
                     ])
             ))
@@ -136,7 +134,7 @@ struct PhysicsCategory {
             }
         }
         
-        //CREATE PROJECTILES ==============================================================================================
+        //CREATE STARS ==============================================================================================
         
         // Generate random numbers
         func random() -> CGFloat {
@@ -146,86 +144,77 @@ struct PhysicsCategory {
             return random() * (max - min) + min
         }
         
-        // Create yellow star
-        func addStarYellow() {
+        // Create star
+        func addstar() {
             
-            // Create sprite
-            let starYellow = SKSpriteNode(imageNamed: "Star-Yellow")
+            // Use yellow star image
+            let star = SKSpriteNode(imageNamed: "Star-Yellow")
             
             // Resize projectile
-            starYellow.scale(to: CGSize(width:80, height: 80))
+            star.scale(to: CGSize(width:80, height: 80))
             
             // Set animation speed (time)
             let duration = CGFloat(2.0)
             
-            // Generate a number to determine which cannon the projectile is fired from
-            let cannon = random(min: 0, max: 4)
-            
-            // Top left
-            if (cannon < 1) {
-                starYellow.position = CGPoint(x:0, y: size.height)
-            }
-                // Top right
-            else if (cannon < 2) {
-                starYellow.position = CGPoint(x:size.width, y: size.height)
-            }
-                // Bottom left
-            else if (cannon < 3) {
-                starYellow.position = CGPoint(x:0, y: 0)
-            }
-                // Bottom right
-            else {
-                starYellow.position = CGPoint(x:size.width, y: 0)
+            // Generate a number to determine which corner the star comes from
+            let corner = random(min: 0, max: 4)
+        
+            if (corner < 1) {
+                star.position = CGPoint(x:0, y: size.height) // Top left
+            } else if (corner < 2) {
+                star.position = CGPoint(x:size.width, y: size.height) // Top right
+            } else if (corner < 3) {
+                star.position = CGPoint(x:0, y: 0) // Bottom left
+            } else {
+                star.position = CGPoint(x:size.width, y: 0) // Bottom right
             }
             
-            // Add projectile to scene
-            addChild(starYellow)
+            addChild(star) // Add star to scene
             
-            //Physics for yellow star
-            starYellow.physicsBody = SKPhysicsBody(circleOfRadius: starYellow.size.width/2)
-            starYellow.physicsBody?.isDynamic = true
-            starYellow.physicsBody?.categoryBitMask = PhysicsCategory.starYellow
-            starYellow.physicsBody?.contactTestBitMask = PhysicsCategory.quadrantRed
-            starYellow.physicsBody?.contactTestBitMask = PhysicsCategory.quadrantGreen
-            starYellow.physicsBody?.contactTestBitMask = PhysicsCategory.quadrantBlue
-            starYellow.physicsBody?.contactTestBitMask = PhysicsCategory.quadrantYellow
-            starYellow.physicsBody?.collisionBitMask = PhysicsCategory.None
-            starYellow.physicsBody?.usesPreciseCollisionDetection = true
+            //Physics for star
+            star.physicsBody = SKPhysicsBody(circleOfRadius: star.size.width/2)
+            star.physicsBody?.isDynamic = true
+            star.physicsBody?.categoryBitMask = PhysicsCategory.star
+            star.physicsBody?.contactTestBitMask = PhysicsCategory.quadrantRed
+            star.physicsBody?.contactTestBitMask = PhysicsCategory.quadrantGreen
+            star.physicsBody?.contactTestBitMask = PhysicsCategory.quadrantBlue
+            star.physicsBody?.contactTestBitMask = PhysicsCategory.quadrantYellow
+            star.physicsBody?.collisionBitMask = PhysicsCategory.None
+            star.physicsBody?.usesPreciseCollisionDetection = true
             
             
-            //Animate projectile to move toward centre of screen and remove itself when it reaches the centre
+            //Animate star to move toward centre of screen and remove itself when it reaches the centre
             let actionMove = SKAction.move(to: CGPoint(x: size.width/2, y: size.height/2), duration: TimeInterval(duration))
             let actionMoveDone = SKAction.removeFromParent()
-            starYellow.run(SKAction.sequence([actionMove, actionMoveDone]))
+            star.run(SKAction.sequence([actionMove, actionMoveDone]))
             
             
-            // ROTATE THE PROJECTILE
+            // ROTATE THE STAR
             
             // Randomize rotation direction
             let direction = random(min: 0, max: 2)
             var rotationAngle = CGFloat()
             if (direction < 1) {
                 rotationAngle = CGFloat.pi * 2
-            }
-            else {
+            } else {
                 rotationAngle = -(CGFloat.pi * 2)
             }
             
-            // Rotate the projectile continuously
+            // Rotate the star continuously
             let oneRevolution:SKAction = SKAction.rotate(byAngle: rotationAngle, duration: 3)
             let repeatRotation:SKAction = SKAction.repeatForever(oneRevolution)
-            starYellow.run(repeatRotation)
+            star.run(repeatRotation)
             
         }
         
         // Remove yellow star when it collides with yellow quadrant
-        func starYellowGoodCollision(starYellow: SKSpriteNode, quadrant: SKSpriteNode) {
+        func starGoodCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("Hit")
-            starYellow.removeFromParent()
+            star.removeFromParent()
         }
         
         // End game when yellow star collides with other quadrants
-        func starYellowBadCollision(starYellow: SKSpriteNode, quadrant: SKSpriteNode) {
+        func starBadCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("End")
             
             let loseAction = SKAction.run() {
@@ -233,7 +222,7 @@ struct PhysicsCategory {
                 let gameOverScene = GameOverScene(size: self.size, won: false)
                 self.view?.presentScene(gameOverScene, transition: reveal)
             }
-            starYellow.run(loseAction)
+            star.run(loseAction)
         }
         
         
@@ -251,19 +240,19 @@ struct PhysicsCategory {
             
             // If yellow star contacts yellow quadrant
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.starYellow != 0)) {
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0)) {
                 if let quadrantYellow = firstBody.node as? SKSpriteNode, let
-                    starYellow = secondBody.node as? SKSpriteNode {
-                    starYellowGoodCollision(starYellow: starYellow, quadrant: quadrantYellow)
+                    star = secondBody.node as? SKSpriteNode {
+                    starGoodCollision(star: star, quadrant: quadrantYellow)
                 }
             }
             
             // If yellow star contacts other quadrant
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.starYellow != 0)) {
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0)) {
                 if let quadrantYellow = firstBody.node as? SKSpriteNode, let
-                    starYellow = secondBody.node as? SKSpriteNode {
-                    starYellowBadCollision(starYellow: starYellow, quadrant: quadrantYellow)
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantYellow)
                 }
                 
             }
