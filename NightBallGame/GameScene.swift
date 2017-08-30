@@ -25,12 +25,35 @@ struct PhysicsCategory {
         // Adding the center node which the nightball will rotate around (essentially acts as an anchor point)
         let centerNode: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball - Circle")
         // Adding the quadrants of the nightball
-        let quadrantRed: SKSpriteNode = SKSpriteNode(imageNamed: "Quadrant-TR-Red")
-        let quadrantGreen: SKSpriteNode = SKSpriteNode(imageNamed: "Quadrant-TL-Green")
-        let quadrantBlue: SKSpriteNode = SKSpriteNode(imageNamed: "Quadrant-BR-Blue")
-        let quadrantYellow: SKSpriteNode = SKSpriteNode(imageNamed: "Quadrant-BL-Yellow")
+        let quadrantRed = SKSpriteNode(imageNamed: "Quadrant-TR-Red")
+        let quadrantGreen = SKSpriteNode(imageNamed: "Quadrant-TL-Green")
+        let quadrantBlue = SKSpriteNode(imageNamed: "Quadrant-BR-Blue")
+        let quadrantYellow = SKSpriteNode(imageNamed: "Quadrant-BL-Yellow")
         
-        let moon: SKSpriteNode = SKSpriteNode(imageNamed: "Moon")
+        let moon = SKSpriteNode(imageNamed: "Moon")
+        
+        
+        // SPAWN STARS =================================================================================================
+        
+        var starTimer = TimeInterval(2)
+        var starInterval = TimeInterval(2)
+        var current = TimeInterval(0)
+        var past = TimeInterval(0)
+        
+        override func update(_ currentTime: TimeInterval) {
+            
+            if (past == 0) {
+                past = currentTime // Take first timestamp
+            } else {
+                starTimer -= currentTime - past // Subtract time elapsed from timer
+                past = currentTime // Take past time so it can be subtracted from the current time
+            }
+            if starTimer <= 0 { // When timer reaches zero
+                addStar() // Spawn a star
+                starTimer = starInterval // Reset the timer
+                starInterval -= 0.05 // Decrease time between consecutive stars
+            }
+        }
         
         override func didMove(to view: SKView) {
             
@@ -105,13 +128,13 @@ struct PhysicsCategory {
             moon.scale(to: CGSize(width: 75, height: 75))
             addChild(moon)
         
-            // Continiously spawn projectiles
+            /*:// Continiously spawn projectiles
             run(SKAction.repeatForever(
                 SKAction.sequence([
-                    SKAction.run(addstar),
+                    SKAction.run(addStar),
                     SKAction.wait(forDuration: 1.0)
                     ])
-            ))
+            )) */
     }
         
         // TOUCH INPUT ====================================================================================================
@@ -145,16 +168,30 @@ struct PhysicsCategory {
         }
         
         // Create star
-        func addstar() {
+        func addStar() {
             
-            // Use yellow star image
-            let star = SKSpriteNode(imageNamed: "Star-Yellow")
+            // Generate a number to determine which colour of star is created
+            let colour = random(min: 0, max: 4)
+            
+            // Give correct image to sprite and give it an identifier
+            var star = SKSpriteNode(imageNamed: "Star-Red")
+            star.userData = ["color": "red"]
+            if (colour < 1) {
+                star = SKSpriteNode(imageNamed: "Star-Green")
+                star.userData = ["color": "green"]
+            } else if (colour < 2) {
+                star = SKSpriteNode(imageNamed: "Star-Blue")
+                star.userData = ["color": "blue"]
+            } else if (colour < 3) {
+                star = SKSpriteNode(imageNamed: "Star-Yellow")
+                star.userData = ["color": "yellow"]
+            }
             
             // Resize projectile
             star.scale(to: CGSize(width:80, height: 80))
             
             // Set animation speed (time)
-            let duration = CGFloat(2.0)
+            let duration = CGFloat(3.0)
             
             // Generate a number to determine which corner the star comes from
             let corner = random(min: 0, max: 4)
@@ -207,13 +244,13 @@ struct PhysicsCategory {
             
         }
         
-        // Remove yellow star when it collides with yellow quadrant
+        // Remove star when it collides with right quadrant
         func starGoodCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("Hit")
             star.removeFromParent()
         }
         
-        // End game when yellow star collides with other quadrants
+        // End game when star collides with wrong quadrant
         func starBadCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("End")
             
@@ -224,7 +261,6 @@ struct PhysicsCategory {
             }
             star.run(loseAction)
         }
-        
         
         func didBegin(_ contact: SKPhysicsContact) {
             
@@ -238,23 +274,131 @@ struct PhysicsCategory {
                 secondBody = contact.bodyA
             }
             
-            // If yellow star contacts yellow quadrant
+            let star = secondBody.node as? SKSpriteNode
+            
+            // RED STAR COLLISIONS ================================================================================
+            
+            // If red star contacts yellow quadrant, good collision
+            if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
+                if let quadrantRed = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starGoodCollision(star: star, quadrant: quadrantRed)
+                }
+            }
+            // If red star contacts other quadrant, bad collision
+            else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
+                if let quadrantRed = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantRed)
+                }
+            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
+                if let quadrantRed = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantRed)
+                }
+            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
+                if let quadrantRed = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantRed)
+                }
+                
+            }
+            
+            // GREEN STAR COLLISIONS ================================================================================
+            
+            // If green star contacts yellow quadrant, good collision
+            if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
+                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starGoodCollision(star: star, quadrant: quadrantGreen)
+                }
+            }
+            // If green star contacts other quadrant, bad collision
+            else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
+                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantGreen)
+                }
+            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
+                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantGreen)
+                }
+            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
+                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantGreen)
+                }
+            }
+            
+            // BLUE STAR COLLISIONS ================================================================================
+            
+            // If blue star contacts yellow quadrant, good collision
+            if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
+                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starGoodCollision(star: star, quadrant: quadrantBlue)
+                }
+            }
+            // If blue star contacts other quadrant, bad collision
+            else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
+                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantBlue)
+                }
+            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
+                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantBlue)
+                }
+            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
+                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantBlue)
+                }
+            }
+            
+            // YELLOW STAR COLLISIONS ================================================================================
+            
+            // If yellow star contacts yellow quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0)) {
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
                 if let quadrantYellow = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
                     starGoodCollision(star: star, quadrant: quadrantYellow)
                 }
             }
-            
-            // If yellow star contacts other quadrant
-            if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0)) {
+            // If yellow star contacts other quadrant, bad collision
+            else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
                 if let quadrantYellow = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
                     starBadCollision(star: star, quadrant: quadrantYellow)
                 }
-                
+            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
+                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantYellow)
+                }
+            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
+                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
+                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
+                    star = secondBody.node as? SKSpriteNode {
+                    starBadCollision(star: star, quadrant: quadrantYellow)
+                }
             }
             
         }
