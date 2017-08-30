@@ -286,7 +286,7 @@ struct PhysicsCategory {
             
             // RED STAR COLLISIONS ================================================================================
             
-            // If red star contacts yellow quadrant, good collision
+            // If red star contacts red quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
                 if let quadrantRed = firstBody.node as? SKSpriteNode, let
@@ -318,7 +318,7 @@ struct PhysicsCategory {
             
             // GREEN STAR COLLISIONS ================================================================================
             
-            // If green star contacts yellow quadrant, good collision
+            // If green star contacts green quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
                 if let quadrantGreen = firstBody.node as? SKSpriteNode, let
@@ -349,7 +349,7 @@ struct PhysicsCategory {
             
             // BLUE STAR COLLISIONS ================================================================================
             
-            // If blue star contacts yellow quadrant, good collision
+            // If blue star contacts blue quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
                 if let quadrantBlue = firstBody.node as? SKSpriteNode, let
