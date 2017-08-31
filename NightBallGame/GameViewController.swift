@@ -6,7 +6,7 @@
 //  Copyright © 2017 Keener Studio. All rights reserved.
 //
 
-// FFS do i have to do everything
+
 
 import UIKit
 import SpriteKit
@@ -17,7 +17,7 @@ class GameViewController: UIViewController {
     // Initial setup of game scene
     override func viewDidLoad() {
         super.viewDidLoad()
-        let scene = GameScene(size: view.bounds.size)
+        let scene = MenuScene(size: view.bounds.size)
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true

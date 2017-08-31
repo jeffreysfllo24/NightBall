@@ -56,16 +56,17 @@ struct PhysicsCategory {
         }
 
         // Background
-        let background: SKSpriteNode = SKSpriteNode(imageNamed: "Star-Sky")
+        let background: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
         
         // Score Counter
         var points = 0
         var myLabel = SKLabelNode(fontNamed: "Arial")
         
         override func didMove(to view: SKView) {
-            
-            background.position = CGPoint(x: size.width / 2, y: size.height / 2)
-            //background.scale(to: CGSize(width: 400, height: 400))
+       
+                background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+            background.size = self.frame.size;
+            background.zPosition = -6
             addChild(background)
             
             physicsWorld.gravity = CGVector.zero // No gravity
