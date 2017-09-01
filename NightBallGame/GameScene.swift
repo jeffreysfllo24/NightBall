@@ -31,7 +31,7 @@ struct PhysicsCategory {
         let quadrantBlue = SKSpriteNode(imageNamed: "Quadrant-BR-Blue")
         let quadrantYellow = SKSpriteNode(imageNamed: "Quadrant-BL-Yellow")
         
-        let moon = SKSpriteNode(imageNamed: "Moon")
+        
         
         // SPAWN STARS =================================================================================================
         
@@ -60,7 +60,7 @@ struct PhysicsCategory {
         
         // Score Counter
         var points = 0
-        var myLabel = SKLabelNode(fontNamed: "Arial")
+        var myLabel = SKLabelNode(fontNamed: "Chalkduster")
         
         override func didMove(to view: SKView) {
        
@@ -134,8 +134,8 @@ struct PhysicsCategory {
                 quadrantYellow.physicsBody?.collisionBitMask = PhysicsCategory.None
             
             // Add Score Label
-            myLabel.text = "Points = 0"
-            myLabel.fontSize = 20
+            myLabel.text = "0"
+            myLabel.fontSize = 30
             myLabel.fontColor = SKColor.white
             myLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
             myLabel.zPosition = 1
@@ -256,7 +256,7 @@ struct PhysicsCategory {
             star.removeFromParent()
             // Increase Score when succesful collision
             points += 1
-            myLabel.text = "Points = " + String(points)
+            myLabel.text = String(points)
         }
         
         // End game when star collides with wrong quadrant
