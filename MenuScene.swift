@@ -41,6 +41,7 @@ class MenuScene: SKScene {
         SoundIcon.zPosition = 1
         addChild(SoundIcon)
         
+        // Star Animation In progress
         let emitterLayer = CAEmitterLayer()
         
         emitterLayer.emitterPosition = CGPoint(x: 200, y: 200)

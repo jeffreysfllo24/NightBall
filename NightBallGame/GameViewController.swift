@@ -17,6 +17,16 @@ class GameViewController: UIViewController {
     // Initial setup of game scene
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
+        var highscoreDefault = UserDefaults.standard
+        
+        if (highscoreDefault.valueforKey("highscore")) == nil {
+            highscore = highscoreDefault.valueforKey("highscore") as NSInteger!
+            }
+        */
+        
+        
+        
         let scene = MenuScene(size: view.bounds.size)
         let skView = view as! SKView
         skView.showsFPS = true
