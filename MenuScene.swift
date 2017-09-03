@@ -14,7 +14,7 @@ class MenuScene: SKScene {
     let playButtonTex = SKTexture(imageNamed: "Playbutton")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "Menubackground")
     let SoundIcon: SKSpriteNode = SKSpriteNode(imageNamed: "SoundIcon")
-    let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle")
+    let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-1")
 
     override func didMove(to view: SKView) {
         // Add Background
@@ -25,13 +25,11 @@ class MenuScene: SKScene {
         
         // Insert Title
         title.position = CGPoint(x: size.width * 0.5, y: size.height * 0.85)
-        title.scale(to: CGSize(width: 200, height: 100))
+        title.scale(to: CGSize(width: 250, height: 100))
         title.zPosition = 1
         addChild(title)
         
  
-        
-
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
         playButton.position = CGPoint(x: frame.midX, y: frame.midY)

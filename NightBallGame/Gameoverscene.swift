@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     let label3 = SKLabelNode(fontNamed: "Chalkduster")
+    let label4 = SKLabelNode(fontNamed: "Arial")
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "Menubackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
@@ -27,7 +28,8 @@ class GameOverScene: SKScene {
         // Refresh Button
         refresh.position = CGPoint(x: frame.midX, y: frame.midY)
         refresh.scale(to: CGSize(width: 200, height: 200))
-        addChild(refresh)
+        refresh.name = "refresh"
+        self.addChild(refresh)
         
         // Display Score
         let label2 = SKLabelNode(fontNamed: "Chalkduster")
@@ -36,6 +38,13 @@ class GameOverScene: SKScene {
         label2.fontColor = SKColor.white
         label2.position = CGPoint(x: size.width/2, y: size.height/4)
         addChild(label2)
+        
+        // Display how to reset game instructions
+        label4.text = "Tap Button To Restart"
+        label4.fontSize = 15
+        label4.fontColor = SKColor.white
+        label4.position = CGPoint(x: size.width/2, y: size.height/1.2)
+        addChild(label4)
         
         //Display High Score
         label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCORE"))"
@@ -56,18 +65,7 @@ class GameOverScene: SKScene {
             saveHighScore()
         }
         
-       
-
-        // 4
-        run(SKAction.sequence([
-            SKAction.wait(forDuration: 3.0),
-            SKAction.run() {
-                // 5
-                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-                let scene = GameScene(size: size)
-                self.view?.presentScene(scene, transition:reveal)
-            }
-            ]))
+        
         
     }
     
@@ -77,7 +75,22 @@ class GameOverScene: SKScene {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-  
+    // Reset game upon tap on refresh button 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // If the play button is touched enter game scene
+        if let touch = touches.first {
+            let pos = touch.location(in: self)
+            let node = self.atPoint(pos)
+            
+            if node == refresh {
+                if let view = view {
+                    let transition:SKTransition = SKTransition.fade(withDuration: 1)
+                    let scene:SKScene = GameScene(size: self.size)
+                    self.view?.presentScene(scene, transition: transition)
+                }
+            }
+        }
+    }
 }
 
 
