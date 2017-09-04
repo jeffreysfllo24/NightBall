@@ -12,7 +12,7 @@ class GameOverScene: SKScene {
     let label3 = SKLabelNode(fontNamed: "Chalkduster")
     let label4 = SKLabelNode(fontNamed: "Arial")
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
-    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "Menubackground")
+    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
     
     init(size: CGSize, won:Bool, score: Int) {
@@ -41,7 +41,7 @@ class GameOverScene: SKScene {
         
         // Display how to reset game instructions
         label4.text = "Tap Button To Restart"
-        label4.fontSize = 15
+        label4.fontSize = 20
         label4.fontColor = SKColor.white
         label4.position = CGPoint(x: size.width/2, y: size.height/1.2)
         addChild(label4)
