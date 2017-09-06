@@ -15,7 +15,7 @@ class MenuScene: SKScene {
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "Menubackground")
     let SoundIcon: SKSpriteNode = SKSpriteNode(imageNamed: "SoundIcon")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-1")
-
+    let fade :SKSpriteNode = SKSpriteNode(imageNamed: "MenuStar")
     override func didMove(to view: SKView) {
         // Add Background
         Menubackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -43,6 +43,7 @@ class MenuScene: SKScene {
         SoundIcon.zPosition = 1
         addChild(SoundIcon)
         
+        /*
         // Star Animation In progress
         let emitterLayer = CAEmitterLayer()
         
@@ -61,6 +62,20 @@ class MenuScene: SKScene {
         emitterLayer.emitterCells = [cell]
         
         view.layer.addSublayer(emitterLayer)
+ */
+        fade.position = CGPoint(x: size.width * 0.5, y: size.height * 0.3)
+        fade.scale(to: CGSize(width: 50, height: 50))
+        fade.zPosition = 1
+        
+
+        var animateList = SKAction.sequence([SKAction.fadeIn(withDuration: 2.0),SKAction.fadeOut(withDuration: 2.0)])
+        
+        let repeatFade:SKAction = SKAction.repeatForever(animateList)
+
+        fade.run(repeatFade)
+        
+        self.addChild(fade)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
