@@ -71,7 +71,9 @@ class MenuScene: SKScene {
             
             if node == playButton {
                 if let view = view {
-                    let transition:SKTransition = SKTransition.fade(withDuration: 1)
+                    let fadeOutAction = SKAction.fadeOut(withDuration: 5)
+                    playButton.run(fadeOutAction)
+                    let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
                     let scene:SKScene = GameScene(size: self.size)
                     self.view?.presentScene(scene, transition: transition)
                 }

@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     let label3 = SKLabelNode(fontNamed: "Chalkduster")
-    let label4 = SKLabelNode(fontNamed: "Arial")
+    let label4 = SKLabelNode(fontNamed: "Chalkduster")
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
@@ -84,7 +84,7 @@ class GameOverScene: SKScene {
             
             if node == refresh {
                 if let view = view {
-                    let transition:SKTransition = SKTransition.fade(withDuration: 1)
+                    let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
                     let scene:SKScene = GameScene(size: self.size)
                     self.view?.presentScene(scene, transition: transition)
                 }
