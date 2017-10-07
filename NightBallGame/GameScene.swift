@@ -184,10 +184,10 @@ struct PhysicsCategory {
             var star = SKSpriteNode(imageNamed: "STar-red")
             star.userData = ["color": "red"]
             if (colour < 1) {
-                star = SKSpriteNode(imageNamed: "Star-green")
+                star = SKSpriteNode(imageNamed: "Star-Green")
                 star.userData = ["color": "green"]
             } else if (colour < 2) {
-                star = SKSpriteNode(imageNamed: "Star-blue")
+                star = SKSpriteNode(imageNamed: "Star-Blue")
                 star.userData = ["color": "blue"]
             } else if (colour < 3) {
                 star = SKSpriteNode(imageNamed: "Star-Yellow")

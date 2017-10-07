@@ -12,10 +12,13 @@ class MenuScene: SKScene {
     // PLay button image
     var playButton = SKSpriteNode()
     let playButtonTex = SKTexture(imageNamed: "Playbutton")
-    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
+    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackground")
     let SoundIcon: SKSpriteNode = SKSpriteNode(imageNamed: "SoundIcon")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-1")
-    let fade :SKSpriteNode = SKSpriteNode(imageNamed: "MenuStar")
+    let fade :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
+    let fade2 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
+    let fade3 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
+    let fade4 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
     override func didMove(to view: SKView) {
         // Add Background
         Menubackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -63,18 +66,66 @@ class MenuScene: SKScene {
         
         view.layer.addSublayer(emitterLayer)
  */
-        fade.position = CGPoint(x: size.width * 0.5, y: size.height * 0.3)
-        fade.scale(to: CGSize(width: 50, height: 50))
+        
+        
+        
+        // First Star background
+        fade.position = CGPoint(x: size.width * 0.5, y: size.height * 0.4)
+        fade.scale(to: CGSize(width: 200, height: 600))
         fade.zPosition = 1
         
-
-        var animateList = SKAction.sequence([SKAction.fadeIn(withDuration: 2.0),SKAction.fadeOut(withDuration: 2.0)])
+        
+        let waitAction = SKAction.wait(forDuration: 2)
+        let animateList = SKAction.sequence([waitAction, SKAction.fadeIn(withDuration: 2.0),SKAction.fadeOut(withDuration: 2.0)])
         
         let repeatFade:SKAction = SKAction.repeatForever(animateList)
 
         fade.run(repeatFade)
         
         self.addChild(fade)
+        
+        // Second Star background
+        fade2.position = CGPoint(x: size.width * 0.3, y: size.height * 0.4)
+        fade2.scale(to: CGSize(width: 200, height: 600))
+        fade2.zPosition = 1
+        
+        
+        let animateList2 = SKAction.sequence([SKAction.fadeIn(withDuration: 6.0),SKAction.fadeOut(withDuration: 6.0)])
+        
+        let repeatFade2:SKAction = SKAction.repeatForever(animateList2)
+        
+        fade2.run(repeatFade2)
+        
+        self.addChild(fade2)
+        
+        // Third Star background
+        fade3.position = CGPoint(x: size.width * 0.7, y: size.height * 0.4)
+        fade3.scale(to: CGSize(width: 200, height: 600))
+        fade3.zPosition = 1
+        
+        let waitAction2 = SKAction.wait(forDuration: 1)
+        let animateList3 = SKAction.sequence([waitAction2,SKAction.fadeIn(withDuration: 3.0),SKAction.fadeOut(withDuration: 3.0)])
+        
+        let repeatFade3:SKAction = SKAction.repeatForever(animateList3)
+        
+        fade3.run(repeatFade3)
+        
+        self.addChild(fade3)
+        /*
+        // Fourth Star background
+        fade4.position = CGPoint(x: size.width * 0.7, y: size.height * 0.4)
+        fade4.scale(to: CGSize(width: 200, height: 600))
+        fade4.zPosition = 1
+        
+        let waitAction3 = SKAction.wait(forDuration: 4)
+        let animateList4 = SKAction.sequence([waitAction3, SKAction.fadeIn(withDuration: 4.0),SKAction.fadeOut(withDuration: 4.0)])
+        
+        let repeatFade4:SKAction = SKAction.repeatForever(animateList4)
+        
+        fade4.run(repeatFade4)
+        
+        self.addChild(fade4)
+        */
         
     }
     

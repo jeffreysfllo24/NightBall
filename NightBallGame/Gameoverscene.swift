@@ -12,7 +12,7 @@ class GameOverScene: SKScene {
     let label3 = SKLabelNode(fontNamed: "Chalkduster")
     let label4 = SKLabelNode(fontNamed: "Chalkduster")
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
-    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
+    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
     
     init(size: CGSize, won:Bool, score: Int) {
