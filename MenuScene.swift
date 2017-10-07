@@ -12,7 +12,7 @@ class MenuScene: SKScene {
     // PLay button image
     var playButton = SKSpriteNode()
     let playButtonTex = SKTexture(imageNamed: "Playbutton")
-    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "Menubackground")
+    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
     let SoundIcon: SKSpriteNode = SKSpriteNode(imageNamed: "SoundIcon")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-1")
     let fade :SKSpriteNode = SKSpriteNode(imageNamed: "MenuStar")
@@ -86,7 +86,9 @@ class MenuScene: SKScene {
             
             if node == playButton {
                 if let view = view {
-                    let transition:SKTransition = SKTransition.fade(withDuration: 1)
+                    let fadeOutAction = SKAction.fadeOut(withDuration: 5)
+                    playButton.run(fadeOutAction)
+                    let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
                     let scene:SKScene = GameScene(size: self.size)
                     self.view?.presentScene(scene, transition: transition)
                 }

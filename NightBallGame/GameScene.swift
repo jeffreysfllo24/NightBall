@@ -16,9 +16,9 @@ struct PhysicsCategory {
     static let All       : UInt32 = UInt32.max
     static let quadrantRed: UInt32 = 0b1
     static let quadrantGreen: UInt32 = 0b10
-    static let quadrantBlue: UInt32 = 0b11
-    static let quadrantYellow: UInt32 = 0b100
-    static let star: UInt32 = 0b101
+    static let quadrantBlue: UInt32 = 0b100
+    static let quadrantYellow: UInt32 = 0b1000
+    static let star: UInt32 = 0b1001
     
 }
     class GameScene: SKScene,SKPhysicsContactDelegate {
@@ -113,12 +113,12 @@ struct PhysicsCategory {
             quadrantBlue.zPosition = 1
             centerNode.addChild(quadrantBlue)
             
-                // Physics for blue quadrant
-                quadrantBlue.physicsBody = SKPhysicsBody(circleOfRadius: quadrantBlue.size.width/100)
-                quadrantBlue.physicsBody?.isDynamic = true
-                quadrantBlue.physicsBody?.categoryBitMask = PhysicsCategory.quadrantBlue
-                quadrantBlue.physicsBody?.contactTestBitMask = PhysicsCategory.star
-                quadrantBlue.physicsBody?.collisionBitMask = PhysicsCategory.None
+            // Physics for blue quadrant
+            quadrantBlue.physicsBody = SKPhysicsBody(circleOfRadius: quadrantBlue.size.width/100)
+            quadrantBlue.physicsBody?.isDynamic = true
+            quadrantBlue.physicsBody?.categoryBitMask = PhysicsCategory.quadrantBlue
+            quadrantBlue.physicsBody?.contactTestBitMask = PhysicsCategory.star
+            quadrantBlue.physicsBody?.collisionBitMask = PhysicsCategory.None
             
             // Add yellow quadrant to bottom left
             quadrantYellow.position = CGPoint(x: size.width * -0.35, y: size.height * -0.2)
@@ -141,6 +141,7 @@ struct PhysicsCategory {
             myLabel.zPosition = 1
             addChild(myLabel)
     }
+        
         // Label for Points Counter
         
         // TOUCH INPUT ====================================================================================================
@@ -180,13 +181,13 @@ struct PhysicsCategory {
             let colour = random(min: 0, max: 4)
             
             // Give correct image to sprite and give it an identifier
-            var star = SKSpriteNode(imageNamed: "Star-Red")
+            var star = SKSpriteNode(imageNamed: "STar-red")
             star.userData = ["color": "red"]
             if (colour < 1) {
-                star = SKSpriteNode(imageNamed: "Star-Green")
+                star = SKSpriteNode(imageNamed: "Star-green")
                 star.userData = ["color": "green"]
             } else if (colour < 2) {
-                star = SKSpriteNode(imageNamed: "Star-Blue")
+                star = SKSpriteNode(imageNamed: "Star-blue")
                 star.userData = ["color": "blue"]
             } else if (colour < 3) {
                 star = SKSpriteNode(imageNamed: "Star-Yellow")
@@ -225,12 +226,10 @@ struct PhysicsCategory {
             star.physicsBody?.collisionBitMask = PhysicsCategory.None
             star.physicsBody?.usesPreciseCollisionDetection = true
             
-            
             //Animate star to move toward centre of screen and remove itself when it reaches the centre
             let actionMove = SKAction.move(to: CGPoint(x: size.width/2, y: size.height/2), duration: TimeInterval(duration))
             let actionMoveDone = SKAction.removeFromParent()
             star.run(SKAction.sequence([actionMove, actionMoveDone]))
-            
             
             // ROTATE THE STAR
             
@@ -287,7 +286,7 @@ struct PhysicsCategory {
             
             // RED STAR COLLISIONS ================================================================================
             
-            // If red star contacts yellow quadrant, good collision
+            // If red star contacts red quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
                 if let quadrantRed = firstBody.node as? SKSpriteNode, let
@@ -298,28 +297,27 @@ struct PhysicsCategory {
             // If red star contacts other quadrant, bad collision
             else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
-                if let quadrantRed = firstBody.node as? SKSpriteNode, let
+                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantRed)
+                    starBadCollision(star: star, quadrant: quadrantGreen)
                 }
             } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
-                if let quadrantRed = firstBody.node as? SKSpriteNode, let
+                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantRed)
+                    starBadCollision(star: star, quadrant: quadrantBlue)
                 }
             } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
-                if let quadrantRed = firstBody.node as? SKSpriteNode, let
+                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantRed)
+                    starBadCollision(star: star, quadrant: quadrantYellow)
                 }
-                
             }
             
             // GREEN STAR COLLISIONS ================================================================================
             
-            // If green star contacts yellow quadrant, good collision
+            // If green star contacts green quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
                 if let quadrantGreen = firstBody.node as? SKSpriteNode, let
@@ -330,27 +328,27 @@ struct PhysicsCategory {
             // If green star contacts other quadrant, bad collision
             else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
-                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
+                if let quadrantRed = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantGreen)
+                    starBadCollision(star: star, quadrant: quadrantRed)
                 }
             } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
-                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
+                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantGreen)
+                    starBadCollision(star: star, quadrant: quadrantBlue)
                 }
             } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
-                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
+                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantGreen)
+                    starBadCollision(star: star, quadrant: quadrantYellow)
                 }
             }
             
             // BLUE STAR COLLISIONS ================================================================================
             
-            // If blue star contacts yellow quadrant, good collision
+            // If blue star contacts blue quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
                 if let quadrantBlue = firstBody.node as? SKSpriteNode, let
@@ -361,21 +359,21 @@ struct PhysicsCategory {
             // If blue star contacts other quadrant, bad collision
             else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
-                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
+                if let quadrantRed = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantBlue)
+                    starBadCollision(star: star, quadrant: quadrantRed)
                 }
             } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
-                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
+                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantBlue)
+                    starBadCollision(star: star, quadrant: quadrantGreen)
                 }
             } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
-                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
+                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantBlue)
+                    starBadCollision(star: star, quadrant: quadrantYellow)
                 }
             }
             
@@ -392,21 +390,21 @@ struct PhysicsCategory {
             // If yellow star contacts other quadrant, bad collision
             else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
-                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
+                if let quadrantRed = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantYellow)
+                    starBadCollision(star: star, quadrant: quadrantRed)
                 }
             } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
-                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
+                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantYellow)
+                    starBadCollision(star: star, quadrant: quadrantGreen)
                 }
             } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
                 (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
-                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
+                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
                     star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantYellow)
+                    starBadCollision(star: star, quadrant: quadrantBlue)
                 }
             }
             
