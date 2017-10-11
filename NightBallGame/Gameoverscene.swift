@@ -13,7 +13,7 @@ class GameOverScene: SKScene {
     let label3 = SKLabelNode(fontNamed: "Quicksand-Light")
     let label4 = SKLabelNode(fontNamed: "Quicksand-Light")
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
-    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackground")
+    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
     let home: SKSpriteNode = SKSpriteNode(imageNamed: "Home")
     

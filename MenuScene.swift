@@ -12,7 +12,7 @@ class MenuScene: SKScene {
     // PLay button image
     var playButton = SKSpriteNode()
     let playButtonTex = SKTexture(imageNamed: "Playbutton")
-    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackground")
+    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
     let SoundIcon: SKSpriteNode = SKSpriteNode(imageNamed: "SoundIcon")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-1")
     let fade :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
