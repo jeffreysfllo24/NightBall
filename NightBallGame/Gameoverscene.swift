@@ -15,7 +15,7 @@ class GameOverScene: SKScene {
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
-    let home: SKSpriteNode = SKSpriteNode(imageNamed: "Home")
+    let home: SKSpriteNode = SKSpriteNode(imageNamed: "home")
     
     init(size: CGSize, won:Bool, score: Int) {
         
