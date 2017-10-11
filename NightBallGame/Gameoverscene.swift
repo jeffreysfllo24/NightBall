@@ -9,11 +9,13 @@ import Foundation
 import SpriteKit
 
 class GameOverScene: SKScene {
-    let label3 = SKLabelNode(fontNamed: "Chalkduster")
-    let label4 = SKLabelNode(fontNamed: "Chalkduster")
+    let label2 = SKLabelNode(fontNamed: "Quicksand-Light")
+    let label3 = SKLabelNode(fontNamed: "Quicksand-Light")
+    let label4 = SKLabelNode(fontNamed: "Quicksand-Light")
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
+    let home: SKSpriteNode = SKSpriteNode(imageNamed: "Home")
     
     init(size: CGSize, won:Bool, score: Int) {
         
@@ -31,53 +33,51 @@ class GameOverScene: SKScene {
         refresh.name = "refresh"
         self.addChild(refresh)
         
-        // Display Score
-        let label2 = SKLabelNode(fontNamed: "Chalkduster")
-        label2.text = "Score = " + String(score)
-        label2.fontSize = 20
-        label2.fontColor = SKColor.white
-        label2.position = CGPoint(x: size.width/2, y: size.height/4)
-        addChild(label2)
+        // Home Button
+        home.position = CGPoint(x: size.width * 0.85, y: size.height * 0.07)
+        home.scale(to: CGSize(width: 50, height: 45))
+        home.name = "home"
+        self.addChild(home)
         
-        // Display how to reset game instructions
-        label4.text = "Tap Button To Restart"
-        label4.fontSize = 20
-        label4.fontColor = SKColor.white
-        label4.position = CGPoint(x: size.width/2, y: size.height/1.2)
-        addChild(label4)
+        // Display Score
+        label2.text = "Score = " + String(score)
+        label2.fontSize = 28
+        label2.fontColor = SKColor.white
+        label2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.25)
+        addChild(label2)
         
         //Display High Score
         label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCORE"))"
-        label3.fontSize = 20
+        label3.fontSize = 28
         label3.fontColor = SKColor.white
-        label3.position = CGPoint(x: size.width/2, y: size.height/6)
+        label3.position = CGPoint(x: size.width * 0.5, y: size.height * 0.18)
         addChild(label3)
         
+        // Display how to reset game instructions
+        label4.text = "Again?"
+        label4.fontSize = 44
+        label4.fontColor = SKColor.white
+        label4.position = CGPoint(x: size.width * 0.5, y: size.height * 0.78)
+        addChild(label4)
+
         //Save Highscore
         func saveHighScore(){
             UserDefaults.standard.set(score, forKey: "HIGHSCORE")
             label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCORE"))"
-            
-            
         }
-        
         if score > UserDefaults().integer(forKey: "HIGHSCORE"){
             saveHighScore()
         }
-        
-        
-        
     }
     
-    
-
     // 6
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    // Reset game upon tap on refresh button
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // If the play button is touched enter game scene
+        // Reset game upon tap on refresh button
+        // If the refresh button is touched enter game scene
         if let touch = touches.first {
             let pos = touch.location(in: self)
             let node = self.atPoint(pos)
@@ -86,6 +86,20 @@ class GameOverScene: SKScene {
                 if let view = view {
                     let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
                     let scene:SKScene = GameScene(size: self.size)
+                    self.view?.presentScene(scene, transition: transition)
+                }
+            }
+        }
+        // Return to menu upon tap on home button
+        // If the play button is touched enter game scene
+        if let touch = touches.first {
+            let pos = touch.location(in: self)
+            let node = self.atPoint(pos)
+            
+            if node == home {
+                if let view = view {
+                    let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
+                    let scene:SKScene = MenuScene(size: self.size)
                     self.view?.presentScene(scene, transition: transition)
                 }
             }

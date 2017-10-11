@@ -19,6 +19,7 @@ class MenuScene: SKScene {
     let fade2 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
     let fade3 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
     let fade4 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
+    
     override func didMove(to view: SKView) {
         // Add Background
         Menubackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -31,7 +32,6 @@ class MenuScene: SKScene {
         title.scale(to: CGSize(width: 250, height: 100))
         title.zPosition = 1
         addChild(title)
-        
  
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
@@ -42,7 +42,7 @@ class MenuScene: SKScene {
        
         // Add Sound Icon
         SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-        SoundIcon.scale(to: CGSize(width: 45, height: 45))
+        SoundIcon.scale(to: CGSize(width: 60, height: 45))
         SoundIcon.zPosition = 1
         addChild(SoundIcon)
         
@@ -126,7 +126,6 @@ class MenuScene: SKScene {
         
         self.addChild(fade4)
         */
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

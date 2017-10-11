@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E633BFE1F8EC1BA00789B2D /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFB1F8EC1BA00789B2D /* Quicksand-Bold.ttf */; };
+		4E633BFF1F8EC1BA00789B2D /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFC1F8EC1BA00789B2D /* Quicksand-Light.ttf */; };
+		4E633C001F8EC1BA00789B2D /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFD1F8EC1BA00789B2D /* Quicksand-Regular.ttf */; };
 		4EB1F1381F43EACE002669E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB1F1371F43EACE002669E2 /* AppDelegate.swift */; };
 		4EB1F13A1F43EACE002669E2 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1391F43EACE002669E2 /* GameScene.sks */; };
 		4EB1F13C1F43EACE002669E2 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F13B1F43EACE002669E2 /* Actions.sks */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E633BFB1F8EC1BA00789B2D /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
+		4E633BFC1F8EC1BA00789B2D /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
+		4E633BFD1F8EC1BA00789B2D /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		4EB1F1341F43EACE002669E2 /* NightBallGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NightBallGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EB1F1371F43EACE002669E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4EB1F1391F43EACE002669E2 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -73,6 +79,9 @@
 				4EB1F13F1F43EACE002669E2 /* GameViewController.swift */,
 				4EB1F1411F43EACE002669E2 /* Main.storyboard */,
 				4EB1F1441F43EACE002669E2 /* Assets.xcassets */,
+				4E633BFB1F8EC1BA00789B2D /* Quicksand-Bold.ttf */,
+				4E633BFC1F8EC1BA00789B2D /* Quicksand-Light.ttf */,
+				4E633BFD1F8EC1BA00789B2D /* Quicksand-Regular.ttf */,
 				4EB1F1461F43EACE002669E2 /* LaunchScreen.storyboard */,
 				4EB1F1491F43EACE002669E2 /* Info.plist */,
 			);
@@ -139,7 +148,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EB1F1431F43EACE002669E2 /* Main.storyboard in Resources */,
+				4E633BFE1F8EC1BA00789B2D /* Quicksand-Bold.ttf in Resources */,
 				4EB1F13A1F43EACE002669E2 /* GameScene.sks in Resources */,
+				4E633C001F8EC1BA00789B2D /* Quicksand-Regular.ttf in Resources */,
+				4E633BFF1F8EC1BA00789B2D /* Quicksand-Light.ttf in Resources */,
 				4EB1F1451F43EACE002669E2 /* Assets.xcassets in Resources */,
 				4EB1F1481F43EACE002669E2 /* LaunchScreen.storyboard in Resources */,
 				4EB1F13C1F43EACE002669E2 /* Actions.sks in Resources */,

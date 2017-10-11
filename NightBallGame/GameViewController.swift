@@ -25,12 +25,8 @@ class GameViewController: UIViewController {
             }
         */
         
-        
-        
         let scene = MenuScene(size: view.bounds.size)
         let skView = view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)

@@ -19,7 +19,6 @@ struct PhysicsCategory {
     static let quadrantBlue: UInt32 = 0b100
     static let quadrantYellow: UInt32 = 0b1000
     static let star: UInt32 = 0b1001
-    
 }
     class GameScene: SKScene,SKPhysicsContactDelegate {
     
@@ -30,8 +29,6 @@ struct PhysicsCategory {
         let quadrantGreen = SKSpriteNode(imageNamed: "Quadrant-TL-Green")
         let quadrantBlue = SKSpriteNode(imageNamed: "Quadrant-BR-Blue")
         let quadrantYellow = SKSpriteNode(imageNamed: "Quadrant-BL-Yellow")
-        
-        
         
         // SPAWN STARS =================================================================================================
         
@@ -60,7 +57,7 @@ struct PhysicsCategory {
         
         // Score Counter
         var points = 0
-        var myLabel = SKLabelNode(fontNamed: "Chalkduster")
+        var myLabel = SKLabelNode(fontNamed: "Quicksand-Light")
         
         override func didMove(to view: SKView) {
        
@@ -135,9 +132,9 @@ struct PhysicsCategory {
             
             // Add Score Label
             myLabel.text = "0"
-            myLabel.fontSize = 30
+            myLabel.fontSize = 42
             myLabel.fontColor = SKColor.white
-            myLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+            myLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.18)
             myLabel.zPosition = 1
             addChild(myLabel)
     }
@@ -184,10 +181,10 @@ struct PhysicsCategory {
             var star = SKSpriteNode(imageNamed: "STar-red")
             star.userData = ["color": "red"]
             if (colour < 1) {
-                star = SKSpriteNode(imageNamed: "Star-Green")
+                star = SKSpriteNode(imageNamed: "Star-green")
                 star.userData = ["color": "green"]
             } else if (colour < 2) {
-                star = SKSpriteNode(imageNamed: "Star-Blue")
+                star = SKSpriteNode(imageNamed: "Star-blue")
                 star.userData = ["color": "blue"]
             } else if (colour < 3) {
                 star = SKSpriteNode(imageNamed: "Star-Yellow")
@@ -246,7 +243,6 @@ struct PhysicsCategory {
             let oneRevolution:SKAction = SKAction.rotate(byAngle: rotationAngle, duration: 3)
             let repeatRotation:SKAction = SKAction.repeatForever(oneRevolution)
             star.run(repeatRotation)
-            
         }
         
         // Remove star when it collides with right quadrant
