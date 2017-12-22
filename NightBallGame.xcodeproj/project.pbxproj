@@ -18,6 +18,7 @@
 		4EB1F1431F43EACE002669E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1411F43EACE002669E2 /* Main.storyboard */; };
 		4EB1F1451F43EACE002669E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1441F43EACE002669E2 /* Assets.xcassets */; };
 		4EB1F1481F43EACE002669E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1461F43EACE002669E2 /* LaunchScreen.storyboard */; };
+		F8311A771FED6115003D3DD5 /* Launchscreencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8311A761FED6115003D3DD5 /* Launchscreencode.swift */; };
 		F8C794D11F55037E00FF9B0B /* Gameoverscene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C794D01F55037E00FF9B0B /* Gameoverscene.swift */; };
 		F8F9390B1F57A38000A356BB /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F9390A1F57A38000A356BB /* MenuScene.swift */; };
 /* End PBXBuildFile section */
@@ -36,6 +37,7 @@
 		4EB1F1441F43EACE002669E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4EB1F1471F43EACE002669E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4EB1F1491F43EACE002669E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8311A761FED6115003D3DD5 /* Launchscreencode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Launchscreencode.swift; sourceTree = "<group>"; };
 		F8C794D01F55037E00FF9B0B /* Gameoverscene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gameoverscene.swift; sourceTree = "<group>"; };
 		F8F9390A1F57A38000A356BB /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuScene.swift; path = ../MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,6 +85,7 @@
 				4E633BFC1F8EC1BA00789B2D /* Quicksand-Light.ttf */,
 				4E633BFD1F8EC1BA00789B2D /* Quicksand-Regular.ttf */,
 				4EB1F1461F43EACE002669E2 /* LaunchScreen.storyboard */,
+				F8311A761FED6115003D3DD5 /* Launchscreencode.swift */,
 				4EB1F1491F43EACE002669E2 /* Info.plist */,
 			);
 			path = NightBallGame;
@@ -166,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EB1F13E1F43EACE002669E2 /* GameScene.swift in Sources */,
+				F8311A771FED6115003D3DD5 /* Launchscreencode.swift in Sources */,
 				4EB1F1401F43EACE002669E2 /* GameViewController.swift in Sources */,
 				F8F9390B1F57A38000A356BB /* MenuScene.swift in Sources */,
 				F8C794D11F55037E00FF9B0B /* Gameoverscene.swift in Sources */,
