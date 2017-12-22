@@ -73,14 +73,14 @@ struct PhysicsCategory {
             
             // Add center node
             centerNode.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-            centerNode.scale(to: CGSize(width: 50, height: 50))
+            centerNode.scale(to: CGSize(width: size.width * 0.14, height: size.width * 0.14))
             self.addChild(centerNode)
             
             // Add quadrants
             
             // Add red quadrant to top right
             quadrantRed.position = CGPoint(x: size.width * 0.35, y: size.height * 0.2)
-            quadrantRed.scale(to: CGSize(width: 400, height: 400))
+            quadrantRed.scale(to: CGSize(width: size.width * 0.97, height: size.height * 0.54))
             quadrantRed.zPosition = 1
             centerNode.addChild(quadrantRed)
             
@@ -93,7 +93,7 @@ struct PhysicsCategory {
             
             // Add green quadrant to top left
             quadrantGreen.position = CGPoint(x: size.width * -0.35, y: size.height * 0.2)
-            quadrantGreen.scale(to: CGSize(width: 400, height: 400))
+            quadrantGreen.scale(to: CGSize(width: size.width * 0.97, height: size.height * 0.54))
             quadrantGreen.zPosition = 1
             centerNode.addChild(quadrantGreen)
             
@@ -106,7 +106,7 @@ struct PhysicsCategory {
             
             // Add blue quadrant to bottom right
             quadrantBlue.position = CGPoint(x: size.width * 0.35, y: size.height * -0.2)
-            quadrantBlue.scale(to: CGSize(width: 400, height: 400))
+            quadrantBlue.scale(to: CGSize(width: size.width * 0.97, height: size.height * 0.54))
             quadrantBlue.zPosition = 1
             centerNode.addChild(quadrantBlue)
             
@@ -119,7 +119,7 @@ struct PhysicsCategory {
             
             // Add yellow quadrant to bottom left
             quadrantYellow.position = CGPoint(x: size.width * -0.35, y: size.height * -0.2)
-            quadrantYellow.scale(to: CGSize(width: 400, height: 400))
+            quadrantYellow.scale(to: CGSize(width: size.width * 0.97, height: size.height * 0.54))
             quadrantYellow.zPosition = 1
             centerNode.addChild(quadrantYellow)
             

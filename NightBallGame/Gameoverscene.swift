@@ -29,13 +29,13 @@ class GameOverScene: SKScene {
         
         // Refresh Button
         refresh.position = CGPoint(x: frame.midX, y: frame.midY)
-        refresh.scale(to: CGSize(width: 200, height: 200))
+        refresh.scale(to: CGSize(width: size.width * 0.48, height: size.height * 0.27))
         refresh.name = "refresh"
         self.addChild(refresh)
         
         // Home Button
         home.position = CGPoint(x: size.width * 0.85, y: size.height * 0.07)
-        home.scale(to: CGSize(width: 50, height: 45))
+        home.scale(to: CGSize(width: size.width * 0.12, height: size.height * 0.06))
         home.name = "home"
         self.addChild(home)
         

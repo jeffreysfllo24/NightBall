@@ -29,20 +29,20 @@ class MenuScene: SKScene {
         
         // Insert Title
         title.position = CGPoint(x: size.width * 0.5, y: size.height * 0.85)
-        title.scale(to: CGSize(width: 250, height: 100))
+        title.scale(to: CGSize(width: size.width * 0.6, height: size.height * 0.13))
         title.zPosition = 1
         addChild(title)
  
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
         playButton.position = CGPoint(x: frame.midX, y: frame.midY)
-        playButton.scale(to: CGSize(width: 200, height: 200))
+        playButton.scale(to: CGSize(width: size.width * 0.6, height: size.width * 0.6))
         playButton.zPosition = 4
         self.addChild(playButton)
        
         // Add Sound Icon
         SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-        SoundIcon.scale(to: CGSize(width: 60, height: 45))
+        SoundIcon.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
         SoundIcon.zPosition = 1
         addChild(SoundIcon)
         
