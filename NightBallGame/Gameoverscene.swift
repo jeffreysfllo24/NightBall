@@ -98,7 +98,7 @@ class GameOverScene: SKScene {
             
             if node == home {
                 if let view = view {
-                    let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
+                    let transition:SKTransition = SKTransition.flipHorizontal(withDuration: 0.5)
                     let scene:SKScene = MenuScene(size: self.size)
                     self.view?.presentScene(scene, transition: transition)
                 }

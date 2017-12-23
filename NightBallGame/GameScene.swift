@@ -46,9 +46,9 @@ struct PhysicsCategory {
                 past = currentTime // Take past time so it can be subtracted from the current time
             }
             if starTimer <= 0 { // When timer reaches zero
-                addStar() // Spawn a star
+                addStar(duration: (starInterval + 1)) // Spawn a star
                 starTimer = starInterval // Reset the timer
-                starInterval -= 0.05 // Decrease time between consecutive stars
+                starInterval = max((starInterval - 0.05), TimeInterval(1)) // Decrease time between consecutive stars
             }
         }
 
@@ -172,7 +172,7 @@ struct PhysicsCategory {
         }
         
         // Create star
-        func addStar() {
+        func addStar(duration: TimeInterval) {
             
             // Generate a number to determine which colour of star is created
             let colour = random(min: 0, max: 4)
@@ -192,10 +192,7 @@ struct PhysicsCategory {
             }
             
             // Resize projectile
-            star.scale(to: CGSize(width:80, height: 80))
-            
-            // Set animation speed (time)
-            let duration = CGFloat(3.0)
+            star.scale(to: CGSize(width: size.width * 0.22, height: size.width * 0.22))
             
             // Generate a number to determine which corner the star comes from
             let corner = random(min: 0, max: 4)
@@ -224,7 +221,7 @@ struct PhysicsCategory {
             star.physicsBody?.usesPreciseCollisionDetection = true
             
             //Animate star to move toward centre of screen and remove itself when it reaches the centre
-            let actionMove = SKAction.move(to: CGPoint(x: size.width/2, y: size.height/2), duration: TimeInterval(duration))
+            let actionMove = SKAction.move(to: CGPoint(x: size.width/2, y: size.height/2), duration: duration)
             let actionMoveDone = SKAction.removeFromParent()
             star.run(SKAction.sequence([actionMove, actionMoveDone]))
             
@@ -240,7 +237,7 @@ struct PhysicsCategory {
             }
             
             // Rotate the star continuously
-            let oneRevolution:SKAction = SKAction.rotate(byAngle: rotationAngle, duration: 3)
+            let oneRevolution:SKAction = SKAction.rotate(byAngle: rotationAngle, duration: duration)
             let repeatRotation:SKAction = SKAction.repeatForever(oneRevolution)
             star.run(repeatRotation)
         }
