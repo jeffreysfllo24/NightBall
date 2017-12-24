@@ -7,9 +7,13 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 class MenuScene: SKScene {
-    // PLay button image
+    // Music
+        var AudioPlayer3 = AVAudioPlayer()
+    
+    // Play button image
     var playButton = SKSpriteNode()
     let playButtonTex = SKTexture(imageNamed: "Playbutton")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
@@ -19,6 +23,7 @@ class MenuScene: SKScene {
     let fade2 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
     let fade3 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
     let fade4 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
+    
     
     override func didMove(to view: SKView) {
         // Add Background
@@ -44,7 +49,7 @@ class MenuScene: SKScene {
         SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
         SoundIcon.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
         SoundIcon.zPosition = 1
-        addChild(SoundIcon)
+        self.addChild(SoundIcon)
         
         /*
         // Star Animation In progress
@@ -76,7 +81,7 @@ class MenuScene: SKScene {
         
         
         let waitAction = SKAction.wait(forDuration: 2)
-        let animateList = SKAction.sequence([waitAction, SKAction.fadeIn(withDuration: 2.0),SKAction.fadeOut(withDuration: 2.0)])
+        let animateList = SKAction.sequence([waitAction, SKAction.fadeIn(withDuration: 1.7),SKAction.fadeOut(withDuration: 1.7)])
         
         let repeatFade:SKAction = SKAction.repeatForever(animateList)
 
@@ -90,7 +95,7 @@ class MenuScene: SKScene {
         fade2.zPosition = 1
         
         
-        let animateList2 = SKAction.sequence([SKAction.fadeIn(withDuration: 6.0),SKAction.fadeOut(withDuration: 6.0)])
+        let animateList2 = SKAction.sequence([SKAction.fadeIn(withDuration: 5.7),SKAction.fadeOut(withDuration: 5.7)])
         
         let repeatFade2:SKAction = SKAction.repeatForever(animateList2)
         
@@ -104,31 +109,32 @@ class MenuScene: SKScene {
         fade3.zPosition = 1
         
         let waitAction2 = SKAction.wait(forDuration: 1)
-        let animateList3 = SKAction.sequence([waitAction2,SKAction.fadeIn(withDuration: 3.0),SKAction.fadeOut(withDuration: 3.0)])
+        let animateList3 = SKAction.sequence([waitAction2,SKAction.fadeIn(withDuration: 2.6),SKAction.fadeOut(withDuration: 2.6)])
         
         let repeatFade3:SKAction = SKAction.repeatForever(animateList3)
         
         fade3.run(repeatFade3)
         
         self.addChild(fade3)
-        /*
-        // Fourth Star background
-        fade4.position = CGPoint(x: size.width * 0.7, y: size.height * 0.4)
-        fade4.scale(to: CGSize(width: 200, height: 600))
-        fade4.zPosition = 1
         
-        let waitAction3 = SKAction.wait(forDuration: 4)
-        let animateList4 = SKAction.sequence([waitAction3, SKAction.fadeIn(withDuration: 4.0),SKAction.fadeOut(withDuration: 4.0)])
+        // Add Music
+        let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Hypnothis", ofType: "mp3")!)
+        AudioPlayer3 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+        AudioPlayer3.prepareToPlay()
+        AudioPlayer3.numberOfLoops = -1
+        AudioPlayer3.play()
         
-        let repeatFade4:SKAction = SKAction.repeatForever(animateList4)
-        
-        fade4.run(repeatFade4)
-        
-        self.addChild(fade4)
-        */
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+       
+        // Add Music
+        let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Hypnothis", ofType: "mp3")!)
+        AudioPlayer3 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+        AudioPlayer3.prepareToPlay()
+        AudioPlayer3.numberOfLoops = -1
+        AudioPlayer3.play()
+        
         // If the play button is touched enter game scene
         if let touch = touches.first {
             let pos = touch.location(in: self)
@@ -143,6 +149,17 @@ class MenuScene: SKScene {
                     self.view?.presentScene(scene, transition: transition)
                 }
             }
+            
+            if node == SoundIcon {
+                if AudioPlayer3.isPlaying{
+                    self.AudioPlayer3.volume = 0
+                } else {
+                    self.AudioPlayer3.play ()
+                }
+            }
+ 
         }
-    }
+        
+       
+}
 }

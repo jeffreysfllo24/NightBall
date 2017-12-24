@@ -25,20 +25,26 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menubackground" translatesAutoresizingMaskIntoConstraints="NO" id="Mlg-kn-IFY">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="tDo-45-T7d">
+                                <rect key="frame" x="67" y="35" width="242" height="119"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Launchscreenimage" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y3l-Ge-0YG">
-                                <rect key="frame" x="20" y="171" width="334" height="324"/>
+                                <rect key="frame" x="21" y="-319.5" width="334" height="1413"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Mlg-kn-IFY" secondAttribute="bottom" id="9Zz-ey-qws"/>
-                            <constraint firstItem="Mlg-kn-IFY" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="DO6-bW-b1V"/>
-                            <constraint firstAttribute="trailing" secondItem="Mlg-kn-IFY" secondAttribute="trailing" id="OBN-Di-qqt"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="y3l-Ge-0YG" secondAttribute="bottom" constant="172" id="b2N-J4-nkn"/>
-                            <constraint firstItem="y3l-Ge-0YG" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="151" id="bhO-QW-RQn"/>
-                            <constraint firstItem="y3l-Ge-0YG" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="4" id="cem-SB-p3D"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="y3l-Ge-0YG" secondAttribute="trailing" constant="5" id="di1-SV-8Gf"/>
-                            <constraint firstItem="Mlg-kn-IFY" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="v3O-e1-aso"/>
+                            <constraint firstItem="y3l-Ge-0YG" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="5" id="3lR-W5-sul"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="tDo-45-T7d" secondAttribute="bottom" constant="513" id="BTv-0y-WzF"/>
+                            <constraint firstItem="tDo-45-T7d" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="51" id="EYh-C5-EsA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="y3l-Ge-0YG" secondAttribute="trailing" constant="4" id="IyS-qp-8ET"/>
+                            <constraint firstAttribute="trailing" secondItem="Mlg-kn-IFY" secondAttribute="trailing" id="NKh-pC-ruI"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Mlg-kn-IFY" secondAttribute="bottom" id="Pdg-Y7-qeo"/>
+                            <constraint firstItem="y3l-Ge-0YG" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="53.5" id="W8J-Jh-i9f"/>
+                            <constraint firstItem="Mlg-kn-IFY" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="ZX3-h0-cAl"/>
+                            <constraint firstItem="Mlg-kn-IFY" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="eor-eq-pEs"/>
+                            <constraint firstItem="tDo-45-T7d" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="15" id="nWZ-qg-GjX"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="tDo-45-T7d" secondAttribute="trailing" constant="50" id="uN2-uv-KRb"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -48,6 +54,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="AppLogo" width="1402" height="656"/>
         <image name="Launchscreenimage" width="1472" height="1413"/>
         <image name="menubackground" width="1138" height="2048"/>
     </resources>

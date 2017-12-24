@@ -9,6 +9,7 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 // Set physics constraints
 struct PhysicsCategory {
@@ -21,7 +22,11 @@ struct PhysicsCategory {
     static let star: UInt32 = 0b1001
 }
     class GameScene: SKScene,SKPhysicsContactDelegate {
-    
+        
+        // Music
+        var AudioPlayer1 = AVAudioPlayer()
+        var AudioPlayer2 = AVAudioPlayer()
+        
         // Adding the center node which the nightball will rotate around (essentially acts as an anchor point)
         let centerNode: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball - Circle")
         // Adding the quadrants of the nightball
@@ -60,7 +65,7 @@ struct PhysicsCategory {
         var myLabel = SKLabelNode(fontNamed: "Quicksand-Light")
         
         override func didMove(to view: SKView) {
-       
+            
                 background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
             background.size = self.frame.size;
             background.zPosition = -6
@@ -246,6 +251,14 @@ struct PhysicsCategory {
         func starGoodCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("Hit")
             star.removeFromParent()
+            
+            // Add Music
+            let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
+            AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+            AudioPlayer1.prepareToPlay()
+            AudioPlayer1.numberOfLoops = 1
+            AudioPlayer1.play()
+            
             // Increase Score when succesful collision
             points += 1
             myLabel.text = String(points)
@@ -254,6 +267,13 @@ struct PhysicsCategory {
         // End game when star collides with wrong quadrant
         func starBadCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("End")
+            
+            // Add Music
+            let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
+            AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+            AudioPlayer2.prepareToPlay()
+            AudioPlayer2.numberOfLoops = 1
+            AudioPlayer2.play()
             
             let loseAction = SKAction.run() {
                 let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
