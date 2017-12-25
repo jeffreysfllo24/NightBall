@@ -24,7 +24,7 @@ struct PhysicsCategory {
     class GameScene: SKScene,SKPhysicsContactDelegate {
         
         // Pause Button
-        var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "home")
+        var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "pause")
         
         // Music
         var AudioPlayer1 = AVAudioPlayer()
@@ -158,7 +158,7 @@ struct PhysicsCategory {
             
             // PAUSE BUTTON
             pauseButton.position = CGPoint(x: size.width * 0.85, y: size.height * 0.07)
-            pauseButton.scale(to: CGSize(width: size.width * 0.12, height: size.height * 0.06))
+            pauseButton.scale(to: CGSize(width: size.width * 0.08, height: size.height * 0.05))
             pauseButton.name = "pauseButton"
             self.addChild(pauseButton)
     }
@@ -179,8 +179,10 @@ struct PhysicsCategory {
                     if (self.view?.isPaused)! {
                         starTimer = starInterval
                         self.view?.isPaused = false
+                        AudioPlayer4.play ()
                     } else {
                         self.view?.isPaused = true
+                        AudioPlayer4.pause ()
                     }
                 }
                 else {

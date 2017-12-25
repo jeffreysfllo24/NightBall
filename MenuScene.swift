@@ -9,9 +9,11 @@
 import SpriteKit
 import AVFoundation
 
+
 class MenuScene: SKScene {
     // Music
         var AudioPlayer3 = AVAudioPlayer()
+    
     
     // Play button image
     var playButton = SKSpriteNode()
@@ -124,21 +126,19 @@ class MenuScene: SKScene {
         AudioPlayer3.numberOfLoops = -1
         AudioPlayer3.play()
 
-        
     }
     
     // variable to determine if muted or not
-    var mute = false
+    var mute: Bool = false
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-       
+        
         // Add Music
         let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Hypnothis", ofType: "mp3")!)
         AudioPlayer3 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
         AudioPlayer3.prepareToPlay()
         AudioPlayer3.numberOfLoops = -1
-
-        
+       
         // If the play button is touched enter game scene
         if let touch = touches.first {
             let pos = touch.location(in: self)
@@ -155,12 +155,12 @@ class MenuScene: SKScene {
             }
             
             if node == SoundIcon {
-                if mute {
-                    mute = false
-                    self.AudioPlayer3.play()
+                if mute == false {
+                     mute = true
+                    AudioPlayer3.pause()
                 } else {
-                    mute = true
-                    self.AudioPlayer3.pause()
+                     mute = false
+                    AudioPlayer3.play()
                 }
             }
  

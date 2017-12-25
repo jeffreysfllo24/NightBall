@@ -12,25 +12,22 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import AVFoundation
+import MediaPlayer
 
 class GameViewController: UIViewController {
+    
     // Music
     // var AudioPlayer = AVAudioPlayer()
     
     // Initial setup of game scene
     override func viewDidLoad() {
+        let rect = CGRect(x: 50, y: 50 , width: 1000, height: 1000)
+        let myView = UIView(frame: rect)
         
-        /*
-        // Add Music
-        super.viewDidLoad()
-        let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Hypnothis", ofType: "mp3")!)
-        AudioPlayer = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
-        AudioPlayer.prepareToPlay()
-        AudioPlayer.numberOfLoops = -1
-        AudioPlayer.play()
-        */
- 
-        super.viewDidLoad()
+        myView.backgroundColor = UIColor.white
+        let myVolumeView = MPVolumeView(frame:myView.bounds)
+        myView.addSubview(myVolumeView)
+
         /*
         var highscoreDefault = UserDefaults.standard
         
@@ -45,6 +42,7 @@ class GameViewController: UIViewController {
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
     }
+  
     // Music
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
