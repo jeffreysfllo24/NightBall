@@ -123,8 +123,12 @@ class MenuScene: SKScene {
         AudioPlayer3.prepareToPlay()
         AudioPlayer3.numberOfLoops = -1
         AudioPlayer3.play()
+
         
     }
+    
+    // variable to determine if muted or not
+    var mute = false
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
        
@@ -133,7 +137,7 @@ class MenuScene: SKScene {
         AudioPlayer3 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
         AudioPlayer3.prepareToPlay()
         AudioPlayer3.numberOfLoops = -1
-        AudioPlayer3.play()
+
         
         // If the play button is touched enter game scene
         if let touch = touches.first {
@@ -151,10 +155,12 @@ class MenuScene: SKScene {
             }
             
             if node == SoundIcon {
-                if AudioPlayer3.isPlaying{
-                    self.AudioPlayer3.volume = 0
+                if mute {
+                    mute = false
+                    self.AudioPlayer3.play()
                 } else {
-                    self.AudioPlayer3.play ()
+                    mute = true
+                    self.AudioPlayer3.pause()
                 }
             }
  

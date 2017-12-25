@@ -26,6 +26,7 @@ struct PhysicsCategory {
         // Music
         var AudioPlayer1 = AVAudioPlayer()
         var AudioPlayer2 = AVAudioPlayer()
+        var AudioPlayer4 = AVAudioPlayer()
         
         // Adding the center node which the nightball will rotate around (essentially acts as an anchor point)
         let centerNode: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball - Circle")
@@ -142,6 +143,16 @@ struct PhysicsCategory {
             myLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.18)
             myLabel.zPosition = 1
             addChild(myLabel)
+            
+            // Add Music
+            let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
+            AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+            
+            // Set timestamp in audio to start at
+            AudioPlayer4.currentTime = TimeInterval(2.5)
+            AudioPlayer4.prepareToPlay()
+            AudioPlayer4.numberOfLoops = -1
+            AudioPlayer4.play()
     }
         
         // Label for Points Counter

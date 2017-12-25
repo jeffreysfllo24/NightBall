@@ -18,6 +18,7 @@
 		4EB1F1431F43EACE002669E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1411F43EACE002669E2 /* Main.storyboard */; };
 		4EB1F1451F43EACE002669E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1441F43EACE002669E2 /* Assets.xcassets */; };
 		4EB1F1481F43EACE002669E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1461F43EACE002669E2 /* LaunchScreen.storyboard */; };
+		4EE7DE271FF0AAEF0053A16F /* bluewhale.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4EE7DE261FF0AAEF0053A16F /* bluewhale.mp3 */; };
 		F856D0881FEF00C900681F71 /* Hypnothis.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F856D0871FEF00C900681F71 /* Hypnothis.mp3 */; };
 		F856D08A1FEF1C3200681F71 /* Explosion10.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D0891FEF1C3200681F71 /* Explosion10.wav */; };
 		F856D08C1FEF1C3D00681F71 /* Beep13.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D08B1FEF1C3C00681F71 /* Beep13.wav */; };
@@ -39,6 +40,7 @@
 		4EB1F1441F43EACE002669E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4EB1F1471F43EACE002669E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4EB1F1491F43EACE002669E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4EE7DE261FF0AAEF0053A16F /* bluewhale.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bluewhale.mp3; sourceTree = "<group>"; };
 		F856D0871FEF00C900681F71 /* Hypnothis.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Hypnothis.mp3; sourceTree = "<group>"; };
 		F856D0891FEF1C3200681F71 /* Explosion10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Explosion10.wav; sourceTree = "<group>"; };
 		F856D08B1FEF1C3C00681F71 /* Beep13.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Beep13.wav; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		F856D0861FEEFF8200681F71 /* Music */ = {
 			isa = PBXGroup;
 			children = (
+				4EE7DE261FF0AAEF0053A16F /* bluewhale.mp3 */,
 				F856D0871FEF00C900681F71 /* Hypnothis.mp3 */,
 				F856D0891FEF1C3200681F71 /* Explosion10.wav */,
 				F856D08B1FEF1C3C00681F71 /* Beep13.wav */,
@@ -169,6 +172,7 @@
 				4EB1F13A1F43EACE002669E2 /* GameScene.sks in Resources */,
 				F856D0881FEF00C900681F71 /* Hypnothis.mp3 in Resources */,
 				4E633C001F8EC1BA00789B2D /* Quicksand-Regular.ttf in Resources */,
+				4EE7DE271FF0AAEF0053A16F /* bluewhale.mp3 in Resources */,
 				F856D08A1FEF1C3200681F71 /* Explosion10.wav in Resources */,
 				4E633BFF1F8EC1BA00789B2D /* Quicksand-Light.ttf in Resources */,
 				4EB1F1451F43EACE002669E2 /* Assets.xcassets in Resources */,
