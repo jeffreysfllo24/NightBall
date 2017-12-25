@@ -23,6 +23,9 @@ struct PhysicsCategory {
 }
     class GameScene: SKScene,SKPhysicsContactDelegate {
         
+        // Pause Button
+        var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "home")
+        
         // Music
         var AudioPlayer1 = AVAudioPlayer()
         var AudioPlayer2 = AVAudioPlayer()
@@ -40,7 +43,6 @@ struct PhysicsCategory {
         
         var starTimer = TimeInterval(2)
         var starInterval = TimeInterval(2)
-        var current = TimeInterval(0)
         var past = TimeInterval(0)
         
         override func update(_ currentTime: TimeInterval) {
@@ -153,6 +155,12 @@ struct PhysicsCategory {
             AudioPlayer4.prepareToPlay()
             AudioPlayer4.numberOfLoops = -1
             AudioPlayer4.play()
+            
+            // PAUSE BUTTON
+            pauseButton.position = CGPoint(x: size.width * 0.85, y: size.height * 0.07)
+            pauseButton.scale(to: CGSize(width: size.width * 0.12, height: size.height * 0.06))
+            pauseButton.name = "pauseButton"
+            self.addChild(pauseButton)
     }
         
         // Label for Points Counter
@@ -161,20 +169,39 @@ struct PhysicsCategory {
         
         // Sense the location of the touch of the user and rotate nightball in that direction
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            for touch: AnyObject in touches {
-                //Find Location
-                let location = touch.location(in: self)
-                // Rotate Left
-                if(location.x < self.frame.size.width/2){
-                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 0.25))
-                    centerNode.run(rotateAction)
+            
+            // PAUSE BUTTON
+            if let touch = touches.first {
+                let pos = touch.location(in: self)
+                let node = self.atPoint(pos)
+                
+                if node == pauseButton {
+                    if (self.view?.isPaused)! {
+                        starTimer = starInterval
+                        self.view?.isPaused = false
+                    } else {
+                        self.view?.isPaused = true
+                    }
                 }
-                // Rotate Right
-                else if(location.x > self.frame.size.width/2){
-                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 0.25))
-                    centerNode.run(rotateAction)
+                else {
+                    for touch: AnyObject in touches {
+                        //Find Location
+                        let location = touch.location(in: self)
+                        
+                        // Rotate Left
+                        if(location.x < self.frame.size.width/2){
+                            let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 0.25))
+                            centerNode.run(rotateAction)
+                        }
+                            // Rotate Right
+                        else if(location.x > self.frame.size.width/2){
+                            let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 0.25))
+                            centerNode.run(rotateAction)
+                        }
+                    }
                 }
             }
+
         }
         
         //CREATE STARS ==============================================================================================
