@@ -55,9 +55,13 @@ struct PhysicsCategory {
                 past = currentTime // Take past time so it can be subtracted from the current time
             }
             if starTimer <= 0 { // When timer reaches zero
-                addStar(duration: (starInterval + 1)) // Spawn a star
-                starTimer = starInterval // Reset the timer
-                starInterval = max((starInterval - 0.05), TimeInterval(1)) // Decrease time between consecutive stars
+                if starTimer < -1 { // if paused for an extended period of time, don't insta spawn a star
+                    starTimer = starInterval
+                } else {
+                    addStar(duration: (starInterval + 1)) // Spawn a star
+                    starTimer = starInterval // Reset the timer
+                    starInterval = max((starInterval - 0.05), TimeInterval(1)) // Decrease time between consecutive stars
+                }
             }
         }
 
@@ -68,56 +72,47 @@ struct PhysicsCategory {
         var points = 0
         var myLabel = SKLabelNode(fontNamed: "Quicksand-Light")
         
+        // access global AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
         init(size: CGSize,audio: Bool) {
             super.init(size: size)
             
-           
+            // retrieve ismuted bool from global AppDelegate
+            let  ismuted = appDelegate.ismuted
             
-            var isMuted: Bool = audio
+            // Add Music
+            let AssortedMusics4 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
+            AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics4 as URL)
             
-            if isMuted {
-                // Add Music
-                let AssortedMusics4 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
-                AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics4 as URL)
-                
-                // Set timestamp in audio to start at
-                AudioPlayer4.currentTime = TimeInterval(2.5)
-                AudioPlayer4.prepareToPlay()
-                AudioPlayer4.numberOfLoops = -1
-                
-                let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
-                AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
-                AudioPlayer1.prepareToPlay()
-                AudioPlayer1.numberOfLoops = 1
+            // Set timestamp in audio to start at
+            AudioPlayer4.currentTime = TimeInterval(1.5)
+            AudioPlayer4.prepareToPlay()
+            AudioPlayer4.numberOfLoops = -1
+
+            let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
+            AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+            AudioPlayer1.prepareToPlay()
+            AudioPlayer1.numberOfLoops = 1
+            
+            let AssortedMusics2 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
+            AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics2 as URL)
+            AudioPlayer2.prepareToPlay()
+            AudioPlayer2.numberOfLoops = 1
+            
+            if ismuted! {
+                // turn off music
+
                 AudioPlayer1.volume = 0
-                
-                let AssortedMusics2 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
-                AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics2 as URL)
-                AudioPlayer2.prepareToPlay()
-                AudioPlayer2.numberOfLoops = 1
+
                 AudioPlayer2.volume = 0
             }
             else{
-                // Add Music
-                let AssortedMusics4 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
-                AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics4 as URL)
-                
-                // Set timestamp in audio to start at
-                AudioPlayer4.currentTime = TimeInterval(2.5)
-                AudioPlayer4.prepareToPlay()
-                AudioPlayer4.numberOfLoops = -1
+                //turn on music
                 AudioPlayer4.play()
                 
-                let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
-                AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
-                AudioPlayer1.prepareToPlay()
-                AudioPlayer1.numberOfLoops = 1
                 AudioPlayer1.volume = 1
                 
-                let AssortedMusics2 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
-                AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics2 as URL)
-                AudioPlayer2.prepareToPlay()
-                AudioPlayer2.numberOfLoops = 1
                 AudioPlayer2.volume = 1
             }
         
@@ -230,15 +225,17 @@ struct PhysicsCategory {
                 
                 if node == pauseButton {
                     if (self.view?.isPaused)! {
-                        starTimer = starInterval
                         self.view?.isPaused = false
-                        AudioPlayer4.play ()
+                        let  ismuted = appDelegate.ismuted
+                        if !ismuted! {
+                            AudioPlayer4.play ()
+                        }
                     } else {
                         self.view?.isPaused = true
                         AudioPlayer4.pause ()
                     }
                 }
-                else {
+                else if !(self.view?.isPaused)! {
                     for touch: AnyObject in touches {
                         //Find Location
                         let location = touch.location(in: self)

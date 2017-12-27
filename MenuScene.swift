@@ -54,13 +54,23 @@ class MenuScene: SKScene {
         playButton.zPosition = 4
         self.addChild(playButton)
        
-        // Add Sound Icon
-        SoundIcon = SKSpriteNode(texture: SoundIconTex)
-        SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-        SoundIcon.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
-        SoundIcon.zPosition = 4
-        self.addChild(SoundIcon)
+        let  ismuted = appDelegate.ismuted
         
+        if ismuted! {
+            // Add Muted Icon
+            Soundmute = SKSpriteNode(texture: SoundmuteTex)
+            Soundmute.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+            Soundmute.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
+            Soundmute.zPosition = 4
+            self.addChild(Soundmute)
+        } else {
+            // Add Sound Icon
+            SoundIcon = SKSpriteNode(texture: SoundIconTex)
+            SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+            SoundIcon.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
+            SoundIcon.zPosition = 4
+            self.addChild(SoundIcon)
+        }
         
         // First Star background
         fade.position = CGPoint(x: size.width * 0.5, y: size.height * 0.4)
@@ -110,13 +120,15 @@ class MenuScene: SKScene {
         AudioPlayer3 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
         AudioPlayer3.prepareToPlay()
         AudioPlayer3.numberOfLoops = -1
-        AudioPlayer3.play()
-    
+        
+        if !ismuted! {
+                    AudioPlayer3.play()
+        }
     }
     
-    // variable to determine if muted or not
-   var mute: Bool = false
- 
+    // access global AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     
         // If the play button is touched enter game scene
@@ -145,22 +157,11 @@ class MenuScene: SKScene {
             }
             
             if node == SoundIcon || node == Soundmute {
-                if AudioPlayer3.isPlaying {
-                    
-                    //Remove SoundIcon
-                    SoundIcon.removeFromParent()
-                    
-                    //Add Mute Sound Icon
-                    Soundmute = SKSpriteNode(texture: SoundmuteTex)
-                    Soundmute.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-                    Soundmute.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
-                    Soundmute.zPosition = 4
-                    self.addChild(Soundmute)
-                    
-                    mute = true
-                    AudioPlayer3.pause()
-                    
-                } else {
+                
+                // retrieve ismuted bool from global AppDelegate
+                let  ismuted = appDelegate.ismuted
+                
+                if ismuted! {
                     // Remove Mute Sound Icon
                     Soundmute.removeFromParent()
                     
@@ -171,8 +172,21 @@ class MenuScene: SKScene {
                     SoundIcon.zPosition = 4
                     self.addChild(SoundIcon)
                     
-                    mute = false
+                    appDelegate.ismuted = false
                     AudioPlayer3.play()
+                } else {
+                    //Remove SoundIcon
+                    SoundIcon.removeFromParent()
+                    
+                    //Add Mute Sound Icon
+                    Soundmute = SKSpriteNode(texture: SoundmuteTex)
+                    Soundmute.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+                    Soundmute.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
+                    Soundmute.zPosition = 4
+                    self.addChild(Soundmute)
+                    
+                    appDelegate.ismuted = true
+                    AudioPlayer3.pause()
                 }
             }
  
