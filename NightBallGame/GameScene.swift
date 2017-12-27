@@ -11,6 +11,7 @@ import SpriteKit
 import GameplayKit
 import AVFoundation
 
+
 // Set physics constraints
 struct PhysicsCategory {
     static let None      : UInt32 = 0
@@ -67,9 +68,63 @@ struct PhysicsCategory {
         var points = 0
         var myLabel = SKLabelNode(fontNamed: "Quicksand-Light")
         
-        override func didMove(to view: SKView) {
+        init(size: CGSize,audio: Bool) {
+            super.init(size: size)
             
-                background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+           
+            
+            var isMuted: Bool = audio
+            
+            if isMuted {
+                // Add Music
+                let AssortedMusics4 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
+                AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics4 as URL)
+                
+                // Set timestamp in audio to start at
+                AudioPlayer4.currentTime = TimeInterval(2.5)
+                AudioPlayer4.prepareToPlay()
+                AudioPlayer4.numberOfLoops = -1
+                
+                let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
+                AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+                AudioPlayer1.prepareToPlay()
+                AudioPlayer1.numberOfLoops = 1
+                AudioPlayer1.volume = 0
+                
+                let AssortedMusics2 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
+                AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics2 as URL)
+                AudioPlayer2.prepareToPlay()
+                AudioPlayer2.numberOfLoops = 1
+                AudioPlayer2.volume = 0
+            }
+            else{
+                // Add Music
+                let AssortedMusics4 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
+                AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics4 as URL)
+                
+                // Set timestamp in audio to start at
+                AudioPlayer4.currentTime = TimeInterval(2.5)
+                AudioPlayer4.prepareToPlay()
+                AudioPlayer4.numberOfLoops = -1
+                AudioPlayer4.play()
+                
+                let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
+                AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+                AudioPlayer1.prepareToPlay()
+                AudioPlayer1.numberOfLoops = 1
+                AudioPlayer1.volume = 1
+                
+                let AssortedMusics2 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
+                AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics2 as URL)
+                AudioPlayer2.prepareToPlay()
+                AudioPlayer2.numberOfLoops = 1
+                AudioPlayer2.volume = 1
+            }
+        
+        
+    //    override func didMove(to view: SKView) {
+            
+            background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
             background.size = self.frame.size;
             background.zPosition = -6
             addChild(background)
@@ -146,22 +201,20 @@ struct PhysicsCategory {
             myLabel.zPosition = 1
             addChild(myLabel)
             
-            // Add Music
-            let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
-            AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
             
-            // Set timestamp in audio to start at
-            AudioPlayer4.currentTime = TimeInterval(2.5)
-            AudioPlayer4.prepareToPlay()
-            AudioPlayer4.numberOfLoops = -1
-            AudioPlayer4.play()
             
             // PAUSE BUTTON
-            pauseButton.position = CGPoint(x: size.width * 0.85, y: size.height * 0.07)
+            pauseButton.position = CGPoint(x: size.width * 0.82, y: size.height * 0.07)
             pauseButton.scale(to: CGSize(width: size.width * 0.08, height: size.height * 0.05))
             pauseButton.name = "pauseButton"
             self.addChild(pauseButton)
+            
+            
     }
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+       // }
         
         // Label for Points Counter
         
@@ -293,10 +346,10 @@ struct PhysicsCategory {
             star.removeFromParent()
             
             // Add Music
-            let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
-            AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
-            AudioPlayer1.prepareToPlay()
-            AudioPlayer1.numberOfLoops = 1
+           // let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
+           // AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+           // AudioPlayer1.prepareToPlay()
+           // AudioPlayer1.numberOfLoops = 1
             AudioPlayer1.play()
             
             // Increase Score when succesful collision
@@ -309,10 +362,10 @@ struct PhysicsCategory {
             print("End")
             
             // Add Music
-            let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
-            AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
-            AudioPlayer2.prepareToPlay()
-            AudioPlayer2.numberOfLoops = 1
+           // let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
+           // AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
+           // AudioPlayer2.prepareToPlay()
+            //AudioPlayer2.numberOfLoops = 1
             AudioPlayer2.play()
             
             let loseAction = SKAction.run() {

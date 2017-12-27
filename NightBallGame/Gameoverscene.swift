@@ -17,7 +17,7 @@ class GameOverScene: SKScene {
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
     let home: SKSpriteNode = SKSpriteNode(imageNamed: "home")
     
-    init(size: CGSize, won:Bool, score: Int) {
+    init(size:CGSize, won:Bool, score: Int) {
         
         super.init(size: size)
         
@@ -85,7 +85,7 @@ class GameOverScene: SKScene {
             if node == refresh {
                 if let view = view {
                     let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
-                    let scene:SKScene = GameScene(size: self.size)
+                    let scene:SKScene = GameScene(size: self.size, audio: false)
                     self.view?.presentScene(scene, transition: transition)
                 }
             }

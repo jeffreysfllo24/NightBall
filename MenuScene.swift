@@ -8,18 +8,25 @@
 
 import SpriteKit
 import AVFoundation
-
+import GameplayKit 
 
 class MenuScene: SKScene {
     // Music
-        var AudioPlayer3 = AVAudioPlayer()
+    var AudioPlayer3 = AVAudioPlayer()
     
+    // Music for Gamescene
+    var AudioPlayer1 = AVAudioPlayer()
+    var AudioPlayer2 = AVAudioPlayer()
+    var AudioPlayer4 = AVAudioPlayer()
     
     // Play button image
     var playButton = SKSpriteNode()
     let playButtonTex = SKTexture(imageNamed: "Playbutton")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
-    let SoundIcon: SKSpriteNode = SKSpriteNode(imageNamed: "SoundIcon")
+    var SoundIcon = SKSpriteNode()
+    let SoundIconTex = SKTexture(imageNamed: "SoundIcon")
+    var Soundmute = SKSpriteNode()
+    let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-5")
     let fade :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
     let fade2 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
@@ -48,32 +55,11 @@ class MenuScene: SKScene {
         self.addChild(playButton)
        
         // Add Sound Icon
+        SoundIcon = SKSpriteNode(texture: SoundIconTex)
         SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
         SoundIcon.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
-        SoundIcon.zPosition = 1
+        SoundIcon.zPosition = 4
         self.addChild(SoundIcon)
-        
-        /*
-        // Star Animation In progress
-        let emitterLayer = CAEmitterLayer()
-        
-        emitterLayer.emitterPosition = CGPoint(x: 200, y: 200)
-        
-        let cell = CAEmitterCell()
-        cell.birthRate = 5
-        cell.lifetime = 50
-        cell.velocity = 50
-        cell.scale = 0.1
-        
-        
-        cell.emissionRange = CGFloat.pi * 2.0
-        cell.contents = UIImage(named: "MenuStar")!.cgImage
-        
-        emitterLayer.emitterCells = [cell]
-        
-        view.layer.addSublayer(emitterLayer)
- */
-        
         
         
         // First Star background
@@ -125,20 +111,14 @@ class MenuScene: SKScene {
         AudioPlayer3.prepareToPlay()
         AudioPlayer3.numberOfLoops = -1
         AudioPlayer3.play()
-
+    
     }
     
     // variable to determine if muted or not
-    var mute: Bool = false
-    
+   var mute: Bool = false
+ 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        // Add Music
-        let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Hypnothis", ofType: "mp3")!)
-        AudioPlayer3 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
-        AudioPlayer3.prepareToPlay()
-        AudioPlayer3.numberOfLoops = -1
-       
+    
         // If the play button is touched enter game scene
         if let touch = touches.first {
             let pos = touch.location(in: self)
@@ -146,20 +126,52 @@ class MenuScene: SKScene {
             
             if node == playButton {
                 if let view = view {
-                    let fadeOutAction = SKAction.fadeOut(withDuration: 5)
-                    playButton.run(fadeOutAction)
-                    let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
-                    let scene:SKScene = GameScene(size: self.size)
-                    self.view?.presentScene(scene, transition: transition)
+                    if AudioPlayer3.isPlaying{
+                        let fadeOutAction = SKAction.fadeOut(withDuration: 5)
+                        playButton.run(fadeOutAction)
+                        let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
+                        let scene:SKScene = GameScene(size: self.size,audio: false)
+                        self.view?.presentScene(scene, transition: transition)
+                    }
+                    else{
+                        let fadeOutAction = SKAction.fadeOut(withDuration: 5)
+                        playButton.run(fadeOutAction)
+                        let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
+                        let scene:SKScene = GameScene(size: self.size,audio: true)
+                        self.view?.presentScene(scene, transition: transition)
+                    }
+                    
                 }
             }
             
-            if node == SoundIcon {
-                if mute == false {
-                     mute = true
+            if node == SoundIcon || node == Soundmute {
+                if AudioPlayer3.isPlaying {
+                    
+                    //Remove SoundIcon
+                    SoundIcon.removeFromParent()
+                    
+                    //Add Mute Sound Icon
+                    Soundmute = SKSpriteNode(texture: SoundmuteTex)
+                    Soundmute.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+                    Soundmute.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
+                    Soundmute.zPosition = 4
+                    self.addChild(Soundmute)
+                    
+                    mute = true
                     AudioPlayer3.pause()
+                    
                 } else {
-                     mute = false
+                    // Remove Mute Sound Icon
+                    Soundmute.removeFromParent()
+                    
+                    // Replace Mute Sound Icon with Sound Icon
+                    SoundIcon = SKSpriteNode(texture: SoundIconTex)
+                    SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
+                    SoundIcon.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
+                    SoundIcon.zPosition = 4
+                    self.addChild(SoundIcon)
+                    
+                    mute = false
                     AudioPlayer3.play()
                 }
             }
