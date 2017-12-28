@@ -11,7 +11,6 @@ import SpriteKit
 import GameplayKit
 import AVFoundation
 
-
 // Set physics constraints
 struct PhysicsCategory {
     static let None      : UInt32 = 0
@@ -39,6 +38,10 @@ struct PhysicsCategory {
         let quadrantGreen = SKSpriteNode(imageNamed: "Quadrant-TL-Green")
         let quadrantBlue = SKSpriteNode(imageNamed: "Quadrant-BR-Blue")
         let quadrantYellow = SKSpriteNode(imageNamed: "Quadrant-BL-Yellow")
+        
+        //Dim Node
+        var dimPanel = SKSpriteNode ()
+        let dimPanelTex = SKTexture (imageNamed: "Dim")
         
         // SPAWN STARS =================================================================================================
         
@@ -70,7 +73,7 @@ struct PhysicsCategory {
         
         // Score Counter
         var points = 0
-        var myLabel = SKLabelNode(fontNamed: "Quicksand-Light")
+        var myLabel = SKLabelNode(fontNamed: "ArialRoundedMTBold")
         
         // access global AppDelegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -116,8 +119,6 @@ struct PhysicsCategory {
                 AudioPlayer2.volume = 1
             }
         
-        
-    //    override func didMove(to view: SKView) {
             
             background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
             background.size = self.frame.size;
@@ -196,8 +197,6 @@ struct PhysicsCategory {
             myLabel.zPosition = 1
             addChild(myLabel)
             
-            
-            
             // PAUSE BUTTON
             pauseButton.position = CGPoint(x: size.width * 0.82, y: size.height * 0.07)
             pauseButton.scale(to: CGSize(width: size.width * 0.08, height: size.height * 0.05))
@@ -209,13 +208,14 @@ struct PhysicsCategory {
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-       // }
+    
         
         // Label for Points Counter
         
         // TOUCH INPUT ====================================================================================================
         
         // Sense the location of the touch of the user and rotate nightball in that direction
+        
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             
             // PAUSE BUTTON
@@ -224,14 +224,29 @@ struct PhysicsCategory {
                 let node = self.atPoint(pos)
                 
                 if node == pauseButton {
+                    
+                    
                     if (self.view?.isPaused)! {
                         self.view?.isPaused = false
                         let  ismuted = appDelegate.ismuted
                         if !ismuted! {
                             AudioPlayer4.play ()
                         }
+                        
+                        //Remove DimPanel
+                       // dimPanel.removeFromParent()
                     } else {
+                        /*
+                        //Add DimPanel
+                        dimPanel = SKSpriteNode (texture: dimPanelTex)
+                        dimPanel.alpha = 0.75
+                        dimPanel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+                        dimPanel.size = self.frame.size;
+                        dimPanel.zPosition = 100
+                        self.addChild(dimPanel)
+ */
                         self.view?.isPaused = true
+ 
                         AudioPlayer4.pause ()
                     }
                 }
