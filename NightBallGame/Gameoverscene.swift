@@ -10,8 +10,8 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     let label2 = SKLabelNode(fontNamed: "Quicksand-Light")
-    let label3 = SKLabelNode(fontNamed: "Avenir-Heavy")
-    let label4 = SKLabelNode(fontNamed: "Futura-CondensedMedium")
+    let label3 = SKLabelNode(fontNamed: "Quicksand-Light")
+    let label4 = SKLabelNode(fontNamed: "Quicksand-Light")
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
@@ -41,21 +41,21 @@ class GameOverScene: SKScene {
         
         // Display Score
         label2.text = "Score = " + String(score)
-        label2.fontSize = 28
+        label2.fontSize = 30
         label2.fontColor = SKColor.white
-        label2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.25)
+        label2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.255)
         addChild(label2)
         
         //Display High Score
         label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCORE"))"
-        label3.fontSize = 28
+        label3.fontSize = 30
         label3.fontColor = SKColor.white
         label3.position = CGPoint(x: size.width * 0.5, y: size.height * 0.175)
         addChild(label3)
         
         // Display how to reset game instructions
         label4.text = "Again?"
-        label4.fontSize = 44
+        label4.fontSize = 48
         label4.fontColor = SKColor.white
         label4.position = CGPoint(x: size.width * 0.5, y: size.height * 0.78)
         addChild(label4)

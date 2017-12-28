@@ -24,7 +24,7 @@ struct PhysicsCategory {
     class GameScene: SKScene,SKPhysicsContactDelegate {
         
         // Pause Button
-        var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "pause")
+        // var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "pause")
         
         // Music
         var AudioPlayer1 = AVAudioPlayer()
@@ -40,8 +40,8 @@ struct PhysicsCategory {
         let quadrantYellow = SKSpriteNode(imageNamed: "Quadrant-BL-Yellow")
         
         //Dim Node
-        var dimPanel = SKSpriteNode ()
-        let dimPanelTex = SKTexture (imageNamed: "Dim")
+        // var dimPanel = SKSpriteNode ()
+        // let dimPanelTex = SKTexture (imageNamed: "Dim")
         
         // SPAWN STARS =================================================================================================
         
@@ -58,13 +58,9 @@ struct PhysicsCategory {
                 past = currentTime // Take past time so it can be subtracted from the current time
             }
             if starTimer <= 0 { // When timer reaches zero
-                if starTimer < -1 { // if paused for an extended period of time, don't insta spawn a star
-                    starTimer = starInterval
-                } else {
-                    addStar(duration: (starInterval + 1)) // Spawn a star
-                    starTimer = starInterval // Reset the timer
-                    starInterval = max((starInterval - 0.05), TimeInterval(1)) // Decrease time between consecutive stars
-                }
+                addStar(duration: (starInterval + 1)) // Spawn a star
+                starTimer = starInterval // Reset the timer
+                starInterval = max((starInterval - 0.05), TimeInterval(0.6)) // Decrease time between consecutive stars
             }
         }
 
@@ -73,7 +69,7 @@ struct PhysicsCategory {
         
         // Score Counter
         var points = 0
-        var myLabel = SKLabelNode(fontNamed: "ArialRoundedMTBold")
+        var myLabel = SKLabelNode(fontNamed: "Quicksand-Light")
         
         // access global AppDelegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -191,17 +187,19 @@ struct PhysicsCategory {
             
             // Add Score Label
             myLabel.text = "0"
-            myLabel.fontSize = 42
+            myLabel.fontSize = 48
             myLabel.fontColor = SKColor.white
-            myLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.18)
+            myLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.15)
             myLabel.zPosition = 1
             addChild(myLabel)
             
+            /*
             // PAUSE BUTTON
             pauseButton.position = CGPoint(x: size.width * 0.82, y: size.height * 0.07)
             pauseButton.scale(to: CGSize(width: size.width * 0.08, height: size.height * 0.05))
             pauseButton.name = "pauseButton"
             self.addChild(pauseButton)
+ */
             
             
     }
@@ -218,6 +216,7 @@ struct PhysicsCategory {
         
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             
+            /*
             // PAUSE BUTTON
             if let touch = touches.first {
                 let pos = touch.location(in: self)
@@ -249,8 +248,7 @@ struct PhysicsCategory {
  
                         AudioPlayer4.pause ()
                     }
-                }
-                else if !(self.view?.isPaused)! {
+                } */
                     for touch: AnyObject in touches {
                         //Find Location
                         let location = touch.location(in: self)
@@ -266,8 +264,7 @@ struct PhysicsCategory {
                             centerNode.run(rotateAction)
                         }
                     }
-                }
-            }
+            
 
         }
         
