@@ -59,7 +59,12 @@ struct PhysicsCategory {
             if starTimer <= 0 { // When timer reaches zero
                 addStar(duration: (starInterval + 1)) // Spawn a star
                 starTimer = starInterval // Reset the timer
-                starInterval = max((starInterval - 0.05), TimeInterval(0.8)) // Decrease time between consecutive stars
+                print(starInterval)
+                if starInterval < 1.2 {
+                    starInterval = max((starInterval - 0.03), TimeInterval (0.8))
+                } else {
+                    starInterval = (starInterval - 0.05)// Decrease time between consecutive stars
+                }
             }
         }
 
