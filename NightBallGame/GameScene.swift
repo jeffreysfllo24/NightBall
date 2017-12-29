@@ -50,7 +50,6 @@ struct PhysicsCategory {
         var past = TimeInterval(0)
         
         override func update(_ currentTime: TimeInterval) {
-            
             if (past == 0) {
                 past = currentTime // Take first timestamp
             } else {
@@ -60,7 +59,7 @@ struct PhysicsCategory {
             if starTimer <= 0 { // When timer reaches zero
                 addStar(duration: (starInterval + 1)) // Spawn a star
                 starTimer = starInterval // Reset the timer
-                starInterval = max((starInterval - 0.05), TimeInterval(0.6)) // Decrease time between consecutive stars
+                starInterval = max((starInterval - 0.05), TimeInterval(0.8)) // Decrease time between consecutive stars
             }
         }
 
