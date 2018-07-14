@@ -16,10 +16,15 @@ class GameOverScene: SKScene {
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
     let home: SKSpriteNode = SKSpriteNode(imageNamed: "home")
+    var refreshButtonHeight:CGFloat = 0.27
+    var homeButtonHeight:CGFloat = 0.06
     
     init(size:CGSize, won:Bool, score: Int) {
         
         super.init(size: size)
+        
+        //Resizes Scaling for iPhoneX
+        updateScaling()
         
         // Background
         Menubackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -29,13 +34,13 @@ class GameOverScene: SKScene {
         
         // Refresh Button
         refresh.position = CGPoint(x: frame.midX, y: frame.midY)
-        refresh.scale(to: CGSize(width: size.width * 0.48, height: size.height * 0.27))
+        refresh.scale(to: CGSize(width: size.width * 0.48, height: size.height * refreshButtonHeight))
         refresh.name = "refresh"
         self.addChild(refresh)
         
         // Home Button
         home.position = CGPoint(x: size.width * 0.85, y: size.height * 0.07)
-        home.scale(to: CGSize(width: size.width * 0.12, height: size.height * 0.06))
+        home.scale(to: CGSize(width: size.width * 0.12, height: size.height * homeButtonHeight))
         home.name = "home"
         self.addChild(home)
         
@@ -103,6 +108,13 @@ class GameOverScene: SKScene {
                     self.view?.presentScene(scene, transition: reveal)
                 }
             }
+        }
+    }
+    
+    func updateScaling(){
+        if(UIScreen.main.bounds.height == 812){
+            refreshButtonHeight = 0.22
+            homeButtonHeight = 0.05
         }
     }
 }

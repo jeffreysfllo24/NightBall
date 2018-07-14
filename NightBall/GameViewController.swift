@@ -40,6 +40,7 @@ class GameViewController: UIViewController {
         let skView = view as! SKView
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill
+        scene.scaleMode = UIScreen.main.bounds.height == 812 ? .resizeFill : .aspectFill
         skView.presentScene(scene)
     }
   

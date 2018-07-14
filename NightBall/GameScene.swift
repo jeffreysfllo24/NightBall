@@ -38,6 +38,9 @@ struct PhysicsCategory {
         let quadrantGreen = SKSpriteNode(imageNamed: "Quadrant-TL-Green")
         let quadrantBlue = SKSpriteNode(imageNamed: "Quadrant-BR-Blue")
         let quadrantYellow = SKSpriteNode(imageNamed: "Quadrant-BL-Yellow")
+        var quadrantHeightScaleConstant:CGFloat = 0.54
+        var quadrantHeightPositionConstant:CGFloat = 0.2
+        var quadrantWidthPositionConstant:CGFloat = 0.35
         
         //Dim Node
         // var dimPanel = SKSpriteNode ()
@@ -69,7 +72,7 @@ struct PhysicsCategory {
         }
 
         // Background
-        let background: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
+        var background: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
         
         // Score Counter
         var points = 0
@@ -80,6 +83,9 @@ struct PhysicsCategory {
         
         init(size: CGSize,audio: Bool) {
             super.init(size: size)
+            
+            //Update Scaling for iPhoneX
+            updateScaling()
             
             // retrieve ismuted bool from global AppDelegate
             let  ismuted = appDelegate.ismuted
@@ -138,56 +144,25 @@ struct PhysicsCategory {
             // Add quadrants
             
             // Add red quadrant to top right
-            quadrantRed.position = CGPoint(x: size.width * 0.35, y: size.height * 0.2)
-            quadrantRed.scale(to: CGSize(width: size.width * 0.97, height: size.height * 0.54))
-            quadrantRed.zPosition = 1
-            centerNode.addChild(quadrantRed)
+           createQuadrant(centerNode: centerNode, quadrant: quadrantRed,quadrantHeightPoisition:quadrantHeightPositionConstant,quadrantWidthPoisition:quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
             
-                // Physics for red quadrant
-                quadrantRed.physicsBody = SKPhysicsBody(circleOfRadius: quadrantRed.size.width/100)
-                quadrantRed.physicsBody?.isDynamic = true
-                quadrantRed.physicsBody?.categoryBitMask = PhysicsCategory.quadrantRed
-                quadrantRed.physicsBody?.contactTestBitMask = PhysicsCategory.star
-                quadrantRed.physicsBody?.collisionBitMask = PhysicsCategory.None
+            quadrantRed.physicsBody?.categoryBitMask = PhysicsCategory.quadrantRed
             
             // Add green quadrant to top left
-            quadrantGreen.position = CGPoint(x: size.width * -0.35, y: size.height * 0.2)
-            quadrantGreen.scale(to: CGSize(width: size.width * 0.97, height: size.height * 0.54))
-            quadrantGreen.zPosition = 1
-            centerNode.addChild(quadrantGreen)
+            createQuadrant(centerNode: centerNode, quadrant: quadrantGreen,quadrantHeightPoisition:quadrantHeightPositionConstant,quadrantWidthPoisition:-quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
             
-                // Physics for green quadrant
-                quadrantGreen.physicsBody = SKPhysicsBody(circleOfRadius: quadrantGreen.size.width/100)
-                quadrantGreen.physicsBody?.isDynamic = true
-                quadrantGreen.physicsBody?.categoryBitMask = PhysicsCategory.quadrantGreen
-                quadrantGreen.physicsBody?.contactTestBitMask = PhysicsCategory.star
-                quadrantGreen.physicsBody?.collisionBitMask = PhysicsCategory.None
+            quadrantGreen.physicsBody?.categoryBitMask = PhysicsCategory.quadrantGreen
+            
             
             // Add blue quadrant to bottom right
-            quadrantBlue.position = CGPoint(x: size.width * 0.35, y: size.height * -0.2)
-            quadrantBlue.scale(to: CGSize(width: size.width * 0.97, height: size.height * 0.54))
-            quadrantBlue.zPosition = 1
-            centerNode.addChild(quadrantBlue)
+            createQuadrant(centerNode: centerNode, quadrant: quadrantBlue,quadrantHeightPoisition:-quadrantHeightPositionConstant,quadrantWidthPoisition:quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
             
-            // Physics for blue quadrant
-            quadrantBlue.physicsBody = SKPhysicsBody(circleOfRadius: quadrantBlue.size.width/100)
-            quadrantBlue.physicsBody?.isDynamic = true
             quadrantBlue.physicsBody?.categoryBitMask = PhysicsCategory.quadrantBlue
-            quadrantBlue.physicsBody?.contactTestBitMask = PhysicsCategory.star
-            quadrantBlue.physicsBody?.collisionBitMask = PhysicsCategory.None
             
             // Add yellow quadrant to bottom left
-            quadrantYellow.position = CGPoint(x: size.width * -0.35, y: size.height * -0.2)
-            quadrantYellow.scale(to: CGSize(width: size.width * 0.97, height: size.height * 0.54))
-            quadrantYellow.zPosition = 1
-            centerNode.addChild(quadrantYellow)
+            createQuadrant(centerNode: centerNode, quadrant: quadrantYellow,quadrantHeightPoisition:-quadrantHeightPositionConstant,quadrantWidthPoisition:-quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
             
-                // Physics for yellow quadrant
-                quadrantYellow.physicsBody = SKPhysicsBody(circleOfRadius: quadrantYellow.size.width/100)
-                quadrantYellow.physicsBody?.isDynamic = true
-                quadrantYellow.physicsBody?.categoryBitMask = PhysicsCategory.quadrantYellow
-                quadrantYellow.physicsBody?.contactTestBitMask = PhysicsCategory.star
-                quadrantYellow.physicsBody?.collisionBitMask = PhysicsCategory.None
+            quadrantYellow.physicsBody?.categoryBitMask = PhysicsCategory.quadrantYellow
             
             // Add Score Label
             myLabel.text = "0"
@@ -268,8 +243,6 @@ struct PhysicsCategory {
                             centerNode.run(rotateAction)
                         }
                     }
-            
-
         }
         
         //CREATE STARS ==============================================================================================
@@ -357,12 +330,6 @@ struct PhysicsCategory {
         func starGoodCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("Hit")
             star.removeFromParent()
-            
-            // Add Music
-           // let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
-           // AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
-           // AudioPlayer1.prepareToPlay()
-           // AudioPlayer1.numberOfLoops = 1
             AudioPlayer1.play()
             
             // Increase Score when succesful collision
@@ -373,12 +340,6 @@ struct PhysicsCategory {
         // End game when star collides with wrong quadrant
         func starBadCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
             print("End")
-            
-            // Add Music
-           // let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Explosion10", ofType: "wav")!)
-           // AudioPlayer2 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
-           // AudioPlayer2.prepareToPlay()
-            //AudioPlayer2.numberOfLoops = 1
             AudioPlayer2.play()
             
             let loseAction = SKAction.run() {
@@ -527,5 +488,25 @@ struct PhysicsCategory {
                 }
             }
             
+        }
+        
+        func createQuadrant(centerNode: SKSpriteNode, quadrant: SKSpriteNode,quadrantHeightPoisition:CGFloat,quadrantWidthPoisition:CGFloat,quadrantHeightScale:CGFloat){
+
+            quadrant.position = CGPoint(x: size.width * quadrantWidthPoisition, y: size.height * quadrantHeightPoisition)
+            quadrant.scale(to: CGSize(width: size.width * 0.97, height: size.height * quadrantHeightScale))
+            quadrant.zPosition = 1
+            centerNode.addChild(quadrant)
+            quadrant.physicsBody = SKPhysicsBody(circleOfRadius: quadrant.size.width/100)
+            quadrant.physicsBody?.isDynamic = true
+            quadrant.physicsBody?.contactTestBitMask = PhysicsCategory.star
+            quadrant.physicsBody?.collisionBitMask = PhysicsCategory.None
+        }
+        
+        func updateScaling(){
+            if(UIScreen.main.bounds.height == 812){
+                quadrantHeightScaleConstant = 0.47
+                quadrantHeightPositionConstant = 0.16
+                background = SKSpriteNode(imageNamed: "GameSceneiPhoneX")
+            }
         }
 }

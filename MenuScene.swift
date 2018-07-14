@@ -189,9 +189,6 @@ class MenuScene: SKScene {
                     AudioPlayer3.pause()
                 }
             }
- 
         }
-        
-       
 }
 }
