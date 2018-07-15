@@ -10,8 +10,9 @@
 import SpriteKit
 import GameplayKit
 import AVFoundation
+import Foundation
 
-// Set physics constraints
+// MARK: Physics Constraint Struct
 struct PhysicsCategory {
     static let None      : UInt32 = 0
     static let All       : UInt32 = UInt32.max
@@ -21,16 +22,19 @@ struct PhysicsCategory {
     static let quadrantYellow: UInt32 = 0b1000
     static let star: UInt32 = 0b1001
 }
+
     class GameScene: SKScene,SKPhysicsContactDelegate {
         
+        // MARK: - Properties
         // Pause Button
         // var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "pause")
         
-        // Music
+        // MARK: Music
         var AudioPlayer1 = AVAudioPlayer()
         var AudioPlayer2 = AVAudioPlayer()
         var AudioPlayer4 = AVAudioPlayer()
         
+        // MARK: Nodes
         // Adding the center node which the nightball will rotate around (essentially acts as an anchor point)
         let centerNode: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball - Circle")
         // Adding the quadrants of the nightball
@@ -42,15 +46,16 @@ struct PhysicsCategory {
         var quadrantHeightPositionConstant:CGFloat = 0.2
         var quadrantWidthPositionConstant:CGFloat = 0.35
         
-        //Dim Node
+        // Dim Node
         // var dimPanel = SKSpriteNode ()
         // let dimPanelTex = SKTexture (imageNamed: "Dim")
         
-        // SPAWN STARS =================================================================================================
+        // MARK: - Spawn stars
         
-        var starTimer = TimeInterval(2)
-        var starInterval = TimeInterval(2)
+        var starTimer = TimeInterval(1.8)
+        var starInterval = TimeInterval(1.8)
         var past = TimeInterval(0)
+        var divisionFactor = 1.07
         
         override func update(_ currentTime: TimeInterval) {
             if (past == 0) {
@@ -63,11 +68,16 @@ struct PhysicsCategory {
                 addStar(duration: (starInterval + 1)) // Spawn a star
                 starTimer = starInterval // Reset the timer
                 print(starInterval)
-                if starInterval < 1.2 {
-                    starInterval = max((starInterval - 0.03), TimeInterval (0.8))
-                } else {
-                    starInterval = (starInterval - 0.05)// Decrease time between consecutive stars
+                
+                if starInterval < 0.7 {
+                    divisionFactor = 1.0005
+                } else if starInterval < 0.8 {
+                    divisionFactor = 1.002
+                } else if starInterval < 1 {
+                    divisionFactor = 1.01
                 }
+                
+                starInterval /= divisionFactor
             }
         }
 
@@ -134,7 +144,7 @@ struct PhysicsCategory {
             physicsWorld.gravity = CGVector.zero // No gravity
             physicsWorld.contactDelegate = self // Recognize collisions
            
-            // CREATE AND POSITION NIGHTBALL ===========================================================================
+            // MARK: Create and position NightBall
             
             // Add center node
             centerNode.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -186,11 +196,7 @@ struct PhysicsCategory {
             fatalError("init(coder:) has not been implemented")
         }
     
-        
-        // Label for Points Counter
-        
-        // TOUCH INPUT ====================================================================================================
-        
+        // MARK: Touch Input
         // Sense the location of the touch of the user and rotate nightball in that direction
         
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -212,9 +218,8 @@ struct PhysicsCategory {
                         }
                         
                         //Remove DimPanel
-                       // dimPanel.removeFromParent()
+                        dimPanel.removeFromParent()
                     } else {
-                        /*
                         //Add DimPanel
                         dimPanel = SKSpriteNode (texture: dimPanelTex)
                         dimPanel.alpha = 0.75
@@ -222,7 +227,6 @@ struct PhysicsCategory {
                         dimPanel.size = self.frame.size;
                         dimPanel.zPosition = 100
                         self.addChild(dimPanel)
- */
                         self.view?.isPaused = true
  
                         AudioPlayer4.pause ()
@@ -245,7 +249,7 @@ struct PhysicsCategory {
                     }
         }
         
-        //CREATE STARS ==============================================================================================
+        // MARK: Create Stars
         
         // Generate random numbers
         func random() -> CGFloat {
@@ -293,7 +297,7 @@ struct PhysicsCategory {
             
             addChild(star) // Add star to scene
             
-            //Physics for star
+            // Physics for star
             star.physicsBody = SKPhysicsBody(circleOfRadius: star.size.width/2)
             star.physicsBody?.isDynamic = true
             star.physicsBody?.categoryBitMask = PhysicsCategory.star
@@ -304,12 +308,12 @@ struct PhysicsCategory {
             star.physicsBody?.collisionBitMask = PhysicsCategory.None
             star.physicsBody?.usesPreciseCollisionDetection = true
             
-            //Animate star to move toward centre of screen and remove itself when it reaches the centre
+            // Animate star to move toward centre of screen and remove itself when it reaches the centre
             let actionMove = SKAction.move(to: CGPoint(x: size.width/2, y: size.height/2), duration: duration)
             let actionMoveDone = SKAction.removeFromParent()
             star.run(SKAction.sequence([actionMove, actionMoveDone]))
             
-            // ROTATE THE STAR
+            // MARK: Rotate the Star
             
             // Randomize rotation direction
             let direction = random(min: 0, max: 2)
@@ -364,7 +368,7 @@ struct PhysicsCategory {
             
             let star = secondBody.node as? SKSpriteNode
             
-            // RED STAR COLLISIONS ================================================================================
+            // MARK: Red star collisions
             
             // If red star contacts red quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
@@ -395,7 +399,7 @@ struct PhysicsCategory {
                 }
             }
             
-            // GREEN STAR COLLISIONS ================================================================================
+            // MARK: Green star collisions
             
             // If green star contacts green quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
@@ -426,7 +430,7 @@ struct PhysicsCategory {
                 }
             }
             
-            // BLUE STAR COLLISIONS ================================================================================
+            // MARK: Blue star collisions
             
             // If blue star contacts blue quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
@@ -457,7 +461,7 @@ struct PhysicsCategory {
                 }
             }
             
-            // YELLOW STAR COLLISIONS ================================================================================
+            // MARK: Yellow star collisions
             
             // If yellow star contacts yellow quadrant, good collision
             if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
@@ -490,7 +494,7 @@ struct PhysicsCategory {
             
         }
         
-        func createQuadrant(centerNode: SKSpriteNode, quadrant: SKSpriteNode,quadrantHeightPoisition:CGFloat,quadrantWidthPoisition:CGFloat,quadrantHeightScale:CGFloat){
+        func createQuadrant(centerNode: SKSpriteNode, quadrant: SKSpriteNode,quadrantHeightPoisition:CGFloat,quadrantWidthPoisition:CGFloat,quadrantHeightScale:CGFloat) {
 
             quadrant.position = CGPoint(x: size.width * quadrantWidthPoisition, y: size.height * quadrantHeightPoisition)
             quadrant.scale(to: CGSize(width: size.width * 0.97, height: size.height * quadrantHeightScale))
@@ -502,7 +506,7 @@ struct PhysicsCategory {
             quadrant.physicsBody?.collisionBitMask = PhysicsCategory.None
         }
         
-        func updateScaling(){
+        func updateScaling() {
             if(UIScreen.main.bounds.height == 812){
                 quadrantHeightScaleConstant = 0.47
                 quadrantHeightPositionConstant = 0.16
