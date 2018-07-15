@@ -7,8 +7,14 @@
 //
 import Foundation
 import SpriteKit
+import UIKit
+import GameKit
 
-class GameOverScene: SKScene {
+class GameOverScene: SKScene, GKGameCenterControllerDelegate {
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
+    }
+    
     let label2 = SKLabelNode(fontNamed: "Quicksand-Light")
     let label3 = SKLabelNode(fontNamed: "Quicksand-Light")
     let label4 = SKLabelNode(fontNamed: "Quicksand-Light")
@@ -69,6 +75,21 @@ class GameOverScene: SKScene {
         func saveHighScore(){
             UserDefaults.standard.set(score, forKey: "HIGHSCORE")
             label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCORE"))"
+            
+            if GKLocalPlayer.localPlayer().isAuthenticated{
+                print("\n Success! Sending highscore of \(score) to leaderboard")
+                let my_leaderboard_id = "com.score.nightball"
+                let scoreReporter = GKScore(leaderboardIdentifier: my_leaderboard_id)
+                scoreReporter.value = Int64(score)
+                let scoreArray: [GKScore] = [scoreReporter]
+                
+                GKScore.report(scoreArray, withCompletionHandler: {error -> Void in
+                    if error != nil {
+                        print("An error has occured:")
+                        print("\n \(String(describing: error)) \n")
+                    }
+                })
+            }
         }
         if score > UserDefaults().integer(forKey: "HIGHSCORE"){
             saveHighScore()
@@ -88,7 +109,7 @@ class GameOverScene: SKScene {
             let node = self.atPoint(pos)
             
             if node == refresh {
-                if let view = view {
+                if view != nil {
                     let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
                     let scene:SKScene = GameScene(size: self.size, audio: false)
                     self.view?.presentScene(scene, transition: transition)
@@ -102,13 +123,20 @@ class GameOverScene: SKScene {
             let node = self.atPoint(pos)
             
             if node == home {
-                if let view = view {
+                if view != nil {
                     let reveal:SKTransition = SKTransition.flipHorizontal(withDuration: 0.5)
                     let scene:SKScene = MenuScene(size: self.size)
                     self.view?.presentScene(scene, transition: reveal)
                 }
             }
         }
+    }
+    
+    func showLeader() {
+        let viewControllerVar = self.view?.window?.rootViewController
+        let gKGCViewController = GKGameCenterViewController()
+        gKGCViewController.gameCenterDelegate = self
+        viewControllerVar?.present(gKGCViewController, animated: true, completion: nil)
     }
     
     func updateScaling(){

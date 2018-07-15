@@ -11,6 +11,7 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GameKit
 import AVFoundation
 import MediaPlayer
 
@@ -21,6 +22,10 @@ class GameViewController: UIViewController {
     
     // Initial setup of game scene
     override func viewDidLoad() {
+        
+        // Call the GC authentication controller
+        authenticateLocalPlayer()
+        
         let rect = CGRect(x: 50, y: 50 , width: 1000, height: 1000)
         let myView = UIView(frame: rect)
         
@@ -52,5 +57,17 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+    // MARK: - AUTHENTICATE LOCAL PLAYER
+    func authenticateLocalPlayer() {
+        let localPlayer = GKLocalPlayer.localPlayer()
+        localPlayer.authenticateHandler = {(viewController, error) -> Void in
+            
+            if (viewController != nil) {
+                self.present(viewController!, animated: true, completion: nil)
+            }
+            else {
+                print((GKLocalPlayer.localPlayer().isAuthenticated))
+            }
+        }
+    }
 }

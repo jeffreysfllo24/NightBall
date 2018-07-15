@@ -23,6 +23,7 @@
 		F856D08A1FEF1C3200681F71 /* Explosion10.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D0891FEF1C3200681F71 /* Explosion10.wav */; };
 		F856D08C1FEF1C3D00681F71 /* Beep13.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D08B1FEF1C3C00681F71 /* Beep13.wav */; };
 		F8C794D11F55037E00FF9B0B /* Gameoverscene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C794D01F55037E00FF9B0B /* Gameoverscene.swift */; };
+		F8E42C0520FAA6B100690259 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E42C0420FAA6B100690259 /* GameKit.framework */; };
 		F8F9390B1F57A38000A356BB /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F9390A1F57A38000A356BB /* MenuScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,8 @@
 		F856D0891FEF1C3200681F71 /* Explosion10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Explosion10.wav; sourceTree = "<group>"; };
 		F856D08B1FEF1C3C00681F71 /* Beep13.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Beep13.wav; sourceTree = "<group>"; };
 		F8C794D01F55037E00FF9B0B /* Gameoverscene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gameoverscene.swift; sourceTree = "<group>"; };
+		F8E42C0320FAA64B00690259 /* NightBallGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NightBallGame.entitlements; sourceTree = "<group>"; };
+		F8E42C0420FAA6B100690259 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		F8F9390A1F57A38000A356BB /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuScene.swift; path = ../MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8E42C0520FAA6B100690259 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,8 +66,10 @@
 		4EB1F12B1F43EACE002669E2 = {
 			isa = PBXGroup;
 			children = (
+				F8E42C0320FAA64B00690259 /* NightBallGame.entitlements */,
 				4EB1F1361F43EACE002669E2 /* NightBall */,
 				4EB1F1351F43EACE002669E2 /* Products */,
+				F8E42C0020FAA5F900690259 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -108,6 +114,14 @@
 			path = Music;
 			sourceTree = "<group>";
 		};
+		F8E42C0020FAA5F900690259 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8E42C0420FAA6B100690259 /* GameKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -142,6 +156,23 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = R6BGCQQ764;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+							com.apple.Siri = {
+								enabled = 0;
+							};
+							com.apple.Wallet = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};

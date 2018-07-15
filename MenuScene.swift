@@ -27,49 +27,47 @@ class MenuScene: SKScene {
     let SoundIconTex = SKTexture(imageNamed: "SoundIcon")
     var Soundmute = SKSpriteNode()
     let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
+    let Leaderboard:SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-5")
     let fade :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
     let fade2 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
     let fade3 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
     let fade4 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
     
-    
     override func didMove(to view: SKView) {
+        var soundIconHeightScale:CGFloat = size.height * 0.06
+        var leaderboardIconHeightScale:CGFloat = size.height * 0.07
+        if(UIScreen.main.bounds.height == 812){
+            soundIconHeightScale = size.height * 0.047
+            leaderboardIconHeightScale = size.height * 0.063
+        }
+        
         // Add Background
         Menubackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         Menubackground.size = self.frame.size;
         Menubackground.zPosition = -6
-        addChild(Menubackground)
+        self.addChild(Menubackground)
         
         // Insert Title
-        title.position = CGPoint(x: size.width * 0.5, y: size.height * 0.85)
-        title.scale(to: CGSize(width: size.width * 0.6, height: size.height * 0.13))
-        title.zPosition = 1
-        addChild(title)
- 
+        insertSKSpriteNode(object: title, positionWidth: size.width * 0.5, positionHeight: size.height * 0.85,scaleWidth:size.width * 0.6,scaleHeight: size.height * 0.13, zPosition: 1)
+
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
-        playButton.position = CGPoint(x: frame.midX, y: frame.midY)
-        playButton.scale(to: CGSize(width: size.width * 0.6, height: size.width * 0.6))
-        playButton.zPosition = 4
-        self.addChild(playButton)
+        insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY,scaleWidth:size.width * 0.6,scaleHeight: size.width * 0.6, zPosition: 4)
+        
+        // Insert Leaderboard button
+        insertSKSpriteNode(object: Leaderboard, positionWidth:size.width * 0.65, positionHeight:size.height * 0.162,scaleWidth:size.width * 0.13,scaleHeight: leaderboardIconHeightScale, zPosition: 4)
        
         let  ismuted = appDelegate.ismuted
         
         if ismuted! {
             // Add Muted Icon
             Soundmute = SKSpriteNode(texture: SoundmuteTex)
-            Soundmute.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-            Soundmute.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
-            Soundmute.zPosition = 4
-            self.addChild(Soundmute)
+            insertSKSpriteNode(object: Soundmute, positionWidth:size.width * 0.35, positionHeight: size.height * 0.15,scaleWidth: size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
         } else {
             // Add Sound Icon
             SoundIcon = SKSpriteNode(texture: SoundIconTex)
-            SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-            SoundIcon.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
-            SoundIcon.zPosition = 4
-            self.addChild(SoundIcon)
+            insertSKSpriteNode(object: SoundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
         }
         
         // First Star background
@@ -130,14 +128,17 @@ class MenuScene: SKScene {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    
+        var soundIconHeightScale:CGFloat = size.height * 0.06
+        if(UIScreen.main.bounds.height == 812){
+            soundIconHeightScale = size.height * 0.047
+        }
         // If the play button is touched enter game scene
         if let touch = touches.first {
             let pos = touch.location(in: self)
             let node = self.atPoint(pos)
             
             if node == playButton {
-                if let view = view {
+                if view != nil {
                     if AudioPlayer3.isPlaying{
                         let fadeOutAction = SKAction.fadeOut(withDuration: 5)
                         playButton.run(fadeOutAction)
@@ -152,43 +153,36 @@ class MenuScene: SKScene {
                         let scene:SKScene = GameScene(size: self.size,audio: true)
                         self.view?.presentScene(scene, transition: transition)
                     }
-                    
                 }
             }
-            
             if node == SoundIcon || node == Soundmute {
-                
                 // retrieve ismuted bool from global AppDelegate
                 let  ismuted = appDelegate.ismuted
-                
                 if ismuted! {
                     // Remove Mute Sound Icon
                     Soundmute.removeFromParent()
-                    
                     // Replace Mute Sound Icon with Sound Icon
                     SoundIcon = SKSpriteNode(texture: SoundIconTex)
-                    SoundIcon.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-                    SoundIcon.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
-                    SoundIcon.zPosition = 4
-                    self.addChild(SoundIcon)
-                    
+                    insertSKSpriteNode(object: SoundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = false
                     AudioPlayer3.play()
                 } else {
                     //Remove SoundIcon
                     SoundIcon.removeFromParent()
-                    
                     //Add Mute Sound Icon
                     Soundmute = SKSpriteNode(texture: SoundmuteTex)
-                    Soundmute.position = CGPoint(x: size.width * 0.5, y: size.height * 0.2)
-                    Soundmute.scale(to: CGSize(width: size.width * 0.15, height: size.height * 0.06))
-                    Soundmute.zPosition = 4
-                    self.addChild(Soundmute)
-                    
+                    insertSKSpriteNode(object: Soundmute, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = true
                     AudioPlayer3.pause()
                 }
             }
         }
-}
+    }
+    
+    func insertSKSpriteNode(object: SKSpriteNode, positionWidth: CGFloat, positionHeight: CGFloat,scaleWidth: CGFloat,scaleHeight: CGFloat, zPosition: CGFloat){
+        object.position = CGPoint(x:positionWidth, y: positionHeight)
+        object.scale(to: CGSize(width:scaleWidth, height:scaleHeight))
+        object.zPosition = zPosition
+        self.addChild(object)
+    }
 }
