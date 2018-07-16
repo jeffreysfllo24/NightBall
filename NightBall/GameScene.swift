@@ -121,17 +121,13 @@ struct PhysicsCategory {
             
             if ismuted! {
                 // turn off music
-
                 AudioPlayer1.volume = 0
-
                 AudioPlayer2.volume = 0
             }
             else{
                 //turn on music
                 AudioPlayer4.play()
-                
                 AudioPlayer1.volume = 1
-                
                 AudioPlayer2.volume = 1
             }
         

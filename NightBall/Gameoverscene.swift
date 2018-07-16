@@ -22,6 +22,8 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
     let home: SKSpriteNode = SKSpriteNode(imageNamed: "home")
+    let Leaderboard:SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
+    let Share:SKSpriteNode = SKSpriteNode(imageNamed:"Share")
     var refreshButtonHeight:CGFloat = 0.27
     var homeButtonHeight:CGFloat = 0.06
     
@@ -32,6 +34,13 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         //Resizes Scaling for iPhoneX
         updateScaling()
         
+        var leaderboardIconHeightScale:CGFloat = size.height * 0.06
+        var shareIconHeightScale:CGFloat = size.height * 0.065
+        if(UIScreen.main.bounds.height == 812){
+            leaderboardIconHeightScale = size.height * 0.053
+            shareIconHeightScale = size.height * 0.053
+        }
+
         // Background
         Menubackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         Menubackground.size = self.frame.size;
@@ -45,21 +54,31 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         self.addChild(refresh)
         
         // Home Button
-        home.position = CGPoint(x: size.width * 0.85, y: size.height * 0.07)
+        home.position = CGPoint(x: size.width * 0.8, y: size.height * 0.07)
         home.scale(to: CGSize(width: size.width * 0.12, height: size.height * homeButtonHeight))
         home.name = "home"
         self.addChild(home)
         
+        //Leaderboard
+        Leaderboard.position = CGPoint(x: size.width * 0.5, y: size.height * 0.072)
+        Leaderboard.scale(to: CGSize(width: size.width * 0.11, height: leaderboardIconHeightScale))
+        self.addChild(Leaderboard)
+        
+        //Share
+        Share.position = CGPoint(x: size.width * 0.2, y: size.height * 0.073)
+        Share.scale(to: CGSize(width: size.width * 0.08, height: shareIconHeightScale))
+        self.addChild(Share)
+        
         // Display Score
         label2.text = "Score = " + String(score)
-        label2.fontSize = 30
+        label2.fontSize = 27
         label2.fontColor = SKColor.white
         label2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.255)
         addChild(label2)
         
         //Display High Score
         label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCORE"))"
-        label3.fontSize = 30
+        label3.fontSize = 27
         label3.fontColor = SKColor.white
         label3.position = CGPoint(x: size.width * 0.5, y: size.height * 0.175)
         addChild(label3)
@@ -115,13 +134,8 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
                     self.view?.presentScene(scene, transition: transition)
                 }
             }
-        }
-        // Return to menu upon tap on home button
-        // If the play button is touched enter game scene
-        if let touch = touches.first {
-            let pos = touch.location(in: self)
-            let node = self.atPoint(pos)
-            
+            // Return to menu upon tap on home button
+            // If the play button is touched enter game scene
             if node == home {
                 if view != nil {
                     let reveal:SKTransition = SKTransition.flipHorizontal(withDuration: 0.5)

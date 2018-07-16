@@ -8,9 +8,14 @@
 
 import SpriteKit
 import AVFoundation
-import GameplayKit 
+import GameplayKit
+import GameKit
 
-class MenuScene: SKScene {
+class MenuScene: SKScene,GKGameCenterControllerDelegate {
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
+    }
+    
     // Music
     var AudioPlayer3 = AVAudioPlayer()
     
@@ -176,6 +181,9 @@ class MenuScene: SKScene {
                     AudioPlayer3.pause()
                 }
             }
+            if node == Leaderboard{
+                showLeader()
+            }
         }
     }
     
@@ -184,5 +192,11 @@ class MenuScene: SKScene {
         object.scale(to: CGSize(width:scaleWidth, height:scaleHeight))
         object.zPosition = zPosition
         self.addChild(object)
+    }
+    func showLeader() {
+        let viewControllerVar = self.view?.window?.rootViewController
+        let gKGCViewController = GKGameCenterViewController()
+        gKGCViewController.gameCenterDelegate = self
+        viewControllerVar?.present(gKGCViewController, animated: true, completion: nil)
     }
 }
