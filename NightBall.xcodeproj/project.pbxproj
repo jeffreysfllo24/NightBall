@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E48F03F20FD795F00B9520E /* MidnightGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E48F03E20FD795F00B9520E /* MidnightGameScene.swift */; };
 		4E633BFE1F8EC1BA00789B2D /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFB1F8EC1BA00789B2D /* Quicksand-Bold.ttf */; };
 		4E633BFF1F8EC1BA00789B2D /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFC1F8EC1BA00789B2D /* Quicksand-Light.ttf */; };
 		4E633C001F8EC1BA00789B2D /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFD1F8EC1BA00789B2D /* Quicksand-Regular.ttf */; };
@@ -22,12 +23,13 @@
 		F856D0881FEF00C900681F71 /* Hypnothis.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F856D0871FEF00C900681F71 /* Hypnothis.mp3 */; };
 		F856D08A1FEF1C3200681F71 /* Explosion10.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D0891FEF1C3200681F71 /* Explosion10.wav */; };
 		F856D08C1FEF1C3D00681F71 /* Beep13.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D08B1FEF1C3C00681F71 /* Beep13.wav */; };
-		F8C794D11F55037E00FF9B0B /* Gameoverscene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C794D01F55037E00FF9B0B /* Gameoverscene.swift */; };
+		F8C794D11F55037E00FF9B0B /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C794D01F55037E00FF9B0B /* GameOverScene.swift */; };
 		F8E42C0520FAA6B100690259 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E42C0420FAA6B100690259 /* GameKit.framework */; };
 		F8F9390B1F57A38000A356BB /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F9390A1F57A38000A356BB /* MenuScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E48F03E20FD795F00B9520E /* MidnightGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidnightGameScene.swift; sourceTree = "<group>"; };
 		4E633BFB1F8EC1BA00789B2D /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		4E633BFC1F8EC1BA00789B2D /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
 		4E633BFD1F8EC1BA00789B2D /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
@@ -45,7 +47,7 @@
 		F856D0871FEF00C900681F71 /* Hypnothis.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Hypnothis.mp3; sourceTree = "<group>"; };
 		F856D0891FEF1C3200681F71 /* Explosion10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Explosion10.wav; sourceTree = "<group>"; };
 		F856D08B1FEF1C3C00681F71 /* Beep13.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Beep13.wav; sourceTree = "<group>"; };
-		F8C794D01F55037E00FF9B0B /* Gameoverscene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gameoverscene.swift; sourceTree = "<group>"; };
+		F8C794D01F55037E00FF9B0B /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		F8E42C0320FAA64B00690259 /* NightBallGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NightBallGame.entitlements; sourceTree = "<group>"; };
 		F8E42C0420FAA6B100690259 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		F8F9390A1F57A38000A356BB /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuScene.swift; path = ../MenuScene.swift; sourceTree = "<group>"; };
@@ -88,8 +90,9 @@
 				4EB1F1391F43EACE002669E2 /* GameScene.sks */,
 				4EB1F13B1F43EACE002669E2 /* Actions.sks */,
 				4EB1F13D1F43EACE002669E2 /* GameScene.swift */,
+				4E48F03E20FD795F00B9520E /* MidnightGameScene.swift */,
 				F8F9390A1F57A38000A356BB /* MenuScene.swift */,
-				F8C794D01F55037E00FF9B0B /* Gameoverscene.swift */,
+				F8C794D01F55037E00FF9B0B /* GameOverScene.swift */,
 				4EB1F13F1F43EACE002669E2 /* GameViewController.swift */,
 				4EB1F1411F43EACE002669E2 /* Main.storyboard */,
 				4EB1F1441F43EACE002669E2 /* Assets.xcassets */,
@@ -154,7 +157,7 @@
 				TargetAttributes = {
 					4EB1F1331F43EACE002669E2 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = R6BGCQQ764;
+						DevelopmentTeam = MB4R2QM3L6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -223,8 +226,9 @@
 			files = (
 				4EB1F13E1F43EACE002669E2 /* GameScene.swift in Sources */,
 				4EB1F1401F43EACE002669E2 /* GameViewController.swift in Sources */,
+				4E48F03F20FD795F00B9520E /* MidnightGameScene.swift in Sources */,
 				F8F9390B1F57A38000A356BB /* MenuScene.swift in Sources */,
-				F8C794D11F55037E00FF9B0B /* Gameoverscene.swift in Sources */,
+				F8C794D11F55037E00FF9B0B /* GameOverScene.swift in Sources */,
 				4EB1F1381F43EACE002669E2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,10 +354,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R6BGCQQ764;
+				DEVELOPMENT_TEAM = MB4R2QM3L6;
 				INFOPLIST_FILE = "$(SRCROOT)/NightBall/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall;
+				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -366,10 +370,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = R6BGCQQ764;
+				DEVELOPMENT_TEAM = MB4R2QM3L6;
 				INFOPLIST_FILE = "$(SRCROOT)/NightBall/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall;
+				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;

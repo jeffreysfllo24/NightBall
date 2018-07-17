@@ -6,7 +6,6 @@
 //  Copyright © 2017 Keener Studio. All rights reserved.
 //
 
-
 import SpriteKit
 import GameplayKit
 import AVFoundation
@@ -25,10 +24,6 @@ struct PhysicsCategory {
 
     class GameScene: SKScene,SKPhysicsContactDelegate {
         
-        // MARK: - Properties
-        // Pause Button
-        // var pauseButton: SKSpriteNode = SKSpriteNode(imageNamed: "pause")
-        
         // MARK: Music
         var AudioPlayer1 = AVAudioPlayer()
         var AudioPlayer2 = AVAudioPlayer()
@@ -45,10 +40,6 @@ struct PhysicsCategory {
         var quadrantHeightScaleConstant:CGFloat = 0.54
         var quadrantHeightPositionConstant:CGFloat = 0.2
         var quadrantWidthPositionConstant:CGFloat = 0.35
-        
-        // Dim Node
-        // var dimPanel = SKSpriteNode ()
-        // let dimPanelTex = SKTexture (imageNamed: "Dim")
         
         // MARK: - Spawn stars
         
@@ -151,23 +142,19 @@ struct PhysicsCategory {
             
             // Add red quadrant to top right
            createQuadrant(centerNode: centerNode, quadrant: quadrantRed,quadrantHeightPoisition:quadrantHeightPositionConstant,quadrantWidthPoisition:quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
-            
             quadrantRed.physicsBody?.categoryBitMask = PhysicsCategory.quadrantRed
             
             // Add green quadrant to top left
             createQuadrant(centerNode: centerNode, quadrant: quadrantGreen,quadrantHeightPoisition:quadrantHeightPositionConstant,quadrantWidthPoisition:-quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
-            
             quadrantGreen.physicsBody?.categoryBitMask = PhysicsCategory.quadrantGreen
             
             
             // Add blue quadrant to bottom right
             createQuadrant(centerNode: centerNode, quadrant: quadrantBlue,quadrantHeightPoisition:-quadrantHeightPositionConstant,quadrantWidthPoisition:quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
-            
             quadrantBlue.physicsBody?.categoryBitMask = PhysicsCategory.quadrantBlue
             
             // Add yellow quadrant to bottom left
             createQuadrant(centerNode: centerNode, quadrant: quadrantYellow,quadrantHeightPoisition:-quadrantHeightPositionConstant,quadrantWidthPoisition:-quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
-            
             quadrantYellow.physicsBody?.categoryBitMask = PhysicsCategory.quadrantYellow
             
             // Add Score Label
@@ -178,13 +165,6 @@ struct PhysicsCategory {
             myLabel.zPosition = 1
             addChild(myLabel)
             
-            /*
-            // PAUSE BUTTON
-            pauseButton.position = CGPoint(x: size.width * 0.82, y: size.height * 0.07)
-            pauseButton.scale(to: CGSize(width: size.width * 0.08, height: size.height * 0.05))
-            pauseButton.name = "pauseButton"
-            self.addChild(pauseButton)
- */
             
             
     }
@@ -196,53 +176,20 @@ struct PhysicsCategory {
         // Sense the location of the touch of the user and rotate nightball in that direction
         
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            
-            /*
-            // PAUSE BUTTON
-            if let touch = touches.first {
-                let pos = touch.location(in: self)
-                let node = self.atPoint(pos)
-                
-                if node == pauseButton {
-                    
-                    
-                    if (self.view?.isPaused)! {
-                        self.view?.isPaused = false
-                        let  ismuted = appDelegate.ismuted
-                        if !ismuted! {
-                            AudioPlayer4.play ()
-                        }
+            for touch: AnyObject in touches {
+                let location = touch.location(in: self)
                         
-                        //Remove DimPanel
-                        dimPanel.removeFromParent()
-                    } else {
-                        //Add DimPanel
-                        dimPanel = SKSpriteNode (texture: dimPanelTex)
-                        dimPanel.alpha = 0.75
-                        dimPanel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-                        dimPanel.size = self.frame.size;
-                        dimPanel.zPosition = 100
-                        self.addChild(dimPanel)
-                        self.view?.isPaused = true
- 
-                        AudioPlayer4.pause ()
-                    }
-                } */
-                    for touch: AnyObject in touches {
-                        //Find Location
-                        let location = touch.location(in: self)
-                        
-                        // Rotate Left
-                        if(location.x < self.frame.size.width/2){
-                            let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 0.25))
-                            centerNode.run(rotateAction)
-                        }
-                            // Rotate Right
-                        else if(location.x > self.frame.size.width/2){
-                            let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 0.25))
-                            centerNode.run(rotateAction)
-                        }
-                    }
+                // Rotate left for taps on left
+                if(location.x < self.frame.size.width/2){
+                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 0.25))
+                    centerNode.run(rotateAction)
+                }
+                // Rotate right for taps on right
+                else {
+                    let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 0.25))
+                    centerNode.run(rotateAction)
+                }
+            }
         }
         
         // MARK: Create Stars
@@ -327,7 +274,7 @@ struct PhysicsCategory {
         }
         
         // Remove star when it collides with right quadrant
-        func starGoodCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
+        func starGoodCollision(star: SKSpriteNode) {
             print("Hit")
             star.removeFromParent()
             AudioPlayer1.play()
@@ -338,7 +285,7 @@ struct PhysicsCategory {
         }
         
         // End game when star collides with wrong quadrant
-        func starBadCollision(star: SKSpriteNode, quadrant: SKSpriteNode) {
+        func starBadCollision() {
             print("End")
             AudioPlayer2.play()
             
@@ -347,7 +294,7 @@ struct PhysicsCategory {
                 let gameOverScene = GameOverScene(size: self.size, won: false, score: self.points)
                 self.view?.presentScene(gameOverScene, transition: reveal)
             }
-            star.run(loseAction)
+            self.run(loseAction)
         }
         
         func didBegin(_ contact: SKPhysicsContact) {
@@ -364,129 +311,39 @@ struct PhysicsCategory {
             
             let star = secondBody.node as? SKSpriteNode
             
-            // MARK: Red star collisions
+            // MARK: Collision detection
             
-            // If red star contacts red quadrant, good collision
-            if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
-                if let quadrantRed = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starGoodCollision(star: star, quadrant: quadrantRed)
+            if let userData = star?.userData, let color = userData["color"] as? String {
+                if (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (color == "red"),
+                    (firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0),
+                    let star = secondBody.node as? SKSpriteNode {
+                    
+                    starGoodCollision(star: star)
+                    return
+                    
+                } else if (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (color == "green"),
+                    (firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0),
+                    let star = secondBody.node as? SKSpriteNode {
+                    
+                    starGoodCollision(star: star)
+                    return
+                    
+                } else if (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (color == "blue"),
+                    (firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0),
+                    let star = secondBody.node as? SKSpriteNode {
+                    
+                    starGoodCollision(star: star)
+                    return
+                    
+                } else if (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (color == "yellow"),
+                    (firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0),
+                    let star = secondBody.node as? SKSpriteNode {
+                    
+                    starGoodCollision(star: star)
+                    return
                 }
             }
-            // If red star contacts other quadrant, bad collision
-            else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
-                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantGreen)
-                }
-            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
-                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantBlue)
-                }
-            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(red)")) {
-                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantYellow)
-                }
-            }
-            
-            // MARK: Green star collisions
-            
-            // If green star contacts green quadrant, good collision
-            if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
-                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starGoodCollision(star: star, quadrant: quadrantGreen)
-                }
-            }
-            // If green star contacts other quadrant, bad collision
-            else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
-                if let quadrantRed = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantRed)
-                }
-            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
-                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantBlue)
-                }
-            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(green)")) {
-                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantYellow)
-                }
-            }
-            
-            // MARK: Blue star collisions
-            
-            // If blue star contacts blue quadrant, good collision
-            if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
-                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starGoodCollision(star: star, quadrant: quadrantBlue)
-                }
-            }
-            // If blue star contacts other quadrant, bad collision
-            else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
-                if let quadrantRed = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantRed)
-                }
-            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
-                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantGreen)
-                }
-            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(blue)")) {
-                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantYellow)
-                }
-            }
-            
-            // MARK: Yellow star collisions
-            
-            // If yellow star contacts yellow quadrant, good collision
-            if ((firstBody.categoryBitMask & PhysicsCategory.quadrantYellow != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
-                if let quadrantYellow = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starGoodCollision(star: star, quadrant: quadrantYellow)
-                }
-            }
-            // If yellow star contacts other quadrant, bad collision
-            else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantRed != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
-                if let quadrantRed = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantRed)
-                }
-            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantGreen != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
-                if let quadrantGreen = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantGreen)
-                }
-            } else if ((firstBody.categoryBitMask & PhysicsCategory.quadrantBlue != 0) &&
-                (secondBody.categoryBitMask & PhysicsCategory.star != 0) && (String(describing: star?.userData?["color"]) == "Optional(yellow)")) {
-                if let quadrantBlue = firstBody.node as? SKSpriteNode, let
-                    star = secondBody.node as? SKSpriteNode {
-                    starBadCollision(star: star, quadrant: quadrantBlue)
-                }
-            }
+            starBadCollision()
             
         }
         

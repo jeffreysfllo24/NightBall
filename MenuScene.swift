@@ -16,6 +16,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
+    // Access global AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     // Music
     var AudioPlayer3 = AVAudioPlayer()
     
@@ -125,12 +128,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         AudioPlayer3.numberOfLoops = -1
         
         if !ismuted! {
-                    AudioPlayer3.play()
+            AudioPlayer3.play()
         }
     }
-    
-    // access global AppDelegate
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var soundIconHeightScale:CGFloat = size.height * 0.06
@@ -144,20 +144,11 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             
             if node == playButton {
                 if view != nil {
-                    if AudioPlayer3.isPlaying{
-                        let fadeOutAction = SKAction.fadeOut(withDuration: 5)
-                        playButton.run(fadeOutAction)
-                        let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
-                        let scene:SKScene = GameScene(size: self.size,audio: false)
-                        self.view?.presentScene(scene, transition: transition)
-                    }
-                    else{
-                        let fadeOutAction = SKAction.fadeOut(withDuration: 5)
-                        playButton.run(fadeOutAction)
-                        let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
-                        let scene:SKScene = GameScene(size: self.size,audio: true)
-                        self.view?.presentScene(scene, transition: transition)
-                    }
+                    let fadeOutAction = SKAction.fadeOut(withDuration: 5)
+                    playButton.run(fadeOutAction)
+                    let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
+                    let scene:SKScene = GameScene(size: self.size,audio: !AudioPlayer3.isPlaying)
+                    self.view?.presentScene(scene, transition: transition)
                 }
             }
             if node == SoundIcon || node == Soundmute {
@@ -181,7 +172,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                     AudioPlayer3.pause()
                 }
             }
-            if node == Leaderboard{
+            if node == Leaderboard {
                 showLeader()
             }
         }
