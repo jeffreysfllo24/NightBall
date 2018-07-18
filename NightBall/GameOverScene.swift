@@ -26,6 +26,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     let Share:SKSpriteNode = SKSpriteNode(imageNamed:"Share")
     var refreshButtonHeight:CGFloat = 0.27
     var homeButtonHeight:CGFloat = 0.06
+    var scoreValue = 0
     
     init(size:CGSize, won:Bool, score: Int) {
         
@@ -33,7 +34,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         
         //Resizes Scaling for iPhoneX
         updateScaling()
-        
+        scoreValue = score
         var leaderboardIconHeightScale:CGFloat = size.height * 0.06
         var shareIconHeightScale:CGFloat = size.height * 0.065
         if(UIScreen.main.bounds.height == 812){
@@ -143,6 +144,9 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
                     self.view?.presentScene(scene, transition: reveal)
                 }
             }
+            if node == Share{
+                shareGame(scene: scene!)
+            }
         }
     }
     
@@ -158,6 +162,35 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
             refreshButtonHeight = 0.22
             homeButtonHeight = 0.05
         }
+    }
+    
+    func shareGame(scene: SKScene) {
+        
+            let firstActivity = "I just scored \(scoreValue) in #NightBall! https://itunes.apple.com/us/app/nightball/id1330326232?ls=1&mt=8"
+            let secondActivity:UIImage = getScreenshot(scene: scene)
+            
+            let activityVC = UIActivityViewController(activityItems: [firstActivity,secondActivity], applicationActivities: nil)
+            var controller: UIViewController = scene.view!.window!.rootViewController!
+        controller.present(
+            activityVC,
+            animated: true,
+            completion: nil
+            )
+    }
+    
+    func getScreenshot(scene: SKScene) -> UIImage {
+        let snapshotView = scene.view!.snapshotView(afterScreenUpdates: true)
+        let bounds = UIScreen.main.bounds
+        
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
+        
+        snapshotView?.drawHierarchy(in: bounds, afterScreenUpdates: true)
+        
+        var screenshotImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+        
+        return screenshotImage;
     }
 }
 
