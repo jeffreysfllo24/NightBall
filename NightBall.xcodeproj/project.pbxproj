@@ -157,16 +157,34 @@
 				TargetAttributes = {
 					4EB1F1331F43EACE002669E2 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = MB4R2QM3L6;
+						DevelopmentTeam = R6BGCQQ764;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 0;
+							};
 							com.apple.GameCenter = {
 								enabled = 1;
+							};
+							com.apple.HotspotConfiguration = {
+								enabled = 0;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
+							com.apple.NetworkExtensions.iOS = {
+								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 0;
 							};
 							com.apple.Siri = {
+								enabled = 0;
+							};
+							com.apple.VPNLite = {
 								enabled = 0;
 							};
 							com.apple.Wallet = {
@@ -354,7 +372,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MB4R2QM3L6;
+				DEVELOPMENT_TEAM = R6BGCQQ764;
 				INFOPLIST_FILE = "$(SRCROOT)/NightBall/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall1;
@@ -370,7 +388,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MB4R2QM3L6;
+				DEVELOPMENT_TEAM = R6BGCQQ764;
 				INFOPLIST_FILE = "$(SRCROOT)/NightBall/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall1;
