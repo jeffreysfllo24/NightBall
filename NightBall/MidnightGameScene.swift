@@ -64,7 +64,7 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     // Background
-    var background: SKSpriteNode = SKSpriteNode(imageNamed: "StarTrial")
+    var background: SKSpriteNode = SKSpriteNode(imageNamed: "MidnightTrial")
     
     // Score Counter
     var points = 0

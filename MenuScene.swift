@@ -30,17 +30,24 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     // Play button image
     var playButton = SKSpriteNode()
     let playButtonTex = SKTexture(imageNamed: "Playbutton")
-    let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
-    var SoundIcon = SKSpriteNode()
-    let SoundIconTex = SKTexture(imageNamed: "SoundIcon")
-    var Soundmute = SKSpriteNode()
+    let midnightPlayButtonTex = SKTexture(imageNamed: "MidnightPlayButton")
+    var changeModeButton = SKSpriteNode()
+    let midnightModeTex = SKTexture(image: #imageLiteral(resourceName: "MidnightButton"))
+    let regularModeTex = SKTexture(image: #imageLiteral(resourceName: "RegularButton"))
+    var midnightOn: Bool = false
+    
+    var soundIcon = SKSpriteNode()
+    let soundIconTex = SKTexture(imageNamed: "SoundIcon")
     let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
-    let Leaderboard:SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
+    
+    let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
+    
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-5")
-    let fade :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
-    let fade2 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
-    let fade3 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
-    let fade4 :SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
+    let fade: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
+    let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
+    let fade3: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
+    let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
+    let menuBackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
     
     override func didMove(to view: SKView) {
         var soundIconHeightScale:CGFloat = size.height * 0.06
@@ -51,31 +58,35 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         }
         
         // Add Background
-        Menubackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        Menubackground.size = self.frame.size;
-        Menubackground.zPosition = -6
-        self.addChild(Menubackground)
+        menuBackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        menuBackground.size = self.frame.size;
+        menuBackground.zPosition = -6
+        self.addChild(menuBackground)
         
         // Insert Title
         insertSKSpriteNode(object: title, positionWidth: size.width * 0.5, positionHeight: size.height * 0.85,scaleWidth:size.width * 0.6,scaleHeight: size.height * 0.13, zPosition: 1)
 
+        // Insert change mode button
+        changeModeButton = SKSpriteNode(texture: regularModeTex)
+        insertSKSpriteNode(object: changeModeButton, positionWidth: frame.midX, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.5, scaleHeight: size.height * 0.09, zPosition: 4)
+        
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
-        insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY,scaleWidth:size.width * 0.6,scaleHeight: size.width * 0.6, zPosition: 4)
+        insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
         
         // Insert Leaderboard button
-        insertSKSpriteNode(object: Leaderboard, positionWidth:size.width * 0.65, positionHeight:size.height * 0.162,scaleWidth:size.width * 0.13,scaleHeight: leaderboardIconHeightScale, zPosition: 4)
+        insertSKSpriteNode(object: leaderboard, positionWidth: size.width * 0.65, positionHeight: size.height * 0.162,scaleWidth:size.width * 0.13, scaleHeight: leaderboardIconHeightScale, zPosition: 4)
        
         let  ismuted = appDelegate.ismuted
         
         if ismuted! {
             // Add Muted Icon
-            Soundmute = SKSpriteNode(texture: SoundmuteTex)
-            insertSKSpriteNode(object: Soundmute, positionWidth:size.width * 0.35, positionHeight: size.height * 0.15,scaleWidth: size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+            soundIcon = SKSpriteNode(texture: SoundmuteTex)
+            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.35, positionHeight: size.height * 0.15,scaleWidth: size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
         } else {
             // Add Sound Icon
-            SoundIcon = SKSpriteNode(texture: SoundIconTex)
-            insertSKSpriteNode(object: SoundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+            soundIcon = SKSpriteNode(texture: soundIconTex)
+            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
         }
         
         // First Star background
@@ -147,32 +158,54 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                     let fadeOutAction = SKAction.fadeOut(withDuration: 5)
                     playButton.run(fadeOutAction)
                     let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
-                    let scene:SKScene = GameScene(size: self.size,audio: !AudioPlayer3.isPlaying)
-                    self.view?.presentScene(scene, transition: transition)
+                    if midnightOn {
+                        let scene:SKScene = MidnightGameScene(size: self.size,audio: !AudioPlayer3.isPlaying)
+                        self.view?.presentScene(scene, transition: transition)
+                    } else {
+                        let scene:SKScene = GameScene(size: self.size,audio: !AudioPlayer3.isPlaying)
+                        self.view?.presentScene(scene, transition: transition)
+                    }
                 }
             }
-            if node == SoundIcon || node == Soundmute {
+            
+            if node == changeModeButton {
+                changeModeButton.removeFromParent()
+                playButton.removeFromParent()
+                if midnightOn {
+                    changeModeButton = SKSpriteNode(texture: regularModeTex)
+                    insertSKSpriteNode(object: changeModeButton, positionWidth: frame.midX, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.5, scaleHeight: size.height * 0.09, zPosition: 4)
+                    playButton = SKSpriteNode(texture: playButtonTex)
+                    insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
+                    midnightOn = false
+                } else {
+                    changeModeButton = SKSpriteNode(texture: midnightModeTex)
+                    insertSKSpriteNode(object: changeModeButton, positionWidth: frame.midX, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.5, scaleHeight: size.height * 0.09, zPosition: 4)
+                    playButton = SKSpriteNode(texture: midnightPlayButtonTex)
+                    insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
+                    midnightOn = true
+                }
+            }
+            
+            if node == soundIcon {
                 // retrieve ismuted bool from global AppDelegate
-                let  ismuted = appDelegate.ismuted
+                let ismuted = appDelegate.ismuted
+                // Remove Mute Sound Icon
+                soundIcon.removeFromParent()
                 if ismuted! {
-                    // Remove Mute Sound Icon
-                    Soundmute.removeFromParent()
                     // Replace Mute Sound Icon with Sound Icon
-                    SoundIcon = SKSpriteNode(texture: SoundIconTex)
-                    insertSKSpriteNode(object: SoundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+                    soundIcon = SKSpriteNode(texture: soundIconTex)
+                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = false
                     AudioPlayer3.play()
                 } else {
-                    //Remove SoundIcon
-                    SoundIcon.removeFromParent()
                     //Add Mute Sound Icon
-                    Soundmute = SKSpriteNode(texture: SoundmuteTex)
-                    insertSKSpriteNode(object: Soundmute, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+                    soundIcon = SKSpriteNode(texture: SoundmuteTex)
+                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = true
                     AudioPlayer3.pause()
                 }
             }
-            if node == Leaderboard {
+            if node == leaderboard {
                 showLeader()
             }
         }
