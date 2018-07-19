@@ -23,7 +23,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
     let home: SKSpriteNode = SKSpriteNode(imageNamed: "home")
     let Leaderboard:SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
-    let Share:SKSpriteNode = SKSpriteNode(imageNamed:"Share")
+    let Share:SKSpriteNode = SKSpriteNode(imageNamed:"share")
     var refreshButtonHeight:CGFloat = 0.27
     var homeButtonHeight:CGFloat = 0.06
     var scoreValue = 0
@@ -167,7 +167,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     func shareGame(scene: SKScene) {
         
             let firstActivity = "I just scored \(scoreValue) in #NightBall! https://itunes.apple.com/us/app/nightball/id1330326232?ls=1&mt=8"
-            let secondActivity:UIImage = getScreenshot(scene: scene)
+        let secondActivity:UIImage = view!.snapshot!
             
             let activityVC = UIActivityViewController(activityItems: [firstActivity,secondActivity], applicationActivities: nil)
             var controller: UIViewController = scene.view!.window!.rootViewController!
@@ -177,21 +177,13 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
             completion: nil
             )
     }
-    
-    func getScreenshot(scene: SKScene) -> UIImage {
-        let snapshotView = scene.view!.snapshotView(afterScreenUpdates: true)
-        let bounds = UIScreen.main.bounds
-        
+}
+extension UIView {
+    var snapshot: UIImage? {
         UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
-        
-        snapshotView?.drawHierarchy(in: bounds, afterScreenUpdates: true)
-        
-        var screenshotImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        
-        UIGraphicsEndImageContext()
-        
-        return screenshotImage;
+        defer { UIGraphicsEndImageContext() }
+        drawHierarchy(in: bounds, afterScreenUpdates: true)
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }
-
 
