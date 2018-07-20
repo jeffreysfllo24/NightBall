@@ -1,16 +1,17 @@
 //
-//  Gameoverscene.swift
-//  NightBallGame
+//  MidnightGameOverScene.swift
+//  NightBall
 //
-//  Created by Jeffrey Zhang on 2017-08-28.
-//  Copyright © 2017 Keener Studio. All rights reserved.
+//  Created by Danny Lan on 2018-07-19.
+//  Copyright © 2018 Keener Studio. All rights reserved.
 //
+
 import Foundation
 import SpriteKit
 import UIKit
 import GameKit
 
-class GameOverScene: SKScene, GKGameCenterControllerDelegate {
+class MidnightGameOverScene: SKScene, GKGameCenterControllerDelegate {
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
     }
@@ -20,7 +21,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     let label4 = SKLabelNode(fontNamed: "Quicksand-Light")
     var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
-    let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "Refresh")
+    let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "MidnightRefreshButton")
     let home: SKSpriteNode = SKSpriteNode(imageNamed: "home")
     let Leaderboard:SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let Share:SKSpriteNode = SKSpriteNode(imageNamed:"share")
@@ -41,7 +42,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
             leaderboardIconHeightScale = size.height * 0.053
             shareIconHeightScale = size.height * 0.053
         }
-
+        
         // Background
         Menubackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         Menubackground.size = self.frame.size;
@@ -90,7 +91,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         label4.fontColor = SKColor.white
         label4.position = CGPoint(x: size.width * 0.5, y: size.height * 0.78)
         addChild(label4)
-
+        
         //Save Highscore
         func saveHighScore(){
             UserDefaults.standard.set(score, forKey: "HIGHSCORE")
@@ -98,7 +99,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
             
             if GKLocalPlayer.localPlayer().isAuthenticated{
                 print("\n Success! Sending highscore of \(score) to leaderboard")
-                let my_leaderboard_id = "com.score.nightball"
+                let my_leaderboard_id = "com.score.nightball2"
                 let scoreReporter = GKScore(leaderboardIdentifier: my_leaderboard_id)
                 scoreReporter.value = Int64(score)
                 let scoreArray: [GKScore] = [scoreReporter]
@@ -131,7 +132,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
             if node == refresh {
                 if view != nil {
                     let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
-                    let scene:SKScene = GameScene(size: self.size, audio: false)
+                    let scene:SKScene = MidnightGameScene(size: self.size, audio: false)
                     self.view?.presentScene(scene, transition: transition)
                 }
             }
@@ -166,24 +167,16 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     
     func shareGame(scene: SKScene) {
         
-            let firstActivity = "I just scored \(scoreValue) in #NightBall! https://itunes.apple.com/us/app/nightball/id1330326232?ls=1&mt=8"
+        let firstActivity = "I just scored \(scoreValue) in #NightBall! https://itunes.apple.com/us/app/nightball/id1330326232?ls=1&mt=8"
         let secondActivity:UIImage = view!.snapshot!
-            
-            let activityVC = UIActivityViewController(activityItems: [firstActivity,secondActivity], applicationActivities: nil)
-            let controller: UIViewController = scene.view!.window!.rootViewController!
+        
+        let activityVC = UIActivityViewController(activityItems: [firstActivity,secondActivity], applicationActivities: nil)
+        let controller: UIViewController = scene.view!.window!.rootViewController!
         controller.present(
             activityVC,
             animated: true,
             completion: nil
-            )
-    }
-}
-extension UIView {
-    var snapshot: UIImage? {
-        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
-        defer { UIGraphicsEndImageContext() }
-        drawHierarchy(in: bounds, afterScreenUpdates: true)
-        return UIGraphicsGetImageFromCurrentImageContext()
+        )
     }
 }
 
