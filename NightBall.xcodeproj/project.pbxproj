@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E42B31721018CFD005B5ED6 /* MidnightGameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E42B31621018CFD005B5ED6 /* MidnightGameOverScene.swift */; };
 		4E48F03F20FD795F00B9520E /* MidnightGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E48F03E20FD795F00B9520E /* MidnightGameScene.swift */; };
 		4E633BFE1F8EC1BA00789B2D /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFB1F8EC1BA00789B2D /* Quicksand-Bold.ttf */; };
 		4E633BFF1F8EC1BA00789B2D /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFC1F8EC1BA00789B2D /* Quicksand-Light.ttf */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E42B31621018CFD005B5ED6 /* MidnightGameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidnightGameOverScene.swift; sourceTree = "<group>"; };
 		4E48F03E20FD795F00B9520E /* MidnightGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MidnightGameScene.swift; sourceTree = "<group>"; };
 		4E633BFB1F8EC1BA00789B2D /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
 		4E633BFC1F8EC1BA00789B2D /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
@@ -89,10 +91,11 @@
 				4EB1F1371F43EACE002669E2 /* AppDelegate.swift */,
 				4EB1F1391F43EACE002669E2 /* GameScene.sks */,
 				4EB1F13B1F43EACE002669E2 /* Actions.sks */,
-				4EB1F13D1F43EACE002669E2 /* GameScene.swift */,
-				4E48F03E20FD795F00B9520E /* MidnightGameScene.swift */,
 				F8F9390A1F57A38000A356BB /* MenuScene.swift */,
+				4EB1F13D1F43EACE002669E2 /* GameScene.swift */,
 				F8C794D01F55037E00FF9B0B /* GameOverScene.swift */,
+				4E48F03E20FD795F00B9520E /* MidnightGameScene.swift */,
+				4E42B31621018CFD005B5ED6 /* MidnightGameOverScene.swift */,
 				4EB1F13F1F43EACE002669E2 /* GameViewController.swift */,
 				4EB1F1411F43EACE002669E2 /* Main.storyboard */,
 				4EB1F1441F43EACE002669E2 /* Assets.xcassets */,
@@ -246,6 +249,7 @@
 				4EB1F1401F43EACE002669E2 /* GameViewController.swift in Sources */,
 				4E48F03F20FD795F00B9520E /* MidnightGameScene.swift in Sources */,
 				F8F9390B1F57A38000A356BB /* MenuScene.swift in Sources */,
+				4E42B31721018CFD005B5ED6 /* MidnightGameOverScene.swift in Sources */,
 				F8C794D11F55037E00FF9B0B /* GameOverScene.swift in Sources */,
 				4EB1F1381F43EACE002669E2 /* AppDelegate.swift in Sources */,
 			);
