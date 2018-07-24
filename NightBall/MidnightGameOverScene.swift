@@ -19,7 +19,7 @@ class MidnightGameOverScene: SKScene, GKGameCenterControllerDelegate {
     let label2 = SKLabelNode(fontNamed: "Quicksand-Light")
     let label3 = SKLabelNode(fontNamed: "Quicksand-Light")
     let label4 = SKLabelNode(fontNamed: "Quicksand-Light")
-    var highscore = UserDefaults().integer(forKey: "HIGHSCORE")
+    var highscore = UserDefaults().integer(forKey: "HIGHSCOREM")
     let Menubackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
     let refresh: SKSpriteNode = SKSpriteNode(imageNamed: "MidnightRefreshButton")
     let home: SKSpriteNode = SKSpriteNode(imageNamed: "home")
@@ -79,7 +79,7 @@ class MidnightGameOverScene: SKScene, GKGameCenterControllerDelegate {
         addChild(label2)
         
         //Display High Score
-        label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCORE"))"
+        label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCOREM"))"
         label3.fontSize = 27
         label3.fontColor = SKColor.white
         label3.position = CGPoint(x: size.width * 0.5, y: size.height * 0.175)
@@ -94,8 +94,8 @@ class MidnightGameOverScene: SKScene, GKGameCenterControllerDelegate {
         
         //Save Highscore
         func saveHighScore(){
-            UserDefaults.standard.set(score, forKey: "HIGHSCORE")
-            label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCORE"))"
+            UserDefaults.standard.set(score, forKey: "HIGHSCOREM")
+            label3.text = "High Score = \(UserDefaults().integer(forKey: "HIGHSCOREM"))"
             
             if GKLocalPlayer.localPlayer().isAuthenticated{
                 print("\n Success! Sending highscore of \(score) to leaderboard")
@@ -112,7 +112,7 @@ class MidnightGameOverScene: SKScene, GKGameCenterControllerDelegate {
                 })
             }
         }
-        if score > UserDefaults().integer(forKey: "HIGHSCORE"){
+        if score > UserDefaults().integer(forKey: "HIGHSCOREM"){
             saveHighScore()
         }
     }

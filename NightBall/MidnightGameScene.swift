@@ -18,7 +18,7 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
     // MARK: Music
     var AudioPlayer1 = AVAudioPlayer()
     var AudioPlayer2 = AVAudioPlayer()
-    var AudioPlayer4 = AVAudioPlayer()
+    var AudioPlayer5 = AVAudioPlayer()
     
     // MARK: Nodes
     // Adding the center node which the nightball will rotate around (essentially acts as an anchor point)
@@ -92,13 +92,13 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
         let  ismuted = appDelegate.ismuted
         
         // Add Music
-        let AssortedMusics4 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
-        AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics4 as URL)
+        let AssortedMusics5 = NSURL(fileURLWithPath: Bundle.main.path(forResource: "bluewhale", ofType: "mp3")!)
+        AudioPlayer5 = try! AVAudioPlayer(contentsOf: AssortedMusics5 as URL)
         
         // Set timestamp in audio to start at
-        AudioPlayer4.currentTime = TimeInterval(1.5)
-        AudioPlayer4.prepareToPlay()
-        AudioPlayer4.numberOfLoops = -1
+        AudioPlayer5.currentTime = TimeInterval(1.5)
+        AudioPlayer5.prepareToPlay()
+        AudioPlayer5.numberOfLoops = -1
         
         let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Beep13", ofType: "wav")!)
         AudioPlayer1 = try! AVAudioPlayer(contentsOf: AssortedMusics as URL)
@@ -117,7 +117,7 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
         }
         else{
             //turn on music
-            AudioPlayer4.play()
+            AudioPlayer5.play()
             AudioPlayer1.volume = 1
             AudioPlayer2.volume = 1
         }
@@ -173,7 +173,7 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
         addChild(myLabel)
         
         // Create fade timer
-        fadeTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(fadeQuadrants), userInfo: nil, repeats: true)
+        fadeTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(fadeQuadrants), userInfo: nil, repeats: true)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -296,6 +296,7 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
     func starBadCollision() {
         print("End")
         AudioPlayer2.play()
+        AudioPlayer5.stop()
         
         let loseAction = SKAction.run() {
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
