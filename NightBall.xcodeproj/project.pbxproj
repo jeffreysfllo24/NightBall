@@ -24,6 +24,7 @@
 		F856D0881FEF00C900681F71 /* Hypnothis.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F856D0871FEF00C900681F71 /* Hypnothis.mp3 */; };
 		F856D08A1FEF1C3200681F71 /* Explosion10.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D0891FEF1C3200681F71 /* Explosion10.wav */; };
 		F856D08C1FEF1C3D00681F71 /* Beep13.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D08B1FEF1C3C00681F71 /* Beep13.wav */; };
+		F8686D5F21097C2B0037D46B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8686D5E21097C2B0037D46B /* MapKit.framework */; };
 		F8C794D11F55037E00FF9B0B /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C794D01F55037E00FF9B0B /* GameOverScene.swift */; };
 		F8E42C0520FAA6B100690259 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8E42C0420FAA6B100690259 /* GameKit.framework */; };
 		F8F9390B1F57A38000A356BB /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F9390A1F57A38000A356BB /* MenuScene.swift */; };
@@ -49,6 +50,7 @@
 		F856D0871FEF00C900681F71 /* Hypnothis.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Hypnothis.mp3; sourceTree = "<group>"; };
 		F856D0891FEF1C3200681F71 /* Explosion10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Explosion10.wav; sourceTree = "<group>"; };
 		F856D08B1FEF1C3C00681F71 /* Beep13.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Beep13.wav; sourceTree = "<group>"; };
+		F8686D5E21097C2B0037D46B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		F8C794D01F55037E00FF9B0B /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		F8E42C0320FAA64B00690259 /* NightBallGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NightBallGame.entitlements; sourceTree = "<group>"; };
 		F8E42C0420FAA6B100690259 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8686D5F21097C2B0037D46B /* MapKit.framework in Frameworks */,
 				F8E42C0520FAA6B100690259 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,6 +126,7 @@
 		F8E42C0020FAA5F900690259 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8686D5E21097C2B0037D46B /* MapKit.framework */,
 				F8E42C0420FAA6B100690259 /* GameKit.framework */,
 			);
 			name = Frameworks;
@@ -166,8 +170,29 @@
 							com.apple.ApplePay = {
 								enabled = 0;
 							};
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.ClassKit = {
+								enabled = 0;
+							};
+							com.apple.DataProtection = {
+								enabled = 0;
+							};
 							com.apple.GameCenter = {
 								enabled = 1;
+							};
+							com.apple.GameCenter.iOS = {
+								enabled = 1;
+							};
+							com.apple.HealthKit = {
+								enabled = 0;
+							};
+							com.apple.HomeKit = {
+								enabled = 0;
 							};
 							com.apple.HotspotConfiguration = {
 								enabled = 0;
@@ -175,13 +200,22 @@
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};
-							com.apple.Maps.iOS = {
+							com.apple.InterAppAudio = {
 								enabled = 0;
+							};
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
 							};
 							com.apple.NetworkExtensions.iOS = {
 								enabled = 0;
 							};
 							com.apple.Push = {
+								enabled = 0;
+							};
+							com.apple.SafariKeychain = {
 								enabled = 0;
 							};
 							com.apple.Siri = {
@@ -379,7 +413,7 @@
 				DEVELOPMENT_TEAM = R6BGCQQ764;
 				INFOPLIST_FILE = "$(SRCROOT)/NightBall/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -395,7 +429,7 @@
 				DEVELOPMENT_TEAM = R6BGCQQ764;
 				INFOPLIST_FILE = "$(SRCROOT)/NightBall/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;

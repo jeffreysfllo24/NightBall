@@ -147,6 +147,9 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
             if node == Share{
                 shareGame(scene: scene!)
             }
+            if node == Leaderboard{
+                showLeader()
+            }
         }
     }
     
@@ -154,6 +157,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         let viewControllerVar = self.view?.window?.rootViewController
         let gKGCViewController = GKGameCenterViewController()
         gKGCViewController.gameCenterDelegate = self
+        gKGCViewController.leaderboardIdentifier = "com.score.nightball"
         viewControllerVar?.present(gKGCViewController, animated: true, completion: nil)
     }
     
@@ -165,7 +169,6 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     }
     
     func shareGame(scene: SKScene) {
-        
             let firstActivity = "I just scored \(scoreValue) in #NightBall! https://itunes.apple.com/us/app/nightball/id1330326232?ls=1&mt=8"
         let secondActivity:UIImage = view!.snapshot!
             

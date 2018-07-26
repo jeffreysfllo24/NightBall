@@ -215,6 +215,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         let viewControllerVar = self.view?.window?.rootViewController
         let gKGCViewController = GKGameCenterViewController()
         gKGCViewController.gameCenterDelegate = self
+        gKGCViewController.leaderboardIdentifier = "com.score.nightball"
         viewControllerVar?.present(gKGCViewController, animated: true, completion: nil)
     }
 }
