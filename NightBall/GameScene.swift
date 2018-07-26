@@ -280,7 +280,7 @@ struct PhysicsCategory {
         AudioPlayer1.play()
         
         // Increase Score when succesful collision
-        points += 5
+        points += 1
         myLabel.text = String(points)
     }
         
