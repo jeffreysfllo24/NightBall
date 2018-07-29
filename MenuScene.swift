@@ -33,6 +33,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let midnightPlayButtonTex = SKTexture(imageNamed: "MidnightPlayButton")
     var modeButton = SKSpriteNode()
     let modeTex = SKTexture(image: #imageLiteral(resourceName: "Mode"))
+    let mode2Tex = SKTexture(image: #imageLiteral(resourceName: "Mode2"))
     var midnightOn: Bool = false
     
     var soundIcon = SKSpriteNode()
@@ -168,12 +169,17 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             }
             
             if node == modeButton {
+                modeButton.removeFromParent()
                 playButton.removeFromParent()
                 if midnightOn {
+                    modeButton = SKSpriteNode(texture: modeTex)
+                    insertSKSpriteNode(object: modeButton, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.28, scaleHeight: size.width * 0.17, zPosition: 4)
                     playButton = SKSpriteNode(texture: playButtonTex)
                     insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
                     midnightOn = false
                 } else {
+                    modeButton = SKSpriteNode(texture: mode2Tex)
+                    insertSKSpriteNode(object: modeButton, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.28, scaleHeight: size.width * 0.17, zPosition: 4)
                     playButton = SKSpriteNode(texture: midnightPlayButtonTex)
                     insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
                     midnightOn = true

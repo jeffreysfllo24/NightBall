@@ -111,6 +111,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
                 })
             }
         }
+        
         if score > UserDefaults().integer(forKey: "HIGHSCORE"){
             saveHighScore()
         }

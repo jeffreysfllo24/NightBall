@@ -41,6 +41,10 @@ struct PhysicsCategory {
         var quadrantHeightPositionConstant:CGFloat = 0.2
         var quadrantWidthPositionConstant:CGFloat = 0.35
         
+        let tutorialRight = SKSpriteNode(imageNamed: "TutorialRight")
+        let tutorialLeft = SKSpriteNode(imageNamed: "TutorialLeft")
+        var tutorial = false
+        
         // MARK: - Spawn stars
         
         var starTimer = TimeInterval(1.8)
@@ -49,6 +53,8 @@ struct PhysicsCategory {
         var divisionFactor = 1.07
         
         override func update(_ currentTime: TimeInterval) {
+            if tutorial { return }
+            
             if (past == 0) {
                 past = currentTime // Take first timestamp
             } else {
@@ -122,11 +128,26 @@ struct PhysicsCategory {
                 AudioPlayer2.volume = 1
             }
         
-            
             background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
             background.size = self.frame.size;
             background.zPosition = -6
             addChild(background)
+            
+            if UserDefaults().integer(forKey: "HIGHSCORE") == 0 {
+                tutorial = true
+                
+                tutorialRight.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+                tutorialRight.size = self.frame.size;
+                tutorialRight.zPosition = -5
+                tutorialRight.alpha = 0
+                addChild(tutorialRight)
+                tutorialRight.run(SKAction.fadeIn(withDuration: 0.5))
+                
+                tutorialLeft.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+                tutorialLeft.size = self.frame.size;
+                tutorialLeft.zPosition = -5
+                tutorialLeft.alpha = 0
+            }
             
             physicsWorld.gravity = CGVector.zero // No gravity
             physicsWorld.contactDelegate = self // Recognize collisions
@@ -183,11 +204,24 @@ struct PhysicsCategory {
             if(location.x < self.frame.size.width/2){
                 let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 0.25))
                 centerNode.run(rotateAction)
+                if tutorial {
+                    tutorialLeft.run(SKAction.fadeOut(withDuration: 0.5)) { () in
+                        self.tutorialLeft.removeFromParent()
+                    }
+                    tutorial = false
+                }
             }
             // Rotate right for taps on right
             else {
                 let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 0.25))
                 centerNode.run(rotateAction)
+                if tutorial {
+                    tutorialRight.run(SKAction.fadeOut(withDuration: 0.5)) { () in
+                        self.tutorialRight.removeFromParent()
+                        self.addChild(self.tutorialLeft)
+                        self.tutorialLeft.run(SKAction.fadeIn(withDuration: 0.5))
+                    }
+                }
             }
         }
     }
