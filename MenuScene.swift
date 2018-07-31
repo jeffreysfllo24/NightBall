@@ -34,6 +34,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     var modeButton = SKSpriteNode()
     let modeTex = SKTexture(image: #imageLiteral(resourceName: "Mode"))
     let mode2Tex = SKTexture(image: #imageLiteral(resourceName: "Mode2"))
+    let lockIcon:SKSpriteNode = SKSpriteNode(imageNamed: "LockIcon")
     var midnightOn: Bool = false
     
     var soundIcon = SKSpriteNode()
@@ -42,12 +43,12 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     
-    let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitle-5")
+    let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitleWhite")
     let fade: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
     let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
     let fade3: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
     let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
-    let menuBackground: SKSpriteNode = SKSpriteNode(imageNamed: "menubackground")
+    let menuBackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackgroundNew")
     
     override func didMove(to view: SKView) {
         var soundIconHeightScale:CGFloat = size.height * 0.06
@@ -69,6 +70,11 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         // Insert change mode button
         modeButton = SKSpriteNode(texture: modeTex)
         insertSKSpriteNode(object: modeButton, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.28, scaleHeight: size.width * 0.17, zPosition: 4)
+        
+        //Insert Lock Icon
+        insertSKSpriteNode(object: lockIcon, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.09, scaleHeight: size.width * 0.09, zPosition: 5)
+        lockIcon.alpha = 0.8
+        isMidnightModeEnabled()
         
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
@@ -168,7 +174,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 }
             }
             
-            if node == modeButton {
+            if (node == modeButton && lockIcon.isHidden)  {
                 modeButton.removeFromParent()
                 playButton.removeFromParent()
                 if midnightOn {
@@ -223,5 +229,16 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         gKGCViewController.gameCenterDelegate = self
         gKGCViewController.leaderboardIdentifier = "com.score.nightball"
         viewControllerVar?.present(gKGCViewController, animated: true, completion: nil)
+    }
+    
+    func isMidnightModeEnabled(){
+        if((UserDefaults().integer(forKey: "HIGHSCORE") >= 100)){
+            lockIcon.isHidden = true
+        }
+        else{
+            modeButton.color = UIColor.gray
+            modeButton.colorBlendFactor = 1
+            lockIcon.isHidden = false
+        }
     }
 }
