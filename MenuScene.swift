@@ -42,7 +42,6 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
     
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
-    
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitleWhite")
     let fade: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
     let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
@@ -174,7 +173,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 }
             }
             
-            if (node == modeButton && lockIcon.isHidden)  {
+            if (node == modeButton && lockIcon.isHidden){
                 modeButton.removeFromParent()
                 playButton.removeFromParent()
                 if midnightOn {
@@ -190,6 +189,10 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                     insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
                     midnightOn = true
                 }
+            }
+            
+            if(node == lockIcon){
+                fadeInGameModeLockedLabel()
             }
             
             if node == soundIcon {
@@ -240,5 +243,14 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             modeButton.colorBlendFactor = 1
             lockIcon.isHidden = false
         }
+    }
+    func fadeInGameModeLockedLabel(){
+        let gameModeLocked: SKSpriteNode = SKSpriteNode(imageNamed: "newModeLabel")
+        gameModeLocked.position = CGPoint(x:size.width * 0.5, y: size.height * 0.73)
+        gameModeLocked.scale(to: CGSize(width:size.width * 0.8, height: size.height * 0.15))
+        gameModeLocked.zPosition = 6
+        let animateLabel = SKAction.sequence([SKAction.fadeIn(withDuration: 3.0),SKAction.wait(forDuration: 2.0),SKAction.fadeOut(withDuration: 1.0)])
+        gameModeLocked.run(animateLabel)
+        self.addChild(gameModeLocked)
     }
 }
