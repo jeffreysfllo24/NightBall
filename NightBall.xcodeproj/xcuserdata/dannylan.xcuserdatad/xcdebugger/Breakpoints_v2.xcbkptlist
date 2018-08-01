@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NightBall/MidnightGameScene.swift"
-            timestampString = "554101817.817626"
+            timestampString = "554792074.673452"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
             landmarkName = "fadeQuadrants()"
             landmarkType = "7">
          </BreakpointContent>

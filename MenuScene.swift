@@ -231,7 +231,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         viewControllerVar?.present(gKGCViewController, animated: true, completion: nil)
     }
     
-    func isMidnightModeEnabled(){
+    func isMidnightModeEnabled() {
         if((UserDefaults().integer(forKey: "HIGHSCORE") >= 100)){
             lockIcon.isHidden = true
         }

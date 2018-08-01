@@ -31,6 +31,8 @@ struct PhysicsCategory {
         
         // MARK: Nodes
         // Adding the center node which the nightball will rotate around (essentially acts as an anchor point)
+        let worldNode = SKNode()
+        var dimNode = SKSpriteNode()
         let centerNode: SKSpriteNode = SKSpriteNode(imageNamed: "Nightball - Circle")
         // Adding the quadrants of the nightball
         let quadrantRed = SKSpriteNode(imageNamed: "Quadrant-TR-Red")
@@ -45,6 +47,9 @@ struct PhysicsCategory {
         let tutorialLeft = SKSpriteNode(imageNamed: "TutorialLeft")
         var tutorial = false
         
+        let pause = SKSpriteNode(imageNamed: "pause")
+        let play = SKSpriteNode(imageNamed: "play")
+        
         // MARK: - Spawn stars
         
         var starTimer = TimeInterval(1.8)
@@ -53,7 +58,10 @@ struct PhysicsCategory {
         var divisionFactor = 1.07
         
         override func update(_ currentTime: TimeInterval) {
-            if tutorial { return }
+            if tutorial || worldNode.isPaused {
+                past = 0
+                return
+            }
             
             if (past == 0) {
                 past = currentTime // Take first timestamp
@@ -90,6 +98,12 @@ struct PhysicsCategory {
         
         init(size: CGSize,audio: Bool) {
             super.init(size: size)
+            
+            addChild(worldNode)
+            dimNode = SKSpriteNode(color: .black, size: CGSize(width: size.width * 2, height: size.height * 2))
+            dimNode.alpha = 0
+            dimNode.zPosition = 10
+            worldNode.addChild(dimNode)
             
             //Update Scaling for iPhoneX
             updateScaling()
@@ -131,16 +145,16 @@ struct PhysicsCategory {
             background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
             background.size = self.frame.size;
             background.zPosition = -6
-            addChild(background)
+            worldNode.addChild(background)
             
-            if UserDefaults().integer(forKey: "HIGHSCORE") == 0 {
+            if !isKeyPresentInUserDefaults(key: "HIGHSCORE") {
                 tutorial = true
                 
                 tutorialRight.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
                 tutorialRight.size = self.frame.size;
                 tutorialRight.zPosition = -5
                 tutorialRight.alpha = 0
-                addChild(tutorialRight)
+                worldNode.addChild(tutorialRight)
                 tutorialRight.run(SKAction.fadeIn(withDuration: 0.5))
                 
                 tutorialLeft.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -157,7 +171,7 @@ struct PhysicsCategory {
             // Add center node
             centerNode.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
             centerNode.scale(to: CGSize(width: size.width * 0.14, height: size.width * 0.14))
-            self.addChild(centerNode)
+            worldNode.addChild(centerNode)
             
             // Add quadrants
             
@@ -184,9 +198,16 @@ struct PhysicsCategory {
             myLabel.fontColor = SKColor.white
             myLabel.position = CGPoint(x: size.width * 0.5, y: size.height * 0.15)
             myLabel.zPosition = 1
-            addChild(myLabel)
+            worldNode.addChild(myLabel)
             
+            // Add pause button
+            pause.position = CGPoint(x: size.width * 0.5, y: size.height * 0.06)
+            pause.scale(to: CGSize(width: size.width * 0.1, height: size.width * 0.1))
+            addChild(pause)
             
+            play.position = CGPoint(x: size.width * 0.5, y: size.height * 0.06)
+            play.scale(to: CGSize(width: size.width * 0.1, height: size.width * 0.1))
+            play.zPosition = 11
             
     }
     required init?(coder aDecoder: NSCoder) {
@@ -199,9 +220,29 @@ struct PhysicsCategory {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch: AnyObject in touches {
             let location = touch.location(in: self)
-                        
+            
+            let pos = touch.location(in: self)
+            let node = self.atPoint(pos)
+            
+            if node == pause {
+                worldNode.isPaused = true
+                dimNode.alpha = 0.5
+                AudioPlayer4.pause()
+                physicsWorld.speed = 0
+                pause.removeFromParent()
+                addChild(play)
+            } else if node == play {
+                worldNode.isPaused = false
+                dimNode.alpha = 0
+                if let ismuted = appDelegate.ismuted, !ismuted {
+                    AudioPlayer4.play()
+                }
+                physicsWorld.speed = 1
+                play.removeFromParent()
+                addChild(pause)
+            }
             // Rotate left for taps on left
-            if(location.x < self.frame.size.width/2){
+            else if (!worldNode.isPaused && location.x < self.frame.size.width/2) {
                 let rotateAction = (SKAction.rotate(byAngle: CGFloat(Double.pi / 2), duration: 0.25))
                 centerNode.run(rotateAction)
                 if tutorial {
@@ -212,13 +253,13 @@ struct PhysicsCategory {
                 }
             }
             // Rotate right for taps on right
-            else {
+            else if (!worldNode.isPaused) {
                 let rotateAction = (SKAction.rotate(byAngle: CGFloat(-Double.pi / 2), duration: 0.25))
                 centerNode.run(rotateAction)
                 if tutorial {
                     tutorialRight.run(SKAction.fadeOut(withDuration: 0.5)) { () in
                         self.tutorialRight.removeFromParent()
-                        self.addChild(self.tutorialLeft)
+                        self.worldNode.addChild(self.tutorialLeft)
                         self.tutorialLeft.run(SKAction.fadeIn(withDuration: 0.5))
                     }
                 }
@@ -272,7 +313,7 @@ struct PhysicsCategory {
             star.position = CGPoint(x:size.width, y: 0) // Bottom right
         }
             
-        addChild(star) // Add star to scene
+        worldNode.addChild(star) // Add star to scene
             
         // Physics for star
         star.physicsBody = SKPhysicsBody(circleOfRadius: star.size.width/2)
@@ -397,5 +438,9 @@ struct PhysicsCategory {
             quadrantHeightPositionConstant = 0.16
             background = SKSpriteNode(imageNamed: "GameSceneiPhoneX")
         }
+    }
+        
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
     }
 }
