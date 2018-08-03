@@ -98,44 +98,30 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         fade.position = CGPoint(x: size.width * 0.5, y: size.height * 0.4)
         fade.scale(to: CGSize(width: 200, height: 600))
         fade.zPosition = 1
-        
-        
         let waitAction = SKAction.wait(forDuration: 2)
         let animateList = SKAction.sequence([waitAction, SKAction.fadeIn(withDuration: 1.7),SKAction.fadeOut(withDuration: 1.7)])
-        
         let repeatFade:SKAction = SKAction.repeatForever(animateList)
-
         fade.run(repeatFade)
-        
-        self.addChild(fade)
+        addChild(fade)
         
         // Second Star background
         fade2.position = CGPoint(x: size.width * 0.3, y: size.height * 0.4)
         fade2.scale(to: CGSize(width: 200, height: 600))
         fade2.zPosition = 1
-        
-        
         let animateList2 = SKAction.sequence([SKAction.fadeIn(withDuration: 5.7),SKAction.fadeOut(withDuration: 5.7)])
-        
         let repeatFade2:SKAction = SKAction.repeatForever(animateList2)
-        
         fade2.run(repeatFade2)
-        
-        self.addChild(fade2)
+        addChild(fade2)
         
         // Third Star background
         fade3.position = CGPoint(x: size.width * 0.7, y: size.height * 0.4)
         fade3.scale(to: CGSize(width: 200, height: 600))
         fade3.zPosition = 1
-        
         let waitAction2 = SKAction.wait(forDuration: 1)
         let animateList3 = SKAction.sequence([waitAction2,SKAction.fadeIn(withDuration: 2.6),SKAction.fadeOut(withDuration: 2.6)])
-        
         let repeatFade3:SKAction = SKAction.repeatForever(animateList3)
-        
         fade3.run(repeatFade3)
-        
-        self.addChild(fade3)
+        addChild(fade3)
         
         // Add Music
         let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Hypnothis", ofType: "mp3")!)
