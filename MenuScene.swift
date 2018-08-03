@@ -44,7 +44,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitleWhite")
-    let fade: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
+    let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
     let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
     let fade3: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
     let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
@@ -97,35 +97,12 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             soundIcon = SKSpriteNode(texture: soundIconTex)
             insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.25, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
         }
-        
-        // First Star background
-        fade.position = CGPoint(x: size.width * 0.5, y: size.height * 0.4)
-        fade.scale(to: CGSize(width: 200, height: 600))
-        fade.zPosition = 1
-        let waitAction = SKAction.wait(forDuration: 2)
-        let animateList = SKAction.sequence([waitAction, SKAction.fadeIn(withDuration: 1.7),SKAction.fadeOut(withDuration: 1.7)])
-        let repeatFade:SKAction = SKAction.repeatForever(animateList)
-        fade.run(repeatFade)
-        addChild(fade)
-        
-        // Second Star background
-        fade2.position = CGPoint(x: size.width * 0.3, y: size.height * 0.4)
-        fade2.scale(to: CGSize(width: 200, height: 600))
-        fade2.zPosition = 1
-        let animateList2 = SKAction.sequence([SKAction.fadeIn(withDuration: 5.7),SKAction.fadeOut(withDuration: 5.7)])
-        let repeatFade2:SKAction = SKAction.repeatForever(animateList2)
-        fade2.run(repeatFade2)
-        addChild(fade2)
-        
-        // Third Star background
-        fade3.position = CGPoint(x: size.width * 0.7, y: size.height * 0.4)
-        fade3.scale(to: CGSize(width: 200, height: 600))
-        fade3.zPosition = 1
-        let waitAction2 = SKAction.wait(forDuration: 1)
-        let animateList3 = SKAction.sequence([waitAction2,SKAction.fadeIn(withDuration: 2.6),SKAction.fadeOut(withDuration: 2.6)])
-        let repeatFade3:SKAction = SKAction.repeatForever(animateList3)
-        fade3.run(repeatFade3)
-        addChild(fade3)
+
+        // Star backgrounds
+        animateFade(fade: fade1, delay: 2, duration: 1.7, startingAlpha: 1)
+        animateFade(fade: fade2, delay: 0, duration: 5.7, startingAlpha: 0.3)
+        animateFade(fade: fade3, delay: 1, duration: 2.6, startingAlpha: 0.7)
+        animateFade(fade: fade4, delay: 0, duration: 3.2, startingAlpha: 0.1)
         
         // Add Music
         let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Hypnothis", ofType: "mp3")!)
@@ -210,7 +187,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         }
     }
     
-    func insertSKSpriteNode(object: SKSpriteNode, positionWidth: CGFloat, positionHeight: CGFloat,scaleWidth: CGFloat,scaleHeight: CGFloat, zPosition: CGFloat){
+    func insertSKSpriteNode(object: SKSpriteNode, positionWidth: CGFloat, positionHeight: CGFloat,scaleWidth: CGFloat,scaleHeight: CGFloat, zPosition: CGFloat) {
         object.position = CGPoint(x:positionWidth, y: positionHeight)
         object.scale(to: CGSize(width:scaleWidth, height:scaleHeight))
         object.zPosition = zPosition
@@ -234,7 +211,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             lockIcon.isHidden = false
         }
     }
-    func fadeInGameModeLockedLabel(){
+    func fadeInGameModeLockedLabel() {
         let gameModeLocked: SKSpriteNode = SKSpriteNode(imageNamed: "newModeLabel")
         gameModeLocked.position = CGPoint(x:size.width * 0.5, y: size.height * 0.73)
         gameModeLocked.scale(to: CGSize(width:size.width * 1.3, height: size.height * 0.30))
@@ -242,5 +219,19 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         let animateLabel = SKAction.sequence([SKAction.fadeIn(withDuration: 1.0),SKAction.wait(forDuration: 2.0),SKAction.fadeOut(withDuration: 1.0)])
         gameModeLocked.run(animateLabel)
         self.addChild(gameModeLocked)
+    }
+}
+
+extension SKScene {
+    func animateFade(fade: SKSpriteNode, delay: Double, duration: Double, startingAlpha: CGFloat) {
+        fade.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        fade.scale(to: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        fade.zPosition = -5
+        fade.alpha = startingAlpha
+        let waitAction = SKAction.wait(forDuration: delay)
+        let animateList = SKAction.sequence([waitAction, SKAction.fadeIn(withDuration: duration), SKAction.fadeOut(withDuration: duration)])
+        let repeatFade: SKAction = SKAction.repeatForever(animateList)
+        fade.run(repeatFade)
+        addChild(fade)
     }
 }

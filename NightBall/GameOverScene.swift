@@ -24,6 +24,12 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     let home: SKSpriteNode = SKSpriteNode(imageNamed: "home")
     let Leaderboard:SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let Share:SKSpriteNode = SKSpriteNode(imageNamed:"share")
+    
+    let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
+    let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
+    let fade3: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
+    let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
+    
     var refreshButtonHeight:CGFloat = 0.27
     var homeButtonHeight:CGFloat = 0.06
     var scoreValue = 0
@@ -47,6 +53,12 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         Menubackground.size = self.frame.size;
         Menubackground.zPosition = -6
         addChild(Menubackground)
+        
+        // Star backgrounds
+        animateFade(fade: fade1, delay: 2, duration: 1.7, startingAlpha: 1)
+        animateFade(fade: fade2, delay: 0, duration: 5.7, startingAlpha: 0.3)
+        animateFade(fade: fade3, delay: 1, duration: 2.6, startingAlpha: 0.7)
+        animateFade(fade: fade4, delay: 0, duration: 3.2, startingAlpha: 0.1)
         
         // Refresh Button
         refresh.position = CGPoint(x: frame.midX, y: frame.midY)
@@ -170,16 +182,12 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
     }
     
     func shareGame(scene: SKScene) {
-            let firstActivity = "I just scored \(scoreValue) in #NightBall! https://itunes.apple.com/us/app/nightball/id1330326232?ls=1&mt=8"
+        let firstActivity = "I just scored \(scoreValue) in #NightBall! https://itunes.apple.com/us/app/nightball/id1330326232?ls=1&mt=8"
         let secondActivity:UIImage = view!.snapshot!
             
-            let activityVC = UIActivityViewController(activityItems: [firstActivity,secondActivity], applicationActivities: nil)
-            let controller: UIViewController = scene.view!.window!.rootViewController!
-        controller.present(
-            activityVC,
-            animated: true,
-            completion: nil
-            )
+        let activityVC = UIActivityViewController(activityItems: [firstActivity,secondActivity], applicationActivities: nil)
+        let controller: UIViewController = scene.view!.window!.rootViewController!
+        controller.present(activityVC, animated: true, completion: nil)
     }
 }
 extension UIView {

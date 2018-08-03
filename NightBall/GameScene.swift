@@ -43,6 +43,11 @@ struct PhysicsCategory {
         var quadrantHeightPositionConstant:CGFloat = 0.2
         var quadrantWidthPositionConstant:CGFloat = 0.35
         
+        let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
+        let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
+        let fade3: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
+        let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
+        
         let tutorialRight = SKSpriteNode(imageNamed: "TutorialRight")
         let tutorialLeft = SKSpriteNode(imageNamed: "TutorialLeft")
         var tutorial = false
@@ -107,6 +112,12 @@ struct PhysicsCategory {
             
             //Update Scaling for iPhoneX
             updateScaling()
+            
+            // Star backgrounds
+            animateFade(fade: fade1, delay: 2, duration: 1.7, startingAlpha: 1)
+            animateFade(fade: fade2, delay: 0, duration: 5.7, startingAlpha: 0.3)
+            animateFade(fade: fade3, delay: 1, duration: 2.6, startingAlpha: 0.1)
+            animateFade(fade: fade4, delay: 0, duration: 4.3, startingAlpha: 0)
             
             // retrieve ismuted bool from global AppDelegate
             let  ismuted = appDelegate.ismuted
