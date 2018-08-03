@@ -35,6 +35,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let modeTex = SKTexture(image: #imageLiteral(resourceName: "Mode"))
     let mode2Tex = SKTexture(image: #imageLiteral(resourceName: "Mode2"))
     let lockIcon:SKSpriteNode = SKSpriteNode(imageNamed: "LockIcon")
+    let shoppingCartIcon:SKSpriteNode = SKSpriteNode(imageNamed: "ShoppingCart")
     var midnightOn: Bool = false
     
     var soundIcon = SKSpriteNode()
@@ -75,23 +76,26 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         lockIcon.alpha = 0.8
         isMidnightModeEnabled()
         
+        //Inset Shopping Cart Icon
+        insertSKSpriteNode(object: shoppingCartIcon, positionWidth: size.width * 0.75, positionHeight: size.height * 0.162, scaleWidth: size.width * 0.13, scaleHeight: size.height * 0.07, zPosition: 4)
+        
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
         insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
         
         // Insert Leaderboard button
-        insertSKSpriteNode(object: leaderboard, positionWidth: size.width * 0.65, positionHeight: size.height * 0.162,scaleWidth:size.width * 0.13, scaleHeight: leaderboardIconHeightScale, zPosition: 4)
+        insertSKSpriteNode(object: leaderboard, positionWidth: size.width * 0.50, positionHeight: size.height * 0.162,scaleWidth:size.width * 0.13, scaleHeight: leaderboardIconHeightScale, zPosition: 4)
        
         let  ismuted = appDelegate.ismuted
         
         if ismuted! {
             // Add Muted Icon
             soundIcon = SKSpriteNode(texture: SoundmuteTex)
-            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.35, positionHeight: size.height * 0.15,scaleWidth: size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.25, positionHeight: size.height * 0.15,scaleWidth: size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
         } else {
             // Add Sound Icon
             soundIcon = SKSpriteNode(texture: soundIconTex)
-            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.25, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
         }
         
         // First Star background
@@ -189,13 +193,13 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 if ismuted! {
                     // Replace Mute Sound Icon with Sound Icon
                     soundIcon = SKSpriteNode(texture: soundIconTex)
-                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.25, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = false
                     AudioPlayer3.play()
                 } else {
                     //Add Mute Sound Icon
                     soundIcon = SKSpriteNode(texture: SoundmuteTex)
-                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.35, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.25, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = true
                     AudioPlayer3.pause()
                 }
@@ -233,9 +237,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     func fadeInGameModeLockedLabel(){
         let gameModeLocked: SKSpriteNode = SKSpriteNode(imageNamed: "newModeLabel")
         gameModeLocked.position = CGPoint(x:size.width * 0.5, y: size.height * 0.73)
-        gameModeLocked.scale(to: CGSize(width:size.width * 0.8, height: size.height * 0.15))
+        gameModeLocked.scale(to: CGSize(width:size.width * 1.3, height: size.height * 0.30))
         gameModeLocked.zPosition = 6
-        let animateLabel = SKAction.sequence([SKAction.fadeIn(withDuration: 3.0),SKAction.wait(forDuration: 2.0),SKAction.fadeOut(withDuration: 1.0)])
+        let animateLabel = SKAction.sequence([SKAction.fadeIn(withDuration: 1.0),SKAction.wait(forDuration: 2.0),SKAction.fadeOut(withDuration: 1.0)])
         gameModeLocked.run(animateLabel)
         self.addChild(gameModeLocked)
     }
