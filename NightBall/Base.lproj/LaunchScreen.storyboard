@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -24,44 +24,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menubackground" translatesAutoresizingMaskIntoConstraints="NO" id="Mlg-kn-IFY">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="701"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="tDo-45-T7d">
-                                <rect key="frame" x="67" y="35" width="242" height="119"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="keenerstudios" translatesAutoresizingMaskIntoConstraints="NO" id="tDo-45-T7d">
+                                <rect key="frame" x="47" y="50" width="300" height="180"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="119" id="iya-hB-Fog"/>
-                                    <constraint firstAttribute="width" secondItem="tDo-45-T7d" secondAttribute="height" multiplier="242:119" id="mz0-eO-m0I"/>
-                                    <constraint firstAttribute="width" constant="242" id="oDe-1I-0BS"/>
+                                    <constraint firstAttribute="height" constant="180" id="iya-hB-Fog"/>
+                                    <constraint firstAttribute="width" constant="300" id="oDe-1I-0BS"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Launchscreenimage" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y3l-Ge-0YG">
-                                <rect key="frame" x="20" y="-333" width="334" height="1413"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="4SR-ri-F8W">
+                                <rect key="frame" x="66" y="242" width="243" height="243"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="4SR-ri-F8W" secondAttribute="height" multiplier="1:1" id="CVU-pQ-Vub"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="y3l-Ge-0YG" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="2tL-3a-4pg"/>
-                            <constraint firstItem="y3l-Ge-0YG" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="40" id="4Cv-u3-Xxz"/>
-                            <constraint firstItem="Mlg-kn-IFY" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="5n9-Bz-Hco"/>
-                            <constraint firstAttribute="trailing" secondItem="y3l-Ge-0YG" secondAttribute="trailing" constant="21" id="7aP-3b-Q33"/>
-                            <constraint firstItem="tDo-45-T7d" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="15" id="8iV-Xi-IPe"/>
-                            <constraint firstItem="y3l-Ge-0YG" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="20" id="IQV-rl-kdd"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="tDo-45-T7d" secondAttribute="trailing" constant="50" id="UJ6-Nj-6WF"/>
-                            <constraint firstAttribute="trailing" secondItem="Mlg-kn-IFY" secondAttribute="trailing" id="XPN-0T-r0Q"/>
-                            <constraint firstItem="Mlg-kn-IFY" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="c1l-RJ-JZP"/>
-                            <constraint firstItem="tDo-45-T7d" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="51" id="fKJ-T1-RGR"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Mlg-kn-IFY" secondAttribute="bottom" constant="-34" id="wuB-nf-5mi"/>
+                            <constraint firstItem="4SR-ri-F8W" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="50" id="0zt-9H-m0T"/>
+                            <constraint firstAttribute="trailing" secondItem="Mlg-kn-IFY" secondAttribute="trailing" id="9eA-NV-p4n"/>
+                            <constraint firstItem="4SR-ri-F8W" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="9l2-hR-SBA"/>
+                            <constraint firstItem="Mlg-kn-IFY" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="ItM-U5-i6I"/>
+                            <constraint firstItem="4SR-ri-F8W" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="30" id="JJa-FG-Xs3"/>
+                            <constraint firstItem="tDo-45-T7d" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="30" id="deO-oB-PRX"/>
+                            <constraint firstItem="tDo-45-T7d" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" constant="10" id="fn5-kn-RmC"/>
+                            <constraint firstAttribute="bottom" secondItem="Mlg-kn-IFY" secondAttribute="bottom" id="gFe-Yk-XCL"/>
+                            <constraint firstItem="Mlg-kn-IFY" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="oqF-2s-DWh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4SR-ri-F8W" secondAttribute="trailing" constant="50" id="sDg-zc-vl2"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="374.6305418719212"/>
+            <point key="canvasLocation" x="52" y="373.76311844077964"/>
         </scene>
     </scenes>
     <resources>
-        <image name="AppLogo" width="1402" height="656"/>
-        <image name="Launchscreenimage" width="1472" height="1413"/>
+        <image name="keenerstudios" width="2248" height="800"/>
+        <image name="launch" width="1472" height="1413"/>
         <image name="menubackground" width="1138" height="2048"/>
     </resources>
 </document>
