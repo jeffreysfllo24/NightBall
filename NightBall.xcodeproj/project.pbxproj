@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18634826F19163C030E2AAAE /* Pods_NightBallGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECD0B99C559DD6E4813D3F4C /* Pods_NightBallGame.framework */; };
 		4E42B31721018CFD005B5ED6 /* MidnightGameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E42B31621018CFD005B5ED6 /* MidnightGameOverScene.swift */; };
 		4E48F03F20FD795F00B9520E /* MidnightGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E48F03E20FD795F00B9520E /* MidnightGameScene.swift */; };
 		4E633BFE1F8EC1BA00789B2D /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E633BFB1F8EC1BA00789B2D /* Quicksand-Bold.ttf */; };
@@ -47,6 +48,9 @@
 		4EB1F1471F43EACE002669E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4EB1F1491F43EACE002669E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EE7DE261FF0AAEF0053A16F /* bluewhale.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bluewhale.mp3; sourceTree = "<group>"; };
+		5D105AA7A73A17F12630BB65 /* Pods-NightBallGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NightBallGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NightBallGame/Pods-NightBallGame.debug.xcconfig"; sourceTree = "<group>"; };
+		968F8A7DE41D809A633975F5 /* Pods-NightBallGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NightBallGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-NightBallGame/Pods-NightBallGame.release.xcconfig"; sourceTree = "<group>"; };
+		ECD0B99C559DD6E4813D3F4C /* Pods_NightBallGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NightBallGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F856D0871FEF00C900681F71 /* Hypnothis.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Hypnothis.mp3; sourceTree = "<group>"; };
 		F856D0891FEF1C3200681F71 /* Explosion10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Explosion10.wav; sourceTree = "<group>"; };
 		F856D08B1FEF1C3C00681F71 /* Beep13.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Beep13.wav; sourceTree = "<group>"; };
@@ -64,12 +68,22 @@
 			files = (
 				F8686D5F21097C2B0037D46B /* MapKit.framework in Frameworks */,
 				F8E42C0520FAA6B100690259 /* GameKit.framework in Frameworks */,
+				18634826F19163C030E2AAAE /* Pods_NightBallGame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26439867B390BE70B0B25412 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5D105AA7A73A17F12630BB65 /* Pods-NightBallGame.debug.xcconfig */,
+				968F8A7DE41D809A633975F5 /* Pods-NightBallGame.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		4EB1F12B1F43EACE002669E2 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +91,7 @@
 				4EB1F1361F43EACE002669E2 /* NightBall */,
 				4EB1F1351F43EACE002669E2 /* Products */,
 				F8E42C0020FAA5F900690259 /* Frameworks */,
+				26439867B390BE70B0B25412 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -128,6 +143,7 @@
 			children = (
 				F8686D5E21097C2B0037D46B /* MapKit.framework */,
 				F8E42C0420FAA6B100690259 /* GameKit.framework */,
+				ECD0B99C559DD6E4813D3F4C /* Pods_NightBallGame.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -139,9 +155,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4EB1F14C1F43EACE002669E2 /* Build configuration list for PBXNativeTarget "NightBallGame" */;
 			buildPhases = (
+				2E742407F63D0EEDB3A9F32F /* [CP] Check Pods Manifest.lock */,
 				4EB1F1301F43EACE002669E2 /* Sources */,
 				4EB1F1311F43EACE002669E2 /* Frameworks */,
 				4EB1F1321F43EACE002669E2 /* Resources */,
+				663ACAA85E8257851A6E829A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -165,6 +183,7 @@
 					4EB1F1331F43EACE002669E2 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = MB4R2QM3L6;
+						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
@@ -273,6 +292,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2E742407F63D0EEDB3A9F32F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NightBallGame-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		663ACAA85E8257851A6E829A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-NightBallGame/Pods-NightBallGame-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyStoreKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NightBallGame/Pods-NightBallGame-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4EB1F1301F43EACE002669E2 /* Sources */ = {
@@ -406,6 +464,7 @@
 		};
 		4EB1F14D1F43EACE002669E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D105AA7A73A17F12630BB65 /* Pods-NightBallGame.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -416,12 +475,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		4EB1F14E1F43EACE002669E2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 968F8A7DE41D809A633975F5 /* Pods-NightBallGame.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -432,7 +493,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.keener.NightBall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

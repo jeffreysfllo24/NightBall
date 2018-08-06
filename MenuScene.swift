@@ -10,7 +10,30 @@ import SpriteKit
 import AVFoundation
 import GameplayKit
 import GameKit
+import SwiftyStoreKit
+import StoreKit
 
+var sharedSecret = "f7bf998ad4774783b94f943942a8ee46"
+
+class NetworkActivityIndicatorManage: NSObject{
+    private static var loadingCount = 0
+    
+    class func NetworkOperationStarted(){
+        if(loadingCount == 0){
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
+        loadingCount += 1
+    }
+    
+    class func networkOperationFinished(){
+        if loadingCount > 0 {
+            loadingCount -= 1
+        }
+        if loadingCount == 0 {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
+    }
+}
 class MenuScene: SKScene,GKGameCenterControllerDelegate {
     func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
         gameCenterViewController.dismiss(animated: true, completion: nil)
@@ -41,6 +64,8 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     var soundIcon = SKSpriteNode()
     let soundIconTex = SKTexture(imageNamed: "SoundIcon")
     let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
+    
+    let bundleID = "com.keener.nightball.midnightPurchase"
     
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitleWhite")
@@ -220,6 +245,44 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         gameModeLocked.run(animateLabel)
         self.addChild(gameModeLocked)
     }
+    
+    //MARK: In App Purchase Logic
+    func getInfo(purchase : String ){
+        NetworkActivityIndicatorManage.NetworkOperationStarted()
+        SwiftyStoreKit.retrieveProductsInfo([bundleID], completion: {
+            result in
+            NetworkActivityIndicatorManage.networkOperationFinished()
+        })
+    }
+    func purchase(purchase : String){
+        NetworkActivityIndicatorManage.NetworkOperationStarted()
+        SwiftyStoreKit.purchaseProduct(bundleID, completion: {
+            result in
+            NetworkActivityIndicatorManage.networkOperationFinished()
+        })
+    }
+    func restorePurchases(){
+        NetworkActivityIndicatorManage.NetworkOperationStarted()
+        SwiftyStoreKit.restorePurchases(atomically: true, completion:{_ in
+            NetworkActivityIndicatorManage.networkOperationFinished()
+            
+        })
+    }
+    func verifyReceipt(){
+        NetworkActivityIndicatorManage.NetworkOperationStarted()
+        SwiftyStoreKit.verifyReceipt(using: sharedSecret as! ReceiptValidator, completion: {
+            result in
+            NetworkActivityIndicatorManage.networkOperationFinished()
+        })
+    }
+    func verifyPurchase(){
+        NetworkActivityIndicatorManage.NetworkOperationStarted()
+        SwiftyStoreKit.verifyReceipt(using: sharedSecret as! ReceiptValidator, completion: {
+            result in
+            NetworkActivityIndicatorManage.networkOperationFinished()
+        })
+    }
+
 }
 
 extension SKScene {
@@ -233,5 +296,26 @@ extension SKScene {
         let repeatFade: SKAction = SKAction.repeatForever(animateList)
         fade.run(repeatFade)
         addChild(fade)
+    }
+    func alertWithTitle(title:String, message: String) -> UIAlertController{
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        return alert
+    }
+    func showAlert(alert : UIAlertController){
+        guard let _ = self.scene else{
+            self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
+            return
+        }
+    }
+    func ForProductRetrievalInfo(result: RetrieveResults) -> UIAlertController {
+        if let product = result.retrievedProducts.first{
+            let priceString = product.localizedPrice
+            return alertWithTitle(title: product.localizedTitle, message: "\(product.localizedDescription) - \(String(describing: priceString))")
+        }
+        else{
+            let errorString = result.error?.localizedDescription ?? "Unknown Error."
+            return alertWithTitle(title: "Could not retrieve product info", message: errorString)
+        }
     }
 }
