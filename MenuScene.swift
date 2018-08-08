@@ -209,6 +209,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             if node == leaderboard {
                 showLeader()
             }
+            if node == shoppingCartIcon{
+                purchase()
+            }
         }
     }
     
@@ -252,34 +255,67 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         SwiftyStoreKit.retrieveProductsInfo([bundleID], completion: {
             result in
             NetworkActivityIndicatorManage.networkOperationFinished()
+            self.showAlert(alert: self.forProductRetrievalInfo(result:result))
         })
     }
-    func purchase(purchase : String){
+    func purchase(){
         NetworkActivityIndicatorManage.NetworkOperationStarted()
         SwiftyStoreKit.purchaseProduct(bundleID, completion: {
             result in
             NetworkActivityIndicatorManage.networkOperationFinished()
+            
+            if case .success(let product) = result {
+                if product.needsFinishTransaction{
+                    SwiftyStoreKit.finishTransaction(product.transaction)
+                }
+                self.showAlert(alert: self.alertForPurchaseResult(result: result))
+            }
+            else {
+                self.showAlert(alert: self.alertForPurchaseResult(result: result))
+            }
         })
     }
     func restorePurchases(){
         NetworkActivityIndicatorManage.NetworkOperationStarted()
-        SwiftyStoreKit.restorePurchases(atomically: true, completion:{_ in
-            NetworkActivityIndicatorManage.networkOperationFinished()
-            
-        })
-    }
-    func verifyReceipt(){
-        NetworkActivityIndicatorManage.NetworkOperationStarted()
-        SwiftyStoreKit.verifyReceipt(using: sharedSecret as! ReceiptValidator, completion: {
+        SwiftyStoreKit.restorePurchases(atomically: true, completion:{
             result in
             NetworkActivityIndicatorManage.networkOperationFinished()
+            
+            for product in result.restoredPurchases{
+                if product.needsFinishTransaction{
+                    SwiftyStoreKit.finishTransaction(product.transaction)
+                }
+            }
+            self.showAlert(alert: self.alertForRestorePurchases(result: result))
         })
     }
+//    func verifyReceipt(){
+//        NetworkActivityIndicatorManage.NetworkOperationStarted()
+//        SwiftyStoreKit.verifyReceipt(using: sharedSecret as! ReceiptValidator, completion: {
+//            result in
+//            NetworkActivityIndicatorManage.networkOperationFinished()
+//            self.showAlert(alert: self.alertForVerifyReceipt(result: result))
+//
+//            if case .error(let error) = result{
+//                if case .noReceiptData = error{
+//                    SKReceiptRefreshRequest()
+//                }
+//            }
+//        })
+//    }
     func verifyPurchase(){
         NetworkActivityIndicatorManage.NetworkOperationStarted()
         SwiftyStoreKit.verifyReceipt(using: sharedSecret as! ReceiptValidator, completion: {
             result in
             NetworkActivityIndicatorManage.networkOperationFinished()
+            switch result {
+            case .success(let receipt):
+                let productID = self.bundleID
+                let purchaseResult = SwiftyStoreKit.verifyPurchase(productId: productID, inReceipt: receipt)
+                self.showAlert(alert: self.alertForVerifyPurchase(result:purchaseResult))
+            case .error(let error):
+                self.showAlert(alert: self.alertForVerifyReceipt(result: result))
+            }
         })
     }
 
@@ -308,7 +344,7 @@ extension SKScene {
             return
         }
     }
-    func ForProductRetrievalInfo(result: RetrieveResults) -> UIAlertController {
+    func forProductRetrievalInfo(result: RetrieveResults) -> UIAlertController {
         if let product = result.retrievedProducts.first{
             let priceString = product.localizedPrice
             return alertWithTitle(title: product.localizedTitle, message: "\(product.localizedDescription) - \(String(describing: priceString))")
@@ -316,6 +352,46 @@ extension SKScene {
         else{
             let errorString = result.error?.localizedDescription ?? "Unknown Error."
             return alertWithTitle(title: "Could not retrieve product info", message: errorString)
+        }
+    }
+    func alertForPurchaseResult(result: PurchaseResult) ->UIAlertController {
+        switch result{
+        case .success(let product):
+            print("Purchase Succesful: \(product.productId)")
+            return alertWithTitle(title: "Thank You", message: "Purchase Completed")
+        case .error(let error):
+        print("Purchase Failed: \(error)")
+        return alertWithTitle(title: "Purchase Failed", message: "Error Occured")
+        }
+    }
+    func alertForRestorePurchases(result : RestoreResults) -> UIAlertController {
+        if result.restoredPurchases.count > 0 {
+            print("Restore Failed: \(result.restoreFailedPurchases)")
+            return alertWithTitle(title: "Restore Failed", message: "Unknown Error")
+        }
+        else if result.restoredPurchases.count > 0 {
+            return alertWithTitle(title: "Purchases Restored", message: "All purchases have been restored")
+        }
+        else{
+            return alertWithTitle(title: "Nothing To Restore", message: "No previous purchases were made")
+        }
+    }
+    func alertForVerifyReceipt(result: VerifyReceiptResult) -> UIAlertController {
+        switch result{
+        case.success(let receipt):
+            return alertWithTitle(title: "Receipt Verified", message: "Receipt Verified Remotely")
+        
+        case.error(let error):
+            return alertWithTitle(title: "Receipt verification", message: "Receipt Verification failed")
+        }
+    }
+    
+    func alertForVerifyPurchase(result: VerifyPurchaseResult) -> UIAlertController {
+        switch result {
+        case .purchased:
+            return alertWithTitle(title: "Product is Purchased", message: "Product will not expire")
+        case .notPurchased:
+            return alertWithTitle(title: "Product is not Purchased", message: "Product has never been pruchased")
         }
     }
 }
