@@ -66,6 +66,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
     
     let bundleID = "com.keener.nightball.midnightPurchase"
+    let purchased = UserDefaults.standard.bool(forKey: "com.keener.nightball.midnightPurchase")
     
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitleWhite")
@@ -75,6 +76,13 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
     let menuBackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackgroundNew")
     
+    override func sceneDidLoad() {
+        verifyPurchase()
+        //Insert Lock Icon
+        insertSKSpriteNode(object: lockIcon, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.09, scaleHeight: size.width * 0.09, zPosition: 5)
+        lockIcon.alpha = 0.8
+        isMidnightModeEnabled()
+    }
     override func didMove(to view: SKView) {
         var soundIconHeightScale:CGFloat = size.height * 0.06
         var leaderboardIconHeightScale:CGFloat = size.height * 0.07
@@ -95,11 +103,6 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         // Insert change mode button
         modeButton = SKSpriteNode(texture: modeTex)
         insertSKSpriteNode(object: modeButton, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.28, scaleHeight: size.width * 0.17, zPosition: 4)
-        
-        //Insert Lock Icon
-        insertSKSpriteNode(object: lockIcon, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.09, scaleHeight: size.width * 0.09, zPosition: 5)
-        lockIcon.alpha = 0.8
-        isMidnightModeEnabled()
         
         //Inset Shopping Cart Icon
         insertSKSpriteNode(object: shoppingCartIcon, positionWidth: size.width * 0.75, positionHeight: size.height * 0.162, scaleWidth: size.width * 0.13, scaleHeight: size.height * 0.07, zPosition: 4)
@@ -230,7 +233,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     }
     
     func isMidnightModeEnabled() {
-        if((UserDefaults().integer(forKey: "HIGHSCORE") >= 100)){
+        if((UserDefaults().integer(forKey: "HIGHSCORE") >= 200))||(UserDefaults().bool(forKey: self.bundleID)){
             lockIcon.isHidden = true
         }
         else{
@@ -268,6 +271,8 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 if product.needsFinishTransaction{
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
+                UserDefaults.standard.set(true, forKey: self.bundleID)
+                self.lockIcon.isHidden = true
                 self.showAlert(alert: self.alertForPurchaseResult(result: result))
             }
             else {
@@ -289,23 +294,11 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             self.showAlert(alert: self.alertForRestorePurchases(result: result))
         })
     }
-//    func verifyReceipt(){
-//        NetworkActivityIndicatorManage.NetworkOperationStarted()
-//        SwiftyStoreKit.verifyReceipt(using: sharedSecret as! ReceiptValidator, completion: {
-//            result in
-//            NetworkActivityIndicatorManage.networkOperationFinished()
-//            self.showAlert(alert: self.alertForVerifyReceipt(result: result))
-//
-//            if case .error(let error) = result{
-//                if case .noReceiptData = error{
-//                    SKReceiptRefreshRequest()
-//                }
-//            }
-//        })
-//    }
+
     func verifyPurchase(){
         NetworkActivityIndicatorManage.NetworkOperationStarted()
-        SwiftyStoreKit.verifyReceipt(using: sharedSecret as! ReceiptValidator, completion: {
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
+        SwiftyStoreKit.verifyReceipt(using: appleValidator, completion: {
             result in
             NetworkActivityIndicatorManage.networkOperationFinished()
             switch result {
@@ -370,6 +363,7 @@ extension SKScene {
             return alertWithTitle(title: "Restore Failed", message: "Unknown Error")
         }
         else if result.restoredPurchases.count > 0 {
+            UserDefaults.standard.set(true, forKey: "com.keener.nightball.midnightPurchase")
             return alertWithTitle(title: "Purchases Restored", message: "All purchases have been restored")
         }
         else{
@@ -389,6 +383,7 @@ extension SKScene {
     func alertForVerifyPurchase(result: VerifyPurchaseResult) -> UIAlertController {
         switch result {
         case .purchased:
+            UserDefaults.standard.set(true, forKey: "com.keener.nightball.midnightPurchase")
             return alertWithTitle(title: "Product is Purchased", message: "Product will not expire")
         case .notPurchased:
             return alertWithTitle(title: "Product is not Purchased", message: "Product has never been pruchased")
