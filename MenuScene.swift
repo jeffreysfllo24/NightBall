@@ -65,9 +65,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let soundIconTex = SKTexture(imageNamed: "SoundIcon")
     let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
     
-    let bundleID = "com.keener.nightball.midnightPurchase"
-    let purchased = UserDefaults.standard.bool(forKey: "com.keener.nightball.midnightPurchase")
-    
+    let bundleID = "com.keener.nightball.midnightPurchase"    
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitleWhite")
     let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
@@ -76,8 +74,10 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
     let menuBackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackgroundNew")
     
+
     override func sceneDidLoad() {
         verifyPurchase()
+        restorePurchases()
         //Insert Lock Icon
         insertSKSpriteNode(object: lockIcon, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.09, scaleHeight: size.width * 0.09, zPosition: 5)
         lockIcon.alpha = 0.8
@@ -90,7 +90,6 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             soundIconHeightScale = size.height * 0.047
             leaderboardIconHeightScale = size.height * 0.063
         }
-        
         // Add Background
         menuBackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         menuBackground.size = self.frame.size;
@@ -233,7 +232,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     }
     
     func isMidnightModeEnabled() {
-        if((UserDefaults().integer(forKey: "HIGHSCORE") >= 200))||(UserDefaults().bool(forKey: self.bundleID)){
+        if((UserDefaults().integer(forKey: "HIGHSCORE") >= 200)){
             lockIcon.isHidden = true
         }
         else{
@@ -271,7 +270,6 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 if product.needsFinishTransaction{
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
-                UserDefaults.standard.set(true, forKey: self.bundleID)
                 self.lockIcon.isHidden = true
                 self.showAlert(alert: self.alertForPurchaseResult(result: result))
             }
@@ -311,7 +309,28 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             }
         })
     }
-
+    func alertForVerifyPurchase(result: VerifyPurchaseResult) -> UIAlertController {
+        switch result {
+        case .purchased:
+            lockIcon.isHidden = true
+            return alertWithTitle(title: "Product is Purchased", message: "Product will not expire")
+        case .notPurchased:
+            return alertWithTitle(title: "Product is not Purchased", message: "Product has never been pruchased")
+        }
+    }
+    func alertForRestorePurchases(result : RestoreResults) -> UIAlertController {
+        if result.restoreFailedPurchases.count > 0 {
+            print("Restore Failed: \(result.restoreFailedPurchases)")
+            return alertWithTitle(title: "Restore Failed", message: "Unknown Error")
+        }
+        else if result.restoredPurchases.count > 0 {
+            lockIcon.isHidden = true
+            return alertWithTitle(title: "Purchases Restored", message: "All purchases have been restored")
+        }
+        else{
+            return alertWithTitle(title: "Nothing To Restore", message: "No previous purchases were made")
+        }
+    }
 }
 
 extension SKScene {
@@ -353,21 +372,8 @@ extension SKScene {
             print("Purchase Succesful: \(product.productId)")
             return alertWithTitle(title: "Thank You", message: "Purchase Completed")
         case .error(let error):
-        print("Purchase Failed: \(error)")
-        return alertWithTitle(title: "Purchase Failed", message: "Error Occured")
-        }
-    }
-    func alertForRestorePurchases(result : RestoreResults) -> UIAlertController {
-        if result.restoredPurchases.count > 0 {
-            print("Restore Failed: \(result.restoreFailedPurchases)")
-            return alertWithTitle(title: "Restore Failed", message: "Unknown Error")
-        }
-        else if result.restoredPurchases.count > 0 {
-            UserDefaults.standard.set(true, forKey: "com.keener.nightball.midnightPurchase")
-            return alertWithTitle(title: "Purchases Restored", message: "All purchases have been restored")
-        }
-        else{
-            return alertWithTitle(title: "Nothing To Restore", message: "No previous purchases were made")
+            print("Purchase Failed: \(error)")
+            return alertWithTitle(title: "Purchase Failed", message: "Error Occured")
         }
     }
     func alertForVerifyReceipt(result: VerifyReceiptResult) -> UIAlertController {
@@ -377,16 +383,6 @@ extension SKScene {
         
         case.error(let error):
             return alertWithTitle(title: "Receipt verification", message: "Receipt Verification failed")
-        }
-    }
-    
-    func alertForVerifyPurchase(result: VerifyPurchaseResult) -> UIAlertController {
-        switch result {
-        case .purchased:
-            UserDefaults.standard.set(true, forKey: "com.keener.nightball.midnightPurchase")
-            return alertWithTitle(title: "Product is Purchased", message: "Product will not expire")
-        case .notPurchased:
-            return alertWithTitle(title: "Product is not Purchased", message: "Product has never been pruchased")
         }
     }
 }
