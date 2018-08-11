@@ -126,10 +126,10 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         }
 
         // Star backgrounds
-        animateFade(fade: fade1, delay: 2, duration: 1.7, startingAlpha: 1)
-        animateFade(fade: fade2, delay: 0, duration: 5.7, startingAlpha: 0.3)
-        animateFade(fade: fade3, delay: 1, duration: 2.6, startingAlpha: 0.7)
-        animateFade(fade: fade4, delay: 0, duration: 3.2, startingAlpha: 0.1)
+        animateFade(fade: fade1, delay: 2, duration: 1.7, startingAlpha: 1, width: size.width * 0.8, height: size.height * 0.8,positionWidth: size.width * 0.3,positionHeight: size.height * 0.7)
+        animateFade(fade: fade2, delay: 0, duration: 5.7, startingAlpha: 0.3, width: size.width * 0.8, height: size.height * 0.8,positionWidth: size.width * 0.7,positionHeight: size.height * 0.7)
+        animateFade(fade: fade3, delay: 1, duration: 2.6, startingAlpha: 0.7, width: size.width * 0.8, height: size.height * 0.8,positionWidth: size.width * 0.3,positionHeight: size.height * 0.3)
+        animateFade(fade: fade4, delay: 0, duration: 3.2, startingAlpha: 0.1, width: size.width * 0.8, height: size.height * 0.8,positionWidth: size.width * 0.7,positionHeight: size.height * 0.3)
         
         // Add Music
         let AssortedMusics = NSURL(fileURLWithPath: Bundle.main.path(forResource: "Hypnothis", ofType: "mp3")!)
@@ -334,9 +334,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
 }
 
 extension SKScene {
-    func animateFade(fade: SKSpriteNode, delay: Double, duration: Double, startingAlpha: CGFloat) {
-        fade.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        fade.scale(to: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+    func animateFade(fade: SKSpriteNode, delay: Double, duration: Double, startingAlpha: CGFloat,width:CGFloat,height:CGFloat,positionWidth:CGFloat,positionHeight:CGFloat) {
+        fade.position = CGPoint(x: positionWidth, y: positionHeight)
+        fade.scale(to: CGSize(width: width, height: height))
         fade.zPosition = -5
         fade.alpha = startingAlpha
         let waitAction = SKAction.wait(forDuration: delay)
