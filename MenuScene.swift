@@ -242,9 +242,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         }
     }
     func fadeInGameModeLockedLabel() {
-        let gameModeLocked: SKSpriteNode = SKSpriteNode(imageNamed: "newModeLabel")
+        let gameModeLocked: SKSpriteNode = SKLabelNode(fontNamed: "Quicksand-Regular")
+        gameModeLocked.text = "Reach 200 points or unlock in our Store"
         gameModeLocked.position = CGPoint(x:size.width * 0.5, y: size.height * 0.73)
-        gameModeLocked.scale(to: CGSize(width:size.width * 1.3, height: size.height * 0.30))
         gameModeLocked.zPosition = 6
         let animateLabel = SKAction.sequence([SKAction.fadeIn(withDuration: 1.0),SKAction.wait(forDuration: 2.0),SKAction.fadeOut(withDuration: 1.0)])
         gameModeLocked.run(animateLabel)
