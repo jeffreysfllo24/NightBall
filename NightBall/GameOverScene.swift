@@ -55,10 +55,10 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate {
         addChild(Menubackground)
         
         // Star backgrounds
-        animateFade(fade: fade1, delay: 2, duration: 1.7, startingAlpha: 1)
-        animateFade(fade: fade2, delay: 0, duration: 5.7, startingAlpha: 0.3)
-        animateFade(fade: fade3, delay: 1, duration: 2.6, startingAlpha: 0.7)
-        animateFade(fade: fade4, delay: 0, duration: 3.2, startingAlpha: 0.1)
+        animateFade(fade: fade1, delay: 2, duration: 1.7, startingAlpha: 1, width: size.width * 0.8, height: size.height * 0.8,positionWidth: size.width * 0.3,positionHeight: size.height * 0.7)
+        animateFade(fade: fade2, delay: 0, duration: 5.7, startingAlpha: 0.3, width: size.width * 0.8, height: size.height * 0.8,positionWidth: size.width * 0.7,positionHeight: size.height * 0.7)
+        animateFade(fade: fade3, delay: 1, duration: 2.6, startingAlpha: 0.7, width: size.width * 0.8, height: size.height * 0.8,positionWidth: size.width * 0.3,positionHeight: size.height * 0.3)
+        animateFade(fade: fade4, delay: 0, duration: 3.2, startingAlpha: 0.1, width: size.width * 0.8, height: size.height * 0.8,positionWidth: size.width * 0.7,positionHeight: size.height * 0.3)
         
         // Refresh Button
         refresh.position = CGPoint(x: frame.midX, y: frame.midY)
