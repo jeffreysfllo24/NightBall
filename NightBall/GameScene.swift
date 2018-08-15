@@ -40,8 +40,11 @@ struct PhysicsCategory {
         let quadrantBlue = SKSpriteNode(imageNamed: "Quadrant-BR-Blue")
         let quadrantYellow = SKSpriteNode(imageNamed: "Quadrant-BL-Yellow")
         var quadrantHeightScaleConstant:CGFloat = 0.54
-        var quadrantHeightPositionConstant:CGFloat = 0.2
-        var quadrantWidthPositionConstant:CGFloat = 0.35
+        var quadrantWidthScaleConstant:CGFloat = 0.93
+        var quadrantHeightPositionConstant:CGFloat = 0.19
+        var quadrantWidthPositionConstant:CGFloat = 0.34
+        var centerNodeScale:CGFloat = 0.14
+
         
         let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
         let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
@@ -178,29 +181,36 @@ struct PhysicsCategory {
             physicsWorld.contactDelegate = self // Recognize collisions
            
             // MARK: Create and position NightBall
+            if(UIScreen.main.bounds.height == MenuScene().iPhone5sScreenHeight){
+                quadrantHeightScaleConstant = 0.59
+                quadrantWidthScaleConstant = 1.00
+                centerNodeScale = 0.17
+                quadrantHeightPositionConstant = 0.21
+                quadrantWidthPositionConstant = 0.37
+            }
             
             // Add center node
             centerNode.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-            centerNode.scale(to: CGSize(width: size.width * 0.14, height: size.width * 0.14))
+            centerNode.scale(to: CGSize(width: size.width * centerNodeScale, height: size.width * centerNodeScale))
             worldNode.addChild(centerNode)
             
             // Add quadrants
             
             // Add red quadrant to top right
-           createQuadrant(centerNode: centerNode, quadrant: quadrantRed,quadrantHeightPoisition:quadrantHeightPositionConstant,quadrantWidthPoisition:quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
+            createQuadrant(centerNode: centerNode, quadrant: quadrantRed,quadrantHeightPoisition:quadrantHeightPositionConstant,quadrantWidthPoisition:quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant, quadrantWidthScale: quadrantWidthScaleConstant)
             quadrantRed.physicsBody?.categoryBitMask = PhysicsCategory.quadrantRed
             
             // Add green quadrant to top left
-            createQuadrant(centerNode: centerNode, quadrant: quadrantGreen,quadrantHeightPoisition:quadrantHeightPositionConstant,quadrantWidthPoisition:-quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
+            createQuadrant(centerNode: centerNode, quadrant: quadrantGreen,quadrantHeightPoisition:quadrantHeightPositionConstant,quadrantWidthPoisition:-quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant, quadrantWidthScale: quadrantWidthScaleConstant)
             quadrantGreen.physicsBody?.categoryBitMask = PhysicsCategory.quadrantGreen
             
             
             // Add blue quadrant to bottom right
-            createQuadrant(centerNode: centerNode, quadrant: quadrantBlue,quadrantHeightPoisition:-quadrantHeightPositionConstant,quadrantWidthPoisition:quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
+            createQuadrant(centerNode: centerNode, quadrant: quadrantBlue,quadrantHeightPoisition:-quadrantHeightPositionConstant,quadrantWidthPoisition:quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant, quadrantWidthScale: quadrantWidthScaleConstant)
             quadrantBlue.physicsBody?.categoryBitMask = PhysicsCategory.quadrantBlue
             
             // Add yellow quadrant to bottom left
-            createQuadrant(centerNode: centerNode, quadrant: quadrantYellow,quadrantHeightPoisition:-quadrantHeightPositionConstant,quadrantWidthPoisition:-quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant)
+            createQuadrant(centerNode: centerNode, quadrant: quadrantYellow,quadrantHeightPoisition:-quadrantHeightPositionConstant,quadrantWidthPoisition:-quadrantWidthPositionConstant,quadrantHeightScale:quadrantHeightScaleConstant, quadrantWidthScale: quadrantWidthScaleConstant)
             quadrantYellow.physicsBody?.categoryBitMask = PhysicsCategory.quadrantYellow
             
             // Add Score Label
@@ -432,9 +442,9 @@ struct PhysicsCategory {
             
     }
         
-    func createQuadrant(centerNode: SKSpriteNode, quadrant: SKSpriteNode,quadrantHeightPoisition:CGFloat,quadrantWidthPoisition:CGFloat,quadrantHeightScale:CGFloat) {
+        func createQuadrant(centerNode: SKSpriteNode, quadrant: SKSpriteNode,quadrantHeightPoisition:CGFloat,quadrantWidthPoisition:CGFloat,quadrantHeightScale:CGFloat,quadrantWidthScale: CGFloat) {
         quadrant.position = CGPoint(x: size.width * quadrantWidthPoisition, y: size.height * quadrantHeightPoisition)
-        quadrant.scale(to: CGSize(width: size.width * 0.97, height: size.height * quadrantHeightScale))
+        quadrant.scale(to: CGSize(width: size.width * quadrantWidthScale, height: size.height * quadrantHeightScale))
         quadrant.zPosition = 1
         centerNode.addChild(quadrant)
         quadrant.physicsBody = SKPhysicsBody(circleOfRadius: quadrant.size.width/100)
