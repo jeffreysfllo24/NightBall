@@ -95,7 +95,7 @@ struct PhysicsCategory {
         }
 
         // Background
-        var background: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackgroundNew")
+        var background: SKSpriteNode = SKSpriteNode(imageNamed: "GameSceneBackground")
         
         // Score Counter
         var points = 0
