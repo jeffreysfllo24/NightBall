@@ -161,7 +161,7 @@ struct PhysicsCategory {
             background.zPosition = -6
             worldNode.addChild(background)
             
-            if !isKeyPresentInUserDefaults(key: "HIGHSCORE") {
+            if !isKeyPresentInUserDefaults(key: "isFirstTime") {
                 tutorial = true
                 
                 tutorialRight.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -383,6 +383,7 @@ struct PhysicsCategory {
     // End game when star collides with wrong quadrant
     func starBadCollision() {
         print("End")
+        UserDefaults.standard.set(false, forKey: "isFirstTime")
         AudioPlayer2.play()
         
         let loseAction = SKAction.run() {
