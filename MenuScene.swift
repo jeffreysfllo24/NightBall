@@ -264,11 +264,12 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         }
     }
     func fadeInGameModeLockedLabel() {
-        let gameModeLocked: SKSpriteNode = SKLabelNode(fontNamed: "Quicksand-Regular")
-        gameModeLocked.text = "Reach 200 points or unlock in our Store"
-        gameModeLocked.position = CGPoint(x:size.width * 0.5, y: size.height * 0.73)
+        let gameModeLocked: SKSpriteNode = SKSpriteNode(imageNamed: "popUp")
+        gameModeLocked.position = CGPoint(x:size.width * 0.5, y: size.height * 0.5)
+        gameModeLocked.scale(to: CGSize(width: size.width * 0.6, height: size.width * 0.6))
         gameModeLocked.zPosition = 6
-        let animateLabel = SKAction.sequence([SKAction.fadeIn(withDuration: 1.0),SKAction.wait(forDuration: 2.0),SKAction.fadeOut(withDuration: 1.0)])
+        gameModeLocked.alpha = 0
+        let animateLabel = SKAction.sequence([SKAction.fadeIn(withDuration: 1.0),SKAction.wait(forDuration: 1.0),SKAction.fadeOut(withDuration: 1.0)])
         gameModeLocked.run(animateLabel)
         self.addChild(gameModeLocked)
     }
@@ -289,7 +290,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             NetworkActivityIndicatorManage.networkOperationFinished()
             
             if case .success(let product) = result {
-                if product.needsFinishTransaction{
+                if product.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
                 self.lockIcon.isHidden = true
@@ -306,8 +307,8 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             result in
             NetworkActivityIndicatorManage.networkOperationFinished()
             
-            for product in result.restoredPurchases{
-                if product.needsFinishTransaction{
+            for product in result.restoredPurchases {
+                if product.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
             }
