@@ -42,6 +42,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     // Access global AppDelegate
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
+    //Scale Factor
+    let iPhone5sScreenHeight:CGFloat = 568
+    let iPhone5sScreenWidth:CGFloat = 320
     // Music
     var AudioPlayer3 = AVAudioPlayer()
     
@@ -58,6 +61,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let modeTex = SKTexture(image: #imageLiteral(resourceName: "Mode"))
     let mode2Tex = SKTexture(image: #imageLiteral(resourceName: "Mode2"))
     let lockIcon:SKSpriteNode = SKSpriteNode(imageNamed: "LockIcon")
+    let restoreIcon: SKSpriteNode = SKSpriteNode(imageNamed: "RestoreIcon")
     let shoppingCartIcon:SKSpriteNode = SKSpriteNode(imageNamed: "ShoppingCart")
     var midnightOn: Bool = false
     
@@ -77,18 +81,26 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
 
     override func sceneDidLoad() {
         verifyPurchase()
-        restorePurchases()
         //Insert Lock Icon
         insertSKSpriteNode(object: lockIcon, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.09, scaleHeight: size.width * 0.09, zPosition: 5)
         lockIcon.alpha = 0.8
         isMidnightModeEnabled()
     }
     override func didMove(to view: SKView) {
-        var soundIconHeightScale:CGFloat = size.height * 0.06
-        var leaderboardIconHeightScale:CGFloat = size.height * 0.07
+        var soundIconHeightScale:CGFloat = size.height * 0.048
+        var leaderboardIconHeightScale:CGFloat = size.height * 0.06
+        var shoppingCartIconHeightScale:CGFloat = size.height * 0.063
+        var restoreIconHeightScale:CGFloat = size.height * 0.065
+        var titleHeightScale:CGFloat = size.height * 0.13
+        var souncIconHeightPosition:CGFloat = size.height * 0.153
+
         if(UIScreen.main.bounds.height == 812){
-            soundIconHeightScale = size.height * 0.047
-            leaderboardIconHeightScale = size.height * 0.063
+            soundIconHeightScale = size.height * 0.042
+            leaderboardIconHeightScale = size.height * 0.053
+            shoppingCartIconHeightScale = size.height * 0.055
+            restoreIconHeightScale = size.height * 0.057
+            titleHeightScale = size.height * 0.11
+            souncIconHeightPosition = size.height * 0.155
         }
         // Add Background
         menuBackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -97,32 +109,35 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         self.addChild(menuBackground)
         
         // Insert Title
-        insertSKSpriteNode(object: title, positionWidth: size.width * 0.5, positionHeight: size.height * 0.85,scaleWidth:size.width * 0.6,scaleHeight: size.height * 0.13, zPosition: 1)
+        insertSKSpriteNode(object: title, positionWidth: size.width * 0.5, positionHeight: size.height * 0.85,scaleWidth:size.width * 0.6,scaleHeight: titleHeightScale, zPosition: 1)
 
         // Insert change mode button
         modeButton = SKSpriteNode(texture: modeTex)
         insertSKSpriteNode(object: modeButton, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.28, scaleHeight: size.width * 0.17, zPosition: 4)
         
-        //Inset Shopping Cart Icon
-        insertSKSpriteNode(object: shoppingCartIcon, positionWidth: size.width * 0.75, positionHeight: size.height * 0.162, scaleWidth: size.width * 0.13, scaleHeight: size.height * 0.07, zPosition: 4)
+        //Insert Shopping Cart Icon
+        insertSKSpriteNode(object: shoppingCartIcon, positionWidth: size.width * 0.61, positionHeight: size.height * 0.162, scaleWidth: size.width * 0.12, scaleHeight: shoppingCartIconHeightScale, zPosition: 4)
+        
+        //Insert Restore Icon
+        insertSKSpriteNode(object: restoreIcon, positionWidth: size.width * 0.83, positionHeight: size.height * 0.162, scaleWidth: size.width * 0.12, scaleHeight: restoreIconHeightScale, zPosition: 4)
         
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
         insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
         
         // Insert Leaderboard button
-        insertSKSpriteNode(object: leaderboard, positionWidth: size.width * 0.50, positionHeight: size.height * 0.162,scaleWidth:size.width * 0.13, scaleHeight: leaderboardIconHeightScale, zPosition: 4)
+        insertSKSpriteNode(object: leaderboard, positionWidth: size.width * 0.39, positionHeight: size.height * 0.162,scaleWidth:size.width * 0.11, scaleHeight: leaderboardIconHeightScale, zPosition: 4)
        
         let  ismuted = appDelegate.ismuted
         
         if ismuted! {
             // Add Muted Icon
             soundIcon = SKSpriteNode(texture: SoundmuteTex)
-            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.25, positionHeight: size.height * 0.15,scaleWidth: size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.17, positionHeight: souncIconHeightPosition,scaleWidth: size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
         } else {
             // Add Sound Icon
             soundIcon = SKSpriteNode(texture: soundIconTex)
-            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.25, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:souncIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
         }
 
         // Star backgrounds
@@ -143,9 +158,12 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        var soundIconHeightScale:CGFloat = size.height * 0.06
+        var soundIconHeightScale:CGFloat = size.height * 0.045
+        var souncIconHeightPosition:CGFloat = size.height * 0.153
+
         if(UIScreen.main.bounds.height == 812){
-            soundIconHeightScale = size.height * 0.047
+            soundIconHeightScale = size.height * 0.040
+            souncIconHeightPosition = size.height * 0.155
         }
         // If the play button is touched enter game scene
         if let touch = touches.first {
@@ -197,13 +215,13 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 if ismuted! {
                     // Replace Mute Sound Icon with Sound Icon
                     soundIcon = SKSpriteNode(texture: soundIconTex)
-                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.25, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:souncIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = false
                     AudioPlayer3.play()
                 } else {
                     //Add Mute Sound Icon
                     soundIcon = SKSpriteNode(texture: SoundmuteTex)
-                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.25, positionHeight:size.height * 0.15,scaleWidth:size.width * 0.15,scaleHeight: soundIconHeightScale, zPosition: 4)
+                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:souncIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = true
                     AudioPlayer3.pause()
                 }
@@ -214,10 +232,14 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             if node == shoppingCartIcon{
                 purchase()
             }
+            if node == restoreIcon{
+                restorePurchases()
+            }
         }
     }
     
     func insertSKSpriteNode(object: SKSpriteNode, positionWidth: CGFloat, positionHeight: CGFloat,scaleWidth: CGFloat,scaleHeight: CGFloat, zPosition: CGFloat) {
+
         object.position = CGPoint(x:positionWidth, y: positionHeight)
         object.scale(to: CGSize(width:scaleWidth, height:scaleHeight))
         object.zPosition = zPosition
