@@ -71,7 +71,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     
     let bundleID = "com.keener.nightball.midnightPurchase"    
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
-    let title: SKSpriteNode = SKSpriteNode(imageNamed: "AppTitleWhite")
+    let title: SKSpriteNode = SKSpriteNode(imageNamed: "moonhouseNightBallTitle")
     let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
     let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
     let fade3: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
@@ -109,7 +109,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         self.addChild(menuBackground)
         
         // Insert Title
-        insertSKSpriteNode(object: title, positionWidth: size.width * 0.5, positionHeight: size.height * 0.85,scaleWidth:size.width * 0.6,scaleHeight: titleHeightScale, zPosition: 1)
+        insertSKSpriteNode(object: title, positionWidth: size.width * 0.5, positionHeight: size.height * 0.88,scaleWidth:size.width * 0.7,scaleHeight: titleHeightScale, zPosition: 1)
 
         // Insert change mode button
         modeButton = SKSpriteNode(texture: modeTex)
