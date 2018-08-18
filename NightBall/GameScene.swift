@@ -45,7 +45,6 @@ struct PhysicsCategory {
         var quadrantWidthPositionConstant:CGFloat = 0.34
         var centerNodeScale:CGFloat = 0.14
 
-        
         let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
         let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
         let fade3: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
@@ -57,6 +56,7 @@ struct PhysicsCategory {
         
         let pause = SKSpriteNode(imageNamed: "pause")
         let play = SKSpriteNode(imageNamed: "play")
+        var canPause = 0
         
         // MARK: - Spawn stars
         
@@ -79,6 +79,7 @@ struct PhysicsCategory {
             }
             if starTimer <= 0 { // When timer reaches zero
                 addStar(duration: (starInterval + 1)) // Spawn a star
+                canPause -= 1 // When canPause reaches 0 you can pause again
                 starTimer = starInterval // Reset the timer
                 print(starInterval)
                 
@@ -245,7 +246,7 @@ struct PhysicsCategory {
             let pos = touch.location(in: self)
             let node = self.atPoint(pos)
             
-            if node == pause {
+            if node == pause && canPause <= 0 {
                 worldNode.isPaused = true
                 dimNode.alpha = 0.5
                 AudioPlayer4.pause()
@@ -261,6 +262,7 @@ struct PhysicsCategory {
                 physicsWorld.speed = 1
                 play.removeFromParent()
                 addChild(pause)
+                canPause = 2
             }
             // Rotate left for taps on left
             else if (!worldNode.isPaused && location.x < self.frame.size.width/2) {
