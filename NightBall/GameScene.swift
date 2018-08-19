@@ -249,13 +249,15 @@ struct PhysicsCategory {
             let pos = touch.location(in: self)
             let node = self.atPoint(pos)
             
-            if node == pause && canPause <= 0 {
-                worldNode.isPaused = true
-                dimNode.alpha = 0.5
-                AudioPlayer4.pause()
-                physicsWorld.speed = 0
-                pause.removeFromParent()
-                addChild(play)
+            if node == pause {
+                if canPause <= 0 {
+                    worldNode.isPaused = true
+                    dimNode.alpha = 0.5
+                    AudioPlayer4.pause()
+                    physicsWorld.speed = 0
+                    pause.removeFromParent()
+                    addChild(play)
+                }
             } else if node == play {
                 worldNode.isPaused = false
                 dimNode.alpha = 0
