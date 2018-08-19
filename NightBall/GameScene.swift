@@ -44,7 +44,7 @@ struct PhysicsCategory {
         var quadrantHeightPositionConstant:CGFloat = 0.19
         var quadrantWidthPositionConstant:CGFloat = 0.34
         var centerNodeScale:CGFloat = 0.14
-
+        let iPhoneXScreenHeight:CGFloat = 812
         let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")
         let fade2: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground2")
         let fade3: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground3")
@@ -162,18 +162,21 @@ struct PhysicsCategory {
             background.zPosition = -6
             worldNode.addChild(background)
             
-            if !isKeyPresentInUserDefaults(key: "isFirstTime") {
+            if !isKeyPresentInUserDefaults(key: "isFirstTimePlaying") {
+                var tutorialSizeScale = size.height
+                if(UIScreen.main.bounds.height == iPhoneXScreenHeight){
+                    tutorialSizeScale = size.height * 0.9
+                }
                 tutorial = true
-                
-                tutorialRight.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-                tutorialRight.size = self.frame.size;
+                tutorialRight.position = CGPoint(x: size.width * 0.52, y: size.height * 0.5)
+                tutorialRight.scale(to: CGSize(width: size.width * 1, height: tutorialSizeScale))
                 tutorialRight.zPosition = -5
                 tutorialRight.alpha = 0
                 worldNode.addChild(tutorialRight)
                 tutorialRight.run(SKAction.fadeIn(withDuration: 0.5))
                 
-                tutorialLeft.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-                tutorialLeft.size = self.frame.size;
+                tutorialLeft.position = CGPoint(x: size.width * 0.48, y: size.height * 0.5)
+                tutorialLeft.scale(to: CGSize(width: size.width * 1, height: tutorialSizeScale))
                 tutorialLeft.zPosition = -5
                 tutorialLeft.alpha = 0
             }
@@ -385,7 +388,7 @@ struct PhysicsCategory {
     // End game when star collides with wrong quadrant
     func starBadCollision() {
         print("End")
-        UserDefaults.standard.set(false, forKey: "isFirstTime")
+        UserDefaults.standard.set(false, forKey: "isFirstTimePlaying")
         AudioPlayer2.play()
         
         let loseAction = SKAction.run() {
@@ -457,7 +460,7 @@ struct PhysicsCategory {
     }
         
     func updateScaling() {
-        if UIScreen.main.bounds.height == 812 {
+        if UIScreen.main.bounds.height == iPhoneXScreenHeight {
             quadrantHeightScaleConstant = 0.47
             quadrantHeightPositionConstant = 0.16
             background = SKSpriteNode(imageNamed: "GameSceneiPhoneX")
