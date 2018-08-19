@@ -154,12 +154,12 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        var soundIconHeightScale:CGFloat = size.height * 0.045
-        var souncIconHeightPosition:CGFloat = size.height * 0.153
+        var soundIconHeightScale = size.height * 0.048
+        var soundIconHeightPosition = size.height * 0.12
 
-        if(UIScreen.main.bounds.height == 812){
-            soundIconHeightScale = size.height * 0.040
-            souncIconHeightPosition = size.height * 0.155
+        if(UIScreen.main.bounds.height == 812) {
+            soundIconHeightScale = size.height * 0.042
+            soundIconHeightPosition = size.height * 0.123
         }
         // If the play button is touched enter game scene
         if let touch = touches.first {
@@ -212,13 +212,13 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 if ismuted! {
                     // Replace Mute Sound Icon with Sound Icon
                     soundIcon = SKSpriteNode(texture: soundIconTex)
-                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:souncIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
+                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:soundIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = false
                     AudioPlayer3.play()
                 } else {
                     //Add Mute Sound Icon
                     soundIcon = SKSpriteNode(texture: SoundmuteTex)
-                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:souncIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
+                    insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:soundIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
                     appDelegate.ismuted = true
                     AudioPlayer3.pause()
                 }
