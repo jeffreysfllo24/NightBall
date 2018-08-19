@@ -131,7 +131,7 @@ struct PhysicsCategory {
             AudioPlayer4 = try! AVAudioPlayer(contentsOf: AssortedMusics4 as URL)
             
             // Set timestamp in audio to start at
-            AudioPlayer4.currentTime = TimeInterval(1.5)
+            AudioPlayer4.currentTime = TimeInterval(2.0)
             AudioPlayer4.prepareToPlay()
             AudioPlayer4.numberOfLoops = -1
 

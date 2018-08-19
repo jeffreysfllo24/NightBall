@@ -64,11 +64,10 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let restoreIcon: SKSpriteNode = SKSpriteNode(imageNamed: "RestoreIcon")
     let shoppingCartIcon:SKSpriteNode = SKSpriteNode(imageNamed: "ShoppingCart")
     var midnightOn: Bool = false
-    
     var soundIcon = SKSpriteNode()
     let soundIconTex = SKTexture(imageNamed: "SoundIcon")
     let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
-    
+    var lockIconExists:Bool = false
     let bundleID = "com.keener.nightball.midnightPurchase"    
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "moonhouseNightBallTitle")
@@ -79,8 +78,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let menuBackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackgroundNew")
     
     override func didMove(to view: SKView) {
-        verifyPurchase()
+        //Insert Lock Icon
         lockIcon.alpha = 0.8
+        verifyPurchase()
         isMidnightModeEnabled()
         
         var soundIconHeightScale:CGFloat = size.height * 0.048
@@ -170,7 +170,8 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 if view != nil {
                     let fadeOutAction = SKAction.fadeOut(withDuration: 5)
                     playButton.run(fadeOutAction)
-                    let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
+                    let transition:SKTransition = SKTransition.crossFade(withDuration: 2)
+                    AudioPlayer3.stop()
                     if midnightOn {
                         let scene:SKScene = MidnightGameScene(size: self.size,audio: !AudioPlayer3.isPlaying)
                         self.view?.presentScene(scene, transition: transition)
@@ -181,7 +182,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 }
             }
             
-            if (node == modeButton && lockIcon.isHidden){
+            if (node == modeButton && (lockIcon.isHidden || !lockIconExists)){
                 modeButton.removeFromParent()
                 playButton.removeFromParent()
                 if midnightOn {
@@ -324,8 +325,9 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 let purchaseResult = SwiftyStoreKit.verifyPurchase(productId: productID, inReceipt: receipt)
                 self.fadeLockIconOut()
             case .error(let error):
-                print("Verify receipt failed: \(error)")
                 self.insertSKSpriteNode(object: self.lockIcon, positionWidth: self.size.width * 0.2, positionHeight: self.size.height * 0.73, scaleWidth: self.size.width * 0.09, scaleHeight: self.size.width * 0.09, zPosition: 5)
+                self.lockIconExists = true
+                print("Verify receipt failed: \(error)")
             }
         })
     }
@@ -352,8 +354,16 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     }
     
     func fadeLockIconOut(){
-        lockIcon.run(SKAction.fadeOut(withDuration: 0.1)){ () in
-                self.lockIcon.isHidden = true
+        lockIcon.run(SKAction.fadeOut(withDuration: 0.2)){ () in
+            self.lockIcon.isHidden = true
+            self.lockIconExists = false
+            print("LockIcon is HIDDEN Status:\(self.lockIcon.isHidden)")
+        }
+    }
+    func fadeLockIconIn(){
+        lockIcon.run(SKAction.fadeIn(withDuration: 0.2)){ () in
+            self.lockIcon.isHidden = false
+            print("LockIcon is HIDDEN Status:\(self.lockIcon.isHidden)")
         }
     }
 }
