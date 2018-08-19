@@ -88,7 +88,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         var shoppingCartIconHeightScale:CGFloat = size.height * 0.063
         var restoreIconHeightScale:CGFloat = size.height * 0.065
         var titleHeightScale:CGFloat = size.height * 0.13
-        var souncIconHeightPosition:CGFloat = size.height * 0.153
+        var bottomIconHeightPosition:CGFloat = size.height * 0.12
 
         if(UIScreen.main.bounds.height == 812){
             soundIconHeightScale = size.height * 0.042
@@ -96,7 +96,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             shoppingCartIconHeightScale = size.height * 0.055
             restoreIconHeightScale = size.height * 0.057
             titleHeightScale = size.height * 0.11
-            souncIconHeightPosition = size.height * 0.155
+            bottomIconHeightPosition = size.height * 0.123
         }
         // Add Background
         menuBackground.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -105,35 +105,35 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         self.addChild(menuBackground)
         
         // Insert Title
-        insertSKSpriteNode(object: title, positionWidth: size.width * 0.5, positionHeight: size.height * 0.88,scaleWidth:size.width * 0.7,scaleHeight: titleHeightScale, zPosition: 1)
+        insertSKSpriteNode(object: title, positionWidth: size.width * 0.5, positionHeight: size.height * 0.88,scaleWidth:size.width * 0.8,scaleHeight: titleHeightScale, zPosition: 1)
 
         // Insert change mode button
         modeButton = SKSpriteNode(texture: modeTex)
         insertSKSpriteNode(object: modeButton, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.28, scaleHeight: size.width * 0.17, zPosition: 4)
         
         //Insert Shopping Cart Icon
-        insertSKSpriteNode(object: shoppingCartIcon, positionWidth: size.width * 0.61, positionHeight: size.height * 0.162, scaleWidth: size.width * 0.12, scaleHeight: shoppingCartIconHeightScale, zPosition: 4)
+        insertSKSpriteNode(object: shoppingCartIcon, positionWidth: size.width * 0.61, positionHeight: bottomIconHeightPosition, scaleWidth: size.width * 0.12, scaleHeight: shoppingCartIconHeightScale, zPosition: 4)
         
         //Insert Restore Icon
-        insertSKSpriteNode(object: restoreIcon, positionWidth: size.width * 0.83, positionHeight: size.height * 0.162, scaleWidth: size.width * 0.12, scaleHeight: restoreIconHeightScale, zPosition: 4)
+        insertSKSpriteNode(object: restoreIcon, positionWidth: size.width * 0.83, positionHeight: bottomIconHeightPosition, scaleWidth: size.width * 0.12, scaleHeight: restoreIconHeightScale, zPosition: 4)
         
         // Insert Play button
         playButton = SKSpriteNode(texture: playButtonTex)
         insertSKSpriteNode(object: playButton, positionWidth:frame.midX, positionHeight:frame.midY, scaleWidth:size.width * 0.6, scaleHeight: size.width * 0.6, zPosition: 4)
         
         // Insert Leaderboard button
-        insertSKSpriteNode(object: leaderboard, positionWidth: size.width * 0.39, positionHeight: size.height * 0.162,scaleWidth:size.width * 0.11, scaleHeight: leaderboardIconHeightScale, zPosition: 4)
+        insertSKSpriteNode(object: leaderboard, positionWidth: size.width * 0.39, positionHeight: bottomIconHeightPosition, scaleWidth:size.width * 0.11, scaleHeight: leaderboardIconHeightScale, zPosition: 4)
        
         let  ismuted = appDelegate.ismuted
         
         if ismuted! {
             // Add Muted Icon
             soundIcon = SKSpriteNode(texture: SoundmuteTex)
-            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.17, positionHeight: souncIconHeightPosition,scaleWidth: size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
+            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.17, positionHeight: bottomIconHeightPosition,scaleWidth: size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
         } else {
             // Add Sound Icon
             soundIcon = SKSpriteNode(texture: soundIconTex)
-            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:souncIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
+            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:bottomIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
         }
 
         // Star backgrounds
