@@ -78,15 +78,11 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
     let menuBackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackgroundNew")
     
-
-    override func sceneDidLoad() {
+    override func didMove(to view: SKView) {
         verifyPurchase()
-        //Insert Lock Icon
-        insertSKSpriteNode(object: lockIcon, positionWidth: size.width * 0.2, positionHeight: size.height * 0.73, scaleWidth: size.width * 0.09, scaleHeight: size.width * 0.09, zPosition: 5)
         lockIcon.alpha = 0.8
         isMidnightModeEnabled()
-    }
-    override func didMove(to view: SKView) {
+        
         var soundIconHeightScale:CGFloat = size.height * 0.048
         var leaderboardIconHeightScale:CGFloat = size.height * 0.06
         var shoppingCartIconHeightScale:CGFloat = size.height * 0.063
@@ -239,7 +235,6 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     }
     
     func insertSKSpriteNode(object: SKSpriteNode, positionWidth: CGFloat, positionHeight: CGFloat,scaleWidth: CGFloat,scaleHeight: CGFloat, zPosition: CGFloat) {
-
         object.position = CGPoint(x:positionWidth, y: positionHeight)
         object.scale(to: CGSize(width:scaleWidth, height:scaleHeight))
         object.zPosition = zPosition
@@ -255,7 +250,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     
     func isMidnightModeEnabled() {
         if((UserDefaults().integer(forKey: "HIGHSCORE") >= 200)){
-            lockIcon.isHidden = true
+            fadeLockIconOut()
         }
         else{
             modeButton.color = UIColor.gray
@@ -293,7 +288,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 if product.needsFinishTransaction {
                     SwiftyStoreKit.finishTransaction(product.transaction)
                 }
-                self.lockIcon.isHidden = true
+                self.fadeLockIconOut()
                 self.showAlert(alert: self.alertForPurchaseResult(result: result))
             }
             else {
@@ -319,23 +314,24 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     func verifyPurchase(){
         NetworkActivityIndicatorManage.NetworkOperationStarted()
         let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedSecret)
-        SwiftyStoreKit.verifyReceipt(using: appleValidator, completion: {
+        SwiftyStoreKit.verifyReceipt(using: appleValidator,forceRefresh: true, completion: {
             result in
             NetworkActivityIndicatorManage.networkOperationFinished()
             switch result {
             case .success(let receipt):
+                print("Verify receipt success: \(receipt)")
                 let productID = self.bundleID
                 let purchaseResult = SwiftyStoreKit.verifyPurchase(productId: productID, inReceipt: receipt)
-                self.showAlert(alert: self.alertForVerifyPurchase(result:purchaseResult))
+                self.fadeLockIconOut()
             case .error(let error):
-                self.showAlert(alert: self.alertForVerifyReceipt(result: result))
+                print("Verify receipt failed: \(error)")
+                self.insertSKSpriteNode(object: self.lockIcon, positionWidth: self.size.width * 0.2, positionHeight: self.size.height * 0.73, scaleWidth: self.size.width * 0.09, scaleHeight: self.size.width * 0.09, zPosition: 5)
             }
         })
     }
     func alertForVerifyPurchase(result: VerifyPurchaseResult) -> UIAlertController {
         switch result {
         case .purchased:
-            lockIcon.isHidden = true
             return alertWithTitle(title: "Product is Purchased", message: "Product will not expire")
         case .notPurchased:
             return alertWithTitle(title: "Product is not Purchased", message: "Product has never been pruchased")
@@ -347,11 +343,17 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             return alertWithTitle(title: "Restore Failed", message: "Unknown Error")
         }
         else if result.restoredPurchases.count > 0 {
-            lockIcon.isHidden = true
+            fadeLockIconOut()
             return alertWithTitle(title: "Purchases Restored", message: "All purchases have been restored")
         }
         else{
             return alertWithTitle(title: "Nothing To Restore", message: "No previous purchases were made")
+        }
+    }
+    
+    func fadeLockIconOut(){
+        lockIcon.run(SKAction.fadeOut(withDuration: 0.1)){ () in
+                self.lockIcon.isHidden = true
         }
     }
 }
@@ -375,9 +377,9 @@ extension SKScene {
     }
     func showAlert(alert : UIAlertController){
         guard let _ = self.scene else{
-            self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
             return
         }
+        self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     func forProductRetrievalInfo(result: RetrieveResults) -> UIAlertController {
         if let product = result.retrievedProducts.first{
