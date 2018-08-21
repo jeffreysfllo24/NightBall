@@ -37,8 +37,10 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
     let quadrantBlackBL = SKSpriteNode(imageNamed: "Quadrant-BL-Black")
     
     var quadrantHeightScaleConstant:CGFloat = 0.54
-    var quadrantHeightPositionConstant:CGFloat = 0.2
-    var quadrantWidthPositionConstant:CGFloat = 0.35
+    var quadrantWidthScaleConstant:CGFloat = 0.93
+    var quadrantHeightPositionConstant:CGFloat = 0.19
+    var quadrantWidthPositionConstant:CGFloat = 0.34
+    var centerNodeScale:CGFloat = 0.14
     
     let pause = SKSpriteNode(imageNamed: "pause")
     let play = SKSpriteNode(imageNamed: "play")
