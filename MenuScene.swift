@@ -67,7 +67,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     var soundIcon = SKSpriteNode()
     let soundIconTex = SKTexture(imageNamed: "SoundIcon")
     let SoundmuteTex = SKTexture (imageNamed: "Soundmute")
-    var lockIconExists:Bool = false
+    var lockIconExists:Bool = true
     let bundleID = "com.keener.nightball.midnightPurchase"    
     let leaderboard: SKSpriteNode = SKSpriteNode(imageNamed:"Leaderboard")
     let title: SKSpriteNode = SKSpriteNode(imageNamed: "moonhouseNightBallTitle")
@@ -373,14 +373,15 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         lockIcon.run(SKAction.fadeOut(withDuration: 0.1)){ () in
             self.lockIcon.isHidden = true
             self.lockIconExists = false
-            print("LockIcon is HIDDEN Status:\(self.lockIcon.isHidden)")
+            print("LockIcon is faded out HIDDEN Status:\(self.lockIcon.isHidden)")
         }
     }
     func fadeLockIconIn(){
         lockIcon.run(SKAction.fadeIn(withDuration: 0.1)){ () in
             self.lockIcon.isHidden = false
+            self.lockIconExists = true
             self.lockIcon.alpha = 0.7
-            print("LockIcon is HIDDEN Status:\(self.lockIcon.isHidden)")
+            print("LockIcon is faded in HIDDEN Status:\(self.lockIcon.isHidden)")
         }
     }
 }
