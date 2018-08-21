@@ -77,20 +77,36 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     let fade4: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground4")
     let menuBackground: SKSpriteNode = SKSpriteNode(imageNamed: "MenuBackgroundNew")
     
+    init(size:CGSize, shouldLockIconShow: Bool,shouldVerifyPurchase: Bool) {
+        super.init(size: size)
+        if(shouldLockIconShow && shouldVerifyPurchase){
+            lockIcon.alpha = 0.7
+            self.insertSKSpriteNode(object: lockIcon, positionWidth: self.size.width * 0.2, positionHeight: self.size.height * 0.73, scaleWidth: self.size.width * 0.09, scaleHeight: self.size.width * 0.09, zPosition: 5)
+            verifyPurchase()
+            isMidnightModeEnabled()
+        }else if (shouldLockIconShow){
+            lockIcon.alpha = 0.7
+            self.insertSKSpriteNode(object: lockIcon, positionWidth: self.size.width * 0.2, positionHeight: self.size.height * 0.73, scaleWidth: self.size.width * 0.09, scaleHeight: self.size.width * 0.09, zPosition: 5)
+            isMidnightModeEnabled()
+        }else{
+            isMidnightModeEnabled()
+        }
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func didMove(to view: SKView) {
-        //Insert Lock Icon
-        lockIcon.alpha = 0.8
-        verifyPurchase()
-        isMidnightModeEnabled()
-        
+
         var soundIconHeightScale:CGFloat = size.height * 0.048
         var leaderboardIconHeightScale:CGFloat = size.height * 0.06
         var shoppingCartIconHeightScale:CGFloat = size.height * 0.063
         var restoreIconHeightScale:CGFloat = size.height * 0.065
         var titleHeightScale:CGFloat = size.height * 0.13
         var bottomIconHeightPosition:CGFloat = size.height * 0.12
-
+        var soundIconHeightPosition:CGFloat = size.height * 0.112
         if(UIScreen.main.bounds.height == 812){
+            soundIconHeightPosition = size.height * 0.116
             soundIconHeightScale = size.height * 0.042
             leaderboardIconHeightScale = size.height * 0.053
             shoppingCartIconHeightScale = size.height * 0.055
@@ -129,11 +145,11 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
         if ismuted! {
             // Add Muted Icon
             soundIcon = SKSpriteNode(texture: SoundmuteTex)
-            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.17, positionHeight: bottomIconHeightPosition,scaleWidth: size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
+            insertSKSpriteNode(object: soundIcon, positionWidth:size.width * 0.17, positionHeight: soundIconHeightPosition,scaleWidth: size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
         } else {
             // Add Sound Icon
             soundIcon = SKSpriteNode(texture: soundIconTex)
-            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:bottomIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
+            insertSKSpriteNode(object: soundIcon, positionWidth: size.width * 0.17, positionHeight:soundIconHeightPosition,scaleWidth:size.width * 0.13,scaleHeight: soundIconHeightScale, zPosition: 4)
         }
 
         // Star backgrounds
@@ -155,11 +171,11 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var soundIconHeightScale = size.height * 0.048
-        var soundIconHeightPosition = size.height * 0.12
+        var soundIconHeightPosition = size.height * 0.112
 
         if(UIScreen.main.bounds.height == 812) {
             soundIconHeightScale = size.height * 0.042
-            soundIconHeightPosition = size.height * 0.123
+            soundIconHeightPosition = size.height * 0.116
         }
         // If the play button is touched enter game scene
         if let touch = touches.first {
@@ -173,10 +189,10 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                     let transition:SKTransition = SKTransition.crossFade(withDuration: 2)
                     AudioPlayer3.stop()
                     if midnightOn {
-                        let scene:SKScene = MidnightGameScene(size: self.size,audio: !AudioPlayer3.isPlaying)
+                        let scene:SKScene = MidnightGameScene(size: self.size,audio: !AudioPlayer3.isPlaying,shouldLockIconShow: !lockIcon.isHidden)
                         self.view?.presentScene(scene, transition: transition)
                     } else {
-                        let scene:SKScene = GameScene(size: self.size,audio: !AudioPlayer3.isPlaying)
+                        let scene:SKScene = GameScene(size: self.size,audio: !AudioPlayer3.isPlaying,shouldLockIconShow: !lockIcon.isHidden)
                         self.view?.presentScene(scene, transition: transition)
                     }
                 }
@@ -325,8 +341,8 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
                 let purchaseResult = SwiftyStoreKit.verifyPurchase(productId: productID, inReceipt: receipt)
                 self.fadeLockIconOut()
             case .error(let error):
-                self.insertSKSpriteNode(object: self.lockIcon, positionWidth: self.size.width * 0.2, positionHeight: self.size.height * 0.73, scaleWidth: self.size.width * 0.09, scaleHeight: self.size.width * 0.09, zPosition: 5)
                 self.lockIconExists = true
+                self.fadeLockIconIn()
                 print("Verify receipt failed: \(error)")
             }
         })
@@ -354,15 +370,16 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     }
     
     func fadeLockIconOut(){
-        lockIcon.run(SKAction.fadeOut(withDuration: 0.2)){ () in
+        lockIcon.run(SKAction.fadeOut(withDuration: 0.1)){ () in
             self.lockIcon.isHidden = true
             self.lockIconExists = false
             print("LockIcon is HIDDEN Status:\(self.lockIcon.isHidden)")
         }
     }
     func fadeLockIconIn(){
-        lockIcon.run(SKAction.fadeIn(withDuration: 0.2)){ () in
+        lockIcon.run(SKAction.fadeIn(withDuration: 0.1)){ () in
             self.lockIcon.isHidden = false
+            self.lockIcon.alpha = 0.7
             print("LockIcon is HIDDEN Status:\(self.lockIcon.isHidden)")
         }
     }

@@ -41,7 +41,7 @@ class GameViewController: UIViewController {
             }
         */
         
-        let scene = MenuScene(size: view.bounds.size)
+        let scene = MenuScene(size: view.bounds.size,shouldLockIconShow: true,shouldVerifyPurchase: true)
         let skView = view as! SKView
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill

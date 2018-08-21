@@ -57,7 +57,7 @@ struct PhysicsCategory {
         let pause = SKSpriteNode(imageNamed: "pause")
         let play = SKSpriteNode(imageNamed: "play")
         var canPause = 0
-        
+        var shouldShowLockIcon = false
         // MARK: - Spawn stars
         
         var starTimer = TimeInterval(1.8)
@@ -105,9 +105,9 @@ struct PhysicsCategory {
         // access global AppDelegate
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        init(size: CGSize,audio: Bool) {
+        init(size: CGSize,audio: Bool,shouldLockIconShow: Bool) {
             super.init(size: size)
-            
+            shouldShowLockIcon = shouldLockIconShow
             addChild(worldNode)
             dimNode = SKSpriteNode(color: .black, size: CGSize(width: size.width * 2, height: size.height * 2))
             dimNode.alpha = 0
@@ -185,7 +185,7 @@ struct PhysicsCategory {
             physicsWorld.contactDelegate = self // Recognize collisions
            
             // MARK: Create and position NightBall
-            if(UIScreen.main.bounds.height == MenuScene().iPhone5sScreenHeight){
+            if(UIScreen.main.bounds.height == 568){
                 quadrantHeightScaleConstant = 0.59
                 quadrantWidthScaleConstant = 1.00
                 centerNodeScale = 0.17
@@ -395,7 +395,7 @@ struct PhysicsCategory {
         
         let loseAction = SKAction.run() {
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: false, score: self.points)
+            let gameOverScene = GameOverScene(size: self.size, won: false, score: self.points,shouldLockIconShow:self.shouldShowLockIcon)
             self.view?.presentScene(gameOverScene, transition: reveal)
         }
         self.run(loseAction)

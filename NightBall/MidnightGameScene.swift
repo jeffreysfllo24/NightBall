@@ -42,7 +42,7 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
     
     let pause = SKSpriteNode(imageNamed: "pause")
     let play = SKSpriteNode(imageNamed: "play")
-    
+    var shouldShowLockIcon = false;
     // MARK: - Spawn stars
     
     var starTimer = TimeInterval(1.8)
@@ -91,10 +91,10 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
     
     var fadeTimer = Timer()
     var fadeStatus = 0
-    
-    init(size: CGSize,audio: Bool) {
+
+    init(size: CGSize,audio: Bool,shouldLockIconShow: Bool) {
         super.init(size: size)
-        
+        shouldShowLockIcon = shouldLockIconShow
         addChild(worldNode)
         dimNode = SKSpriteNode(color: .black, size: CGSize(width: size.width * 2, height: size.height * 2))
         dimNode.alpha = 0
@@ -344,7 +344,7 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
         
         let loseAction = SKAction.run() {
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameOverScene = MidnightGameOverScene(size: self.size, won: false, score: self.points)
+            let gameOverScene = MidnightGameOverScene(size: self.size, won: false, score: self.points,shouldLockIconShow:self.shouldShowLockIcon)
             self.view?.presentScene(gameOverScene, transition: reveal)
         }
         self.run(loseAction)

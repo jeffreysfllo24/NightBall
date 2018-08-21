@@ -28,10 +28,11 @@ class MidnightGameOverScene: SKScene, GKGameCenterControllerDelegate {
     var refreshButtonHeight:CGFloat = 0.27
     var homeButtonHeight:CGFloat = 0.06
     var scoreValue = 0
-    
-    init(size:CGSize, won:Bool, score: Int) {
+    var shouldShowLockIcon = false
+    init(size:CGSize, won:Bool, score: Int,shouldLockIconShow: Bool) {
         
         super.init(size: size)
+        shouldShowLockIcon = shouldLockIconShow
         
         //Resizes Scaling for iPhoneX
         updateScaling()
@@ -133,7 +134,7 @@ class MidnightGameOverScene: SKScene, GKGameCenterControllerDelegate {
             if node == refresh {
                 if view != nil {
                     let transition:SKTransition = SKTransition.crossFade(withDuration: 1)
-                    let scene:SKScene = MidnightGameScene(size: self.size, audio: false)
+                    let scene:SKScene = MidnightGameScene(size: self.size, audio: false,shouldLockIconShow: shouldShowLockIcon )
                     self.view?.presentScene(scene, transition: transition)
                 }
             }
@@ -142,7 +143,7 @@ class MidnightGameOverScene: SKScene, GKGameCenterControllerDelegate {
             if node == home {
                 if view != nil {
                     let reveal:SKTransition = SKTransition.flipHorizontal(withDuration: 0.5)
-                    let scene:SKScene = MenuScene(size: self.size)
+                    let scene:SKScene = MenuScene(size: self.size,shouldLockIconShow: shouldShowLockIcon,shouldVerifyPurchase: false)
                     self.view?.presentScene(scene, transition: reveal)
                 }
             }
