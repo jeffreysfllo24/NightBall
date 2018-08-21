@@ -151,11 +151,11 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
         
         // MARK: Create and position NightBall
         if(UIScreen.main.bounds.height == 568){
-            quadrantHeightScaleConstant = 0.59
-            quadrantWidthScaleConstant = 1.00
+            quadrantHeightScaleConstant = 0.69
+            quadrantWidthScaleConstant = 1.17
             centerNodeScale = 0.17
-            quadrantHeightPositionConstant = 0.21
-            quadrantWidthPositionConstant = 0.37
+            quadrantHeightPositionConstant = 0.24
+            quadrantWidthPositionConstant = 0.42
         }
         
         // Add center node
@@ -464,8 +464,9 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
     
     func updateScaling() {
         if(UIScreen.main.bounds.height == 812) {
-            quadrantHeightScaleConstant = 0.47
-            quadrantHeightPositionConstant = 0.16
+            quadrantHeightScaleConstant = 0.44
+            quadrantHeightPositionConstant = 0.155
+            quadrantWidthPositionConstant = 0.33
             background = SKSpriteNode(imageNamed: "GameSceneiPhoneX")
         }
     }

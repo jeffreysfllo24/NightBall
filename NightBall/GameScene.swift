@@ -384,7 +384,7 @@ struct PhysicsCategory {
         AudioPlayer1.play()
         
         // Increase Score when succesful collision
-        points += 1
+        points += 200
         myLabel.text = String(points)
     }
         
@@ -464,7 +464,7 @@ struct PhysicsCategory {
         
     func updateScaling() {
         if UIScreen.main.bounds.height == iPhoneXScreenHeight {
-            quadrantHeightScaleConstant = 0.47
+            quadrantHeightScaleConstant = 0.45
             quadrantHeightPositionConstant = 0.16
             background = SKSpriteNode(imageNamed: "GameSceneiPhoneX")
         }
