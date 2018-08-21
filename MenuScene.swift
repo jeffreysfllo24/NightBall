@@ -369,17 +369,17 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     func fadeLockIconOut(){
         lockIcon.run(SKAction.fadeOut(withDuration: 0.1)){ () in
             self.lockIcon.isHidden = true
-            self.lockIconExists = false
             print("LockIcon is faded out HIDDEN Status:\(self.lockIcon.isHidden)")
         }
+        self.lockIconExists = false
     }
     func fadeLockIconIn(){
         lockIcon.run(SKAction.fadeIn(withDuration: 0.1)){ () in
             self.lockIcon.isHidden = false
-            self.lockIconExists = true
             self.lockIcon.alpha = 0.7
             print("LockIcon is faded in HIDDEN Status:\(self.lockIcon.isHidden)")
         }
+        self.lockIconExists = true
     }
 }
 
