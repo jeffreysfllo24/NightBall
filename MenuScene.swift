@@ -83,7 +83,6 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             lockIcon.alpha = 0.7
             self.insertSKSpriteNode(object: lockIcon, positionWidth: self.size.width * 0.2, positionHeight: self.size.height * 0.73, scaleWidth: self.size.width * 0.09, scaleHeight: self.size.width * 0.09, zPosition: 5)
             verifyPurchase()
-            isMidnightModeEnabled()
         }else if (shouldLockIconShow){
             lockIcon.alpha = 0.7
             self.insertSKSpriteNode(object: lockIcon, positionWidth: self.size.width * 0.2, positionHeight: self.size.height * 0.73, scaleWidth: self.size.width * 0.09, scaleHeight: self.size.width * 0.09, zPosition: 5)
@@ -266,13 +265,12 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
     }
     
     func isMidnightModeEnabled() {
-        if((UserDefaults().integer(forKey: "HIGHSCORE") >= 200)){
+        if(UserDefaults().integer(forKey: "HIGHSCORE") >= 200){
             fadeLockIconOut()
-        }
-        else{
+        }else{
+            lockIcon.isHidden = false
             modeButton.color = UIColor.gray
             modeButton.colorBlendFactor = 1
-            lockIcon.isHidden = false
         }
     }
     func fadeInGameModeLockedLabel() {
@@ -343,6 +341,7 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             case .error(let error):
                 self.lockIconExists = true
                 self.fadeLockIconIn()
+                self.isMidnightModeEnabled()
                 print("Verify receipt failed: \(error)")
             }
         })
