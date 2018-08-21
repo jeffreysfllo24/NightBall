@@ -468,6 +468,11 @@ class MidnightGameScene: SKScene,SKPhysicsContactDelegate {
             quadrantHeightPositionConstant = 0.155
             quadrantWidthPositionConstant = 0.33
             background = SKSpriteNode(imageNamed: "GameSceneiPhoneX")
+        }else if(UIScreen.main.bounds.height == 736){
+            quadrantHeightScaleConstant = 0.52
+            quadrantWidthScaleConstant = 0.90
+            quadrantHeightPositionConstant = 0.18
+            quadrantWidthPositionConstant = 0.33
         }
     }
 }
