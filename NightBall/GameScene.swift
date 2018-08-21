@@ -43,6 +43,7 @@ struct PhysicsCategory {
         var quadrantWidthScaleConstant:CGFloat = 0.93
         var quadrantHeightPositionConstant:CGFloat = 0.19
         var quadrantWidthPositionConstant:CGFloat = 0.34
+        
         var centerNodeScale:CGFloat = 0.14
         let iPhoneXScreenHeight:CGFloat = 812
         let fade1: SKSpriteNode = SKSpriteNode(imageNamed: "StarBackground1")

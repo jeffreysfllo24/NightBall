@@ -269,8 +269,6 @@ class MenuScene: SKScene,GKGameCenterControllerDelegate {
             fadeLockIconOut()
         }else{
             lockIcon.isHidden = false
-            modeButton.color = UIColor.gray
-            modeButton.colorBlendFactor = 1
         }
     }
     func fadeInGameModeLockedLabel() {
