@@ -22,6 +22,7 @@
 		4EB1F1451F43EACE002669E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1441F43EACE002669E2 /* Assets.xcassets */; };
 		4EB1F1481F43EACE002669E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EB1F1461F43EACE002669E2 /* LaunchScreen.storyboard */; };
 		4EE7DE271FF0AAEF0053A16F /* bluewhale.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4EE7DE261FF0AAEF0053A16F /* bluewhale.mp3 */; };
+		F82DE6F6212E604E00193A9A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82DE6F5212E604E00193A9A /* StoreKit.framework */; };
 		F856D0881FEF00C900681F71 /* Hypnothis.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F856D0871FEF00C900681F71 /* Hypnothis.mp3 */; };
 		F856D08A1FEF1C3200681F71 /* Explosion10.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D0891FEF1C3200681F71 /* Explosion10.wav */; };
 		F856D08C1FEF1C3D00681F71 /* Beep13.wav in Resources */ = {isa = PBXBuildFile; fileRef = F856D08B1FEF1C3C00681F71 /* Beep13.wav */; };
@@ -51,6 +52,7 @@
 		5D105AA7A73A17F12630BB65 /* Pods-NightBallGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NightBallGame.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NightBallGame/Pods-NightBallGame.debug.xcconfig"; sourceTree = "<group>"; };
 		968F8A7DE41D809A633975F5 /* Pods-NightBallGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NightBallGame.release.xcconfig"; path = "Pods/Target Support Files/Pods-NightBallGame/Pods-NightBallGame.release.xcconfig"; sourceTree = "<group>"; };
 		ECD0B99C559DD6E4813D3F4C /* Pods_NightBallGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NightBallGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F82DE6F5212E604E00193A9A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		F856D0871FEF00C900681F71 /* Hypnothis.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Hypnothis.mp3; sourceTree = "<group>"; };
 		F856D0891FEF1C3200681F71 /* Explosion10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Explosion10.wav; sourceTree = "<group>"; };
 		F856D08B1FEF1C3C00681F71 /* Beep13.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Beep13.wav; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				F8686D5F21097C2B0037D46B /* MapKit.framework in Frameworks */,
 				F8E42C0520FAA6B100690259 /* GameKit.framework in Frameworks */,
 				18634826F19163C030E2AAAE /* Pods_NightBallGame.framework in Frameworks */,
+				F82DE6F6212E604E00193A9A /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +144,7 @@
 		F8E42C0020FAA5F900690259 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F82DE6F5212E604E00193A9A /* StoreKit.framework */,
 				F8686D5E21097C2B0037D46B /* MapKit.framework */,
 				F8E42C0420FAA6B100690259 /* GameKit.framework */,
 				ECD0B99C559DD6E4813D3F4C /* Pods_NightBallGame.framework */,
@@ -217,7 +221,7 @@
 								enabled = 0;
 							};
 							com.apple.InAppPurchase = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.InterAppAudio = {
 								enabled = 0;
